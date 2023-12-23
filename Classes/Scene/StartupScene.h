@@ -2,6 +2,7 @@
 #define __SATRTUP_SCENE_H__
 
 #include <cocos2d.h>
+#include"ui/CocosGUI.h"
 using namespace cocos2d;
 
 //新建一个继承层的类
@@ -15,6 +16,7 @@ public:
 	void onlineModeCallBack(Ref* pSender);//跳转到联机模式
 	void standaloneModeCallBack(Ref* pSender);//跳转到单机模式
 	void menuCloseCallBack(Ref* pSender);//跳转到退出游戏
+	void onSetupButtonClick(Ref* psender);
 };
 
 #endif#pragma once

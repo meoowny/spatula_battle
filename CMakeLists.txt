@@ -51,6 +51,7 @@ list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/HelloWorldScene.cpp
      Classes/Scene/StartupScene.cpp
+     Classes/Scene/SetupScene.cpp
      Classes/Socket/SocketBase.cpp
      Classes/Socket/SocketClient.cpp
      Classes/Socket/SocketServer.cpp
@@ -59,6 +60,7 @@ list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/HelloWorldScene.h
      Classes/Scene/StartupScene.h
+     Classes/Scene/SetupScene.h
      Classes/Socket/SocketBase.h
      Classes/Socket/SocketClient.h
      Classes/Socket/SocketServer.h
