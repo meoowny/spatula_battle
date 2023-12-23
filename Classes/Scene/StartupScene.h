@@ -1,7 +1,7 @@
 #ifndef __SATRTUP_SCENE_H__
 #define __SATRTUP_SCENE_H__
 
-#include <cocos2d.h>
+#include "cocos2d.h"
 using namespace cocos2d;
 
 //新建一个继承层的类
@@ -17,4 +17,4 @@ public:
 	void menuCloseCallBack(Ref* pSender);//跳转到退出游戏
 };
 
-#endif#pragma once
+#endif //__SATRTUP_SCENE_H__
