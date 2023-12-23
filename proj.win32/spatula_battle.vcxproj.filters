@@ -10,6 +10,12 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Scene">
+      <UniqueIdentifier>{050fd4f0-94c7-490e-9a6f-ba886c30bdcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Socket">
+      <UniqueIdentifier>{f51e5521-ffb7-488e-9cd0-0b0571fccd39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,6 +27,18 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Socket\SocketBase.cpp">
+      <Filter>src\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Socket\SocketClient.cpp">
+      <Filter>src\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Socket\SocketServer.cpp">
+      <Filter>src\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\StartupScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -31,6 +49,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Socket\SocketBase.h">
+      <Filter>src\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Socket\SocketClient.h">
+      <Filter>src\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Socket\SocketServer.h">
+      <Filter>src\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\StartupScene.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
