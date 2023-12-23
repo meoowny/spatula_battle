@@ -1,7 +1,7 @@
 #ifndef __SATRTUP_SCENE_H__
 #define __SATRTUP_SCENE_H__
 
-#include <cocos2d.h>
+#include "cocos2d.h"
 #include"ui/CocosGUI.h"
 using namespace cocos2d;
 
