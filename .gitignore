@@ -8,6 +8,8 @@ Thumbs.db
 *.aps
 *.vcproj.*.user
 *.vcxproj.user
+*.vcxproj.filters
+*.vcxproj
 *.csproj.user
 *.vspscc
 *_i.c
