@@ -33,15 +33,15 @@ bool StartupScene::init()
 	this->addChild(background);
 
 	
-	/*
-	* //添加设置按钮
+	
+	 //添加设置按钮
 	auto setupButton = ui::Button::create("SetupButton_Normal.png", "SetupButton_Selected.png");
-	setupButton->setPosition(Vec2(visibleSize.width * 0.5, visibleSize.height * 0.5));//把按钮放置在场景的右上角
+	setupButton->setPosition(Vec2(visibleSize.width * 0.1, visibleSize.height * 0.9));//把按钮放置在场景的右上角
 	setupButton->addClickEventListener([=](Ref* sender) {
 		Director::getInstance()->pushScene(Setup::createScene());
 		});
 		this->addChild(setupButton);
-		*/
+		
 	
 
 	//设置游戏名标签
@@ -89,6 +89,7 @@ Menu* StartupScene::addMenuItem()
 	//添加退出游戏标签
 	auto labelMenuClose = Label::createWithSystemFont("我去图书馆了", "STHUPO.TTF", 120);
 	auto itemMenuClose = MenuItemLabel::create(labelMenuClose, CC_CALLBACK_1(StartupScene::menuCloseCallBack, this));
+
 	//添加设置按钮
 	auto setupButton = MenuItemImage::create(
 		"SetupButton_Noarmal.png",   // 正常状态的按钮图片
@@ -96,10 +97,11 @@ Menu* StartupScene::addMenuItem()
 		CC_CALLBACK_1(StartupScene::onSetupButtonClick, this) // 按钮回调函数
 	);
 	setupButton->setPosition(visibleSize.width * 0.9, visibleSize.height * 0.1);
+
 	
 
 	//将标签添加到菜单里
-	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemMenuClose,setupButton ,NULL);
+	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemMenuClose ,NULL);
 	menu->alignItemsVerticallyWithPadding(30);//设置菜单条目间的宽度
 	menu->setPosition(visibleSize.width*3 / 4, visibleSize.height*2 / 5);
 	menu->setColor(Color3B::BLACK);
