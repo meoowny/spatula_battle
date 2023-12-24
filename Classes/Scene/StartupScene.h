@@ -19,4 +19,4 @@ public:
 	void onSetupButtonClick(Ref* psender);
 };
 
-#endif#pragma once
+#endif //__SATRTUP_SCENE_H__

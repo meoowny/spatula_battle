@@ -1,6 +1,9 @@
 #include "StartupScene.h"
 #include"SetupScene.h"
 #include"ui/CocosGUI.h"
+#include "Player/Player.h"
+#include "SimpleAudioEngine.h"
+
 //创建StartupScene的场景
 Scene* StartupScene::createScene()
 {
@@ -19,6 +22,10 @@ bool StartupScene::init()
 	}
 	Size visibleSize = Director::getInstance()->getVisibleSize();//获得屏幕大小
 
+	// 一个循环播放的 BGM
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->playBackgroundMusic("ZombiesOnYourLawn.ogg", true);
+
 	//添加背景图片
 	auto background = Sprite::create("StartUpSceneBackground.jpg");
 	background->setPosition(visibleSize.width / 2, visibleSize.height / 2);
@@ -26,15 +33,15 @@ bool StartupScene::init()
 	this->addChild(background);
 
 	
-	/*
-	* //添加设置按钮
+	
+	 //添加设置按钮
 	auto setupButton = ui::Button::create("SetupButton_Normal.png", "SetupButton_Selected.png");
-	setupButton->setPosition(Vec2(visibleSize.width * 0.5, visibleSize.height * 0.5));//把按钮放置在场景的右上角
+	setupButton->setPosition(Vec2(visibleSize.width * 0.1, visibleSize.height * 0.9));//把按钮放置在场景的右上角
 	setupButton->addClickEventListener([=](Ref* sender) {
 		Director::getInstance()->pushScene(Setup::createScene());
 		});
 		this->addChild(setupButton);
-		*/
+		
 	
 
 	//设置游戏名标签
@@ -43,6 +50,27 @@ bool StartupScene::init()
 	labelGameName->setColor(Color3B::YELLOW);
 	this->addChild(labelGameName);
 	this->addChild(addMenuItem());//添加菜单
+
+	// 放一个帧动画的演示，连续快速点击 Create 按钮有奇效
+	auto menuItem1 = MenuItemFont::create("Create:");
+	menuItem1->setFontNameObj("arial.ttf");
+	menuItem1->setFontSizeObj(32);
+	menuItem1->setName("menuItem1");
+    //menuItem1->setVisible(false);
+	menuItem1->setPosition(Vec2(visibleSize.width / 3, visibleSize.height / 3 * 2));
+	// 帧动画的实现放在 testCallBack 中了
+	menuItem1->setCallback(testCallBack);
+
+	auto menuI = Menu::create(menuItem1, NULL);
+	menuI->setName("menu");
+	menuI->setPosition(Vec2::ZERO);
+	menuI->setColor(Color3B(0, 0, 0));
+
+	auto menuNode = Node::create();
+	menuNode->setName("menuNode");
+	menuNode->addChild(menuI, 1);
+
+	this->addChild(menuNode, 2);
 
 	return true;
 }
@@ -61,17 +89,19 @@ Menu* StartupScene::addMenuItem()
 	//添加退出游戏标签
 	auto labelMenuClose = Label::createWithSystemFont("我去图书馆了", "STHUPO.TTF", 120);
 	auto itemMenuClose = MenuItemLabel::create(labelMenuClose, CC_CALLBACK_1(StartupScene::menuCloseCallBack, this));
+
 	//添加设置按钮
 	auto setupButton = MenuItemImage::create(
-		"button_normal.png",   // 正常状态的按钮图片
-		"button_selected.png", // 按下状态的按钮图片
+		"SetupButton_Noarmal.png",   // 正常状态的按钮图片
+		"SetupButton_Selected.png", // 按下状态的按钮图片
 		CC_CALLBACK_1(StartupScene::onSetupButtonClick, this) // 按钮回调函数
 	);
 	setupButton->setPosition(visibleSize.width * 0.9, visibleSize.height * 0.1);
+
 	
 
 	//将标签添加到菜单里
-	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemMenuClose,setupButton ,NULL);
+	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemMenuClose ,NULL);
 	menu->alignItemsVerticallyWithPadding(30);//设置菜单条目间的宽度
 	menu->setPosition(visibleSize.width*3 / 4, visibleSize.height*2 / 5);
 	menu->setColor(Color3B::BLACK);
@@ -93,6 +123,8 @@ void StartupScene::standaloneModeCallBack(Ref* pSender)
 //回调函数，跳转到退出游戏
 void StartupScene::menuCloseCallBack(Ref* pSender)
 {
+	// 退出时结束音乐的播放
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 	Director::getInstance()->end();
 }
 
