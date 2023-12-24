@@ -54,9 +54,9 @@ list(APPEND GAME_SOURCE
      Classes/Socket/SocketBase.cpp
      Classes/Socket/SocketClient.cpp
      Classes/Socket/SocketServer.cpp
+     Classes/Player/Player.cpp
      Classes/Legend/BaseLegend.cpp
      Classes/Legend/Legends.cpp
-     Classes/Player/Player.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -65,9 +65,9 @@ list(APPEND GAME_HEADER
      Classes/Socket/SocketBase.h
      Classes/Socket/SocketClient.h
      Classes/Socket/SocketServer.h
+     Classes/Player/Player.h
      Classes/Legend/BaseLegend.h
      Classes/Legend/Legends.h
-     Classes/Player/Player.h
      )
 
 if(ANDROID)
