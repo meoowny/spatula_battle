@@ -24,7 +24,8 @@ bool StartupScene::init()
 
 	// 一个循环播放的 BGM
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
-	audio->playBackgroundMusic("ZombiesOnYourLawn.ogg", true);
+	audio->playBackgroundMusic("music/ZombiesOnYourLawn.mp3", true);
+	audio->setBackgroundMusicVolume(1);
 
 	//添加背景图片
 	auto background = Sprite::create("StartUpSceneBackground.jpg");
