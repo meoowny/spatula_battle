@@ -49,6 +49,17 @@ bool Setup::init() {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    //设置背景
+    auto background = Sprite::create("StartupSceneBackground.jpg");
+    background->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+    background->setScale(1.5);
+    this->addChild(background);
+
+    auto backLabel = Label::createWithTTF("Click here to goBack", "fonts/Marker Felt.ttf", 40);
+    backLabel->setPosition(Vec2(origin.x + visibleSize.width * 0.1, origin.y + visibleSize.height * 0.95));
+    backLabel->setTextColor(Color4B::YELLOW);
+    this->addChild(backLabel);
+
     //音量大小提示
     auto volumeLabel = Label::createWithTTF("当前音量大小", "fonts/STHUPO.TTF", 30);
     volumeLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.8));
@@ -85,6 +96,7 @@ bool Setup::init() {
     auto backButton = ui::Button::create("backButton.png");
     backButton->setPosition(Vec2(origin.x + visibleSize.width * 0.1, origin.y + visibleSize.height * 0.9));
     backButton->addClickEventListener(CC_CALLBACK_1(Setup::onBackButtonClicked, this));
+    backButton->setScale(1.5);
     this->addChild(backButton);
 
     return true;
