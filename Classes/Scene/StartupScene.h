@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include"ui/CocosGUI.h"
+#include "Scene/PreparationScene.h"
 using namespace cocos2d;
 
 //新建一个继承层的类

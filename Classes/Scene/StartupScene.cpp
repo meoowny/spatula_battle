@@ -117,7 +117,8 @@ void StartupScene::onlineModeCallBack(Ref* pSender)
 //回调函数，跳转到单机模式
 void StartupScene::standaloneModeCallBack(Ref* pSender)
 {
-	//Director::getInstance()->replaceScene(second_scene::createScene());
+	// 暂时跳转至准备场景，之后实现一个 waitRoom 场景，Preparation 场景在这个场景的基础上 push 和 pop
+	Director::getInstance()->pushScene(PreparationScene::createScene());
 }
 
 //回调函数，跳转到退出游戏
