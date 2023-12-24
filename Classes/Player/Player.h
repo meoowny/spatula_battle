@@ -5,7 +5,7 @@
 #include <vector>
 #include "cocos2d.h"
 
-#include "Legend/BaseLegend.h"
+#include "Legend/Legends.h"
 
 USING_NS_CC;
 using namespace std;
@@ -24,6 +24,9 @@ struct LegendWithPlace
 	int x;
 	int y;
 };
+
+// 准备继承自 Sprite 类，需要使用 create 函数及相关函数，参考 cocos2d 写法
+// 计划将新增 PlayerInfo 类，新的 Player 类将会包含一个 PlayerInfo 指针用于获取和修改玩家信息，且 Player 从结点删除后不影响 PlayerInfo 的继续存在
 
 class Player
 {

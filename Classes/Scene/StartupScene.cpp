@@ -52,25 +52,25 @@ bool StartupScene::init()
 	this->addChild(addMenuItem());//添加菜单
 
 	// 放一个帧动画的演示，连续快速点击 Create 按钮有奇效
-	auto menuItem1 = MenuItemFont::create("Create:");
+	auto menuImage = MenuItemImage::create(
+		"Peashooter_9.png",   // 正常状态的按钮图片
+		"Peashooter_0.png",   // 按下状态的按钮图片
+		testCallBack          // 帧动画的实现放在 testCallBack 中了
+	);
+	menuImage->setPosition(visibleSize.width * 0.9, visibleSize.height * 0.1);
+
+	auto menuItem1 = MenuItemFont::create("Create");
 	menuItem1->setFontNameObj("arial.ttf");
 	menuItem1->setFontSizeObj(32);
 	menuItem1->setName("menuItem1");
-    //menuItem1->setVisible(false);
-	menuItem1->setPosition(Vec2(visibleSize.width / 3, visibleSize.height / 3 * 2));
-	// 帧动画的实现放在 testCallBack 中了
-	menuItem1->setCallback(testCallBack);
+	menuItem1->setColor(Color3B(0, 0, 0));
+	menuImage->addChild(menuItem1);
 
-	auto menuI = Menu::create(menuItem1, NULL);
+	auto menuI = Menu::create(menuImage, NULL);
 	menuI->setName("menu");
 	menuI->setPosition(Vec2::ZERO);
-	menuI->setColor(Color3B(0, 0, 0));
 
-	auto menuNode = Node::create();
-	menuNode->setName("menuNode");
-	menuNode->addChild(menuI, 1);
-
-	this->addChild(menuNode, 2);
+	this->addChild(menuI, 2);
 
 	return true;
 }

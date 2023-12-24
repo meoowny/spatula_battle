@@ -42,7 +42,7 @@ bool Player::buyLegend(Legend* legend)
 
 		bool isFull = true;
 		for (int i = 0; i < preparationSize; i++) {
-			if (_preparedLegends[i] != NULL) {
+			if (_preparedLegends[i] == NULL) {
 				_preparedLegends[i] = legend;
 				isFull = false;
 				break;
@@ -59,6 +59,7 @@ bool Player::buyLegend(Legend* legend)
 
 bool Player::sellLegend(Legend* legend)
 {
+	// 销毁指针
 	return true;
 }
 
@@ -78,11 +79,12 @@ void testCallBack(Ref* sender) {
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	dirs->removeChildByName("mySprite", false);
-	dirs->getChildByName("mySprite");
 
 	static auto player = new Player("Peashooter_0.png", false);
 	player->player->setPosition(visibleSize.width / 4, visibleSize.height / 4);
+	//player->player->cleanup();
 
+	// 将 Player 改写为 Sprite 子类后这里需要重写
 	//static auto mySprite = Sprite::create("Peashooter_0.png");
 	auto mySprite = player->player;
 	mySprite->setName("mySprite");
@@ -98,19 +100,19 @@ void testCallBack(Ref* sender) {
 	// now lets animate the sprite we moved
 	Vector<SpriteFrame*> animFrames;
 	animFrames.reserve(13);
-	animFrames.pushBack(SpriteFrame::create("Peashooter_0.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_1.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_2.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_3.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_4.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_5.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_6.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_7.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_8.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_9.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_10.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_11.png", Rect(0, 0, 71, 71)));
-	animFrames.pushBack(SpriteFrame::create("Peashooter_12.png", Rect(0, 0, 71, 71)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_0.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_1.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_2.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_3.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_4.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_5.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_6.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_7.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_8.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_9.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_10.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_11.png", Rect(0, 0, 72, 72)));
+	animFrames.pushBack(SpriteFrame::create("Peashooter_12.png", Rect(0, 0, 72, 72)));
 
 	// create the animation out of the frames
 	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
@@ -121,6 +123,35 @@ void testCallBack(Ref* sender) {
 
 	if (mySprite->getActionByTag(2) == NULL)
 		mySprite->runAction(action);
+
+	// 为玩家购买一个英雄并放在场上，如果玩家已经有一个英雄则为这个英雄添加一个动作
+	//player->buyLegend(Aphelios::create(""));
+	auto legend = player->getPreparedLegends().at(0);
+	if (legend == NULL) {
+		legend = new Aphelios();
+		if (legend == NULL)
+			exit(2);
+		player->buyLegend(legend);
+		
+		// 暂时无法运行，需要在修改 Legend 为 Sprite 子类并实现 create 函数后重写这里的调用方式
+		// 如需运行可以先将这个 if 语句整体注释掉
+		legend->sprite->setPosition(Vec2::ZERO);
+		legend->sprite->setName("testLegend");
+		legend->sprite->setAnchorPoint(Vec2::ZERO);
+		dirs->addChild(player->getPreparedLegends()[0]->sprite, 3);
+	}
+	else {
+		auto iii = dynamic_cast<Sprite*>(dirs->getChildByName("testLegend"));
+		//legend->sprite->removeFromParent();
+		//dirs->removeChild(iii, false);
+		legend->sprite->setPosition(Vec2(10, 10));
+		legend->sprite->runAction(MoveBy::create(2.0f, Vec2(0, 300)));
+		if (legend->sprite->getActionByTag(2) == NULL)
+			legend->sprite->runAction(action);
+		//iii->runAction(MoveBy::create(2.0f, Vec2(0, 300)));
+		//iii->setPosition(Vec2(10, 10));
+		//dirs->addChild(player->getPreparedLegends()[0]->sprite, 3);
+	}
 }
 
 
