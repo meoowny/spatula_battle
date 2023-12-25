@@ -73,21 +73,23 @@ bool Setup::init() {
     this->addChild(fpsLabel);
 
     // 音量滑块
-    volumeSlider = ui::Slider::create();
+    auto volumeSlider = ui::Slider::create();
+    volumeSlider->setName("volumeSlider");
     volumeSlider->loadBarTexture("sliderTrack.png");
     volumeSlider->loadSlidBallTextures("sliderThumb.png", "sliderThumb.png", "");
     volumeSlider->loadProgressBarTexture("sliderProgress.png");
-    volumeSlider->setPercent(50); // Initial volume value
+    volumeSlider->setPercent(static_cast<int>(CocosDenshion::SimpleAudioEngine::getInstance()->getEffectsVolume() * 50)); // Initial volume value
     volumeSlider->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.7));
     volumeSlider->addEventListener(CC_CALLBACK_2(Setup::onVolumeChange, this));
     this->addChild(volumeSlider);
 
     // 帧数滑块
-    fpsSlider = ui::Slider::create();
+    auto fpsSlider = ui::Slider::create();
+    fpsSlider->setName("fpsSlider");
     fpsSlider->loadBarTexture("sliderTrack.png");
     fpsSlider->loadSlidBallTextures("sliderThumb.png", "sliderThumb.png", "");
     fpsSlider->loadProgressBarTexture("sliderProgress.png");
-    fpsSlider->setPercent(60); // Initial FPS value
+	fpsSlider->setPercent(1.0f / Director::getInstance()->getAnimationInterval());  // 依据当前 FPS 值初始化滑块的显示值
     fpsSlider->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.5));
     fpsSlider->addEventListener(CC_CALLBACK_2(Setup::onFpsChange, this));
     this->addChild(fpsSlider);
@@ -104,20 +106,23 @@ bool Setup::init() {
 
 void Setup::onVolumeChange(Ref* sender, ui::Slider::EventType type) {
     if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
+        auto volumeSlider = dynamic_cast<ui::Slider*>(this->getChildByName("volumeSlider"));
+        auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
         int volume = volumeSlider->getPercent();
-        CocosDenshion::SimpleAudioEngine::getInstance()->setEffectsVolume(volume / 100.0f);
-        CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(volume / 100.0f);
-    }
+        audio->setEffectsVolume(volume / 100.0f);
+        audio->setBackgroundMusicVolume(volume / 100.0f);
+	}
 }
 
 void Setup::onFpsChange(Ref* sender, ui::Slider::EventType type) {
-    if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
-        int fpsValue = fpsSlider->getPercent();
-        Director::getInstance()->setAnimationInterval(1.0 / fpsValue);
-    }
+	if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
+		auto fpsSlider = dynamic_cast<ui::Slider*>(this->getChildByName("fpsSlider"));
+		int fpsValue = fpsSlider->getPercent();
+		Director::getInstance()->setAnimationInterval(1.0 / fpsValue);
+	}
 }
 
 void Setup::onBackButtonClicked(Ref* sender) {
-    // Return to the previous scene
-    Director::getInstance()->popScene();
+	// Return to the previous scene
+	Director::getInstance()->popScene();
 }

@@ -41,8 +41,6 @@ public:
     void onFpsChange(Ref* sender, ui::Slider::EventType type);
     void onBackButtonClicked(Ref* sender);
 private:
-    ui::Slider* volumeSlider;
-    ui::Slider* fpsSlider;
 };
 
 #endif // __SETUP_SCENE_H__
