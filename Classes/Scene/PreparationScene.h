@@ -3,26 +3,32 @@
 
 #include "BaseRoundScene.h"
 
+const int boardWidth = 7;
+const int boardHeight = 3;
+const int chessboardCellWidth = 100;
+const int chessboardCellHeight = 100;
+
 class PreparationScene : public BaseRoundScene
 {
 public:
 	static Scene* createScene();
 	virtual bool init();
 
-	void displayPlayer();//显示小小英雄
+    void displayBoard();         //显示棋盘
 
     //监听鼠标操作函数
     void onMouseDown(EventMouse* event);
-    void mouseLeftClick(EventMouse* event);
-    void mouseRightClick(EventMouse* event);
     void onMouseMove(EventMouse* event);
     void onMouseUp(EventMouse* event);
 
     CREATE_FUNC(PreparationScene);
-
 private:
-    Sprite* selectedSprite = nullptr; //记录被选中拖动的英雄
-    Sprite* myPlayer;                 //小小英雄
+    Sprite* chessboard[boardWidth][boardHeight]; //棋盘格子
+
+    // int chessboard[boardWidth][boardHeight];//棋盘英雄
+
+   
+
 };
 
 #endif // __PREPARATION_SCENE_H__

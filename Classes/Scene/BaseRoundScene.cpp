@@ -10,15 +10,16 @@ static void problemLoading(const char* filename)
 void BaseRoundScene::displayBackground()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    auto preparationBackground = Sprite::create("PreparationBackground.png");
+    auto preparationBackground = Sprite::create("PreparationBackground.jpg");
     if (preparationBackground == nullptr)
     {
-        problemLoading("'PreparationBackground.png'");
+        problemLoading("'PreparationBackground.jpg'");
     }
     else
     {
-        preparationBackground->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 + 80));
-        preparationBackground->setScale(3.5);
+        preparationBackground->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+        preparationBackground->setScaleX(1.8);
+        preparationBackground->setScaleY(2.5);
         addChild(preparationBackground, 0);
     }
 }
@@ -151,12 +152,101 @@ void BaseRoundScene::displayStoreLegend()
 void BaseRoundScene::displayPrepareLegend()
 {
 
+    //测试用
+
+    //待修改
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    for (int i = 0; i < 9; i++) {
+        Sprite* preparationBackground = Sprite::create("Peashooter_0.png");
+        if (preparationBackground == nullptr)
+        {
+            problemLoading("'Peashooter_0.png'");
+        }
+        else
+        {
+            sprites.push_back(preparationBackground);
+            preparationBackground->setPosition(Vec2(visibleSize.width / 4.8 + i * 100, visibleSize.height / 4));
+            //preparationBackground->setScale(5);
+            addChild(preparationBackground, 0);
+        }
+    }
+
+
+
 }
 
 //显示战斗区英雄
 void BaseRoundScene::displayBattleLegend()
 {
 
+}
+
+//显示我方小小英雄
+void BaseRoundScene::displayMyPlayer()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    myPlayer = Sprite::create("Peashooter_0.png");
+    if (myPlayer == nullptr)
+    {
+        problemLoading("'Peashooter_0.png'");
+    }
+    else
+    {
+        myPlayer->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 2.55, visibleSize.height / 3.2));
+        addChild(myPlayer, 3);
+    }
+    //添加鼠标监听器
+    auto listener = EventListenerMouse::create();
+    listener->onMouseDown = CC_CALLBACK_1(BaseRoundScene::moveMyPlayer, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+}
+
+void BaseRoundScene::selectLegend(EventMouse* event)
+{
+    for (auto sprite : sprites)
+  {
+      if (sprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
+      {
+          // 记录当前被点击的精灵
+          selectedSprite = sprite;
+          break;
+      }
+  }
+}
+
+void BaseRoundScene::dragLegend(EventMouse* event)
+{
+    if (selectedSprite)
+   {
+       // 移动被选中的精灵
+       selectedSprite->setPosition(Vec2(event->getCursorX(), event->getCursorY()));
+   }
+}
+
+//移动小小英雄回调函数
+void BaseRoundScene::moveMyPlayer(EventMouse* event)
+{
+    if (event->getMouseButton() != EventMouse::MouseButton::BUTTON_RIGHT) {
+        return;
+    }
+    auto dirs = Director::getInstance()->getRunningScene();
+    // 获取鼠标点击的目标位置
+    Vec2 targetPosition = Vec2(event->getCursorX(), event->getCursorY());
+
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    targetPosition.x = clampf(targetPosition.x, visibleSize.width / 2 - visibleSize.width / 2.5, visibleSize.width / 2 + visibleSize.width / 2.5);
+    targetPosition.y = clampf(targetPosition.y, visibleSize.height / 2 - visibleSize.height / 5, visibleSize.height / 2 + visibleSize.height / 5 + 50);
+
+    // 计算精灵移动的时间
+    float duration = 1.0f;
+
+    // 创建精灵的运动动作
+    auto moveAction = MoveTo::create(duration, targetPosition);
+    myPlayer->runAction(moveAction);
+
+    myPlayer->stopAllActions();    // 停止之前的动作
+    myPlayer->runAction(moveAction);
 }
 
 //购买经验值按钮回调函数
@@ -232,6 +322,37 @@ void BaseRoundScene::countdown()
 // 定时器回调函数，用于更新剩余时间
 void BaseRoundScene::updateTimerCallback(float dt)
 {
+    /* 创建蓝条
+        auto blueBar = DrawNode::create();
+    blueBar->drawSolidRect(Vec2(origin.x, visibleSize.height - 50), Vec2(origin.x + visibleSize.width, visibleSize.height), Color4F::BLUE);
+    this->addChild(blueBar);*/
+
+    //float totalTime = 60.0f; // 总时间（以秒为单位）
+    //float decreaseRate = 1.0f; // 每秒减少的长度
+
+    //float initialWidth = visibleSize.width; // 初始蓝条长度
+    //float currentWidth = initialWidth; // 当前蓝条长度
+
+    //this->schedule([=](float dt) mutable {
+    //    float decreaseAmount = decreaseRate * dt; // 计算当前帧应该减少的长度
+    //    currentWidth -= decreaseAmount; // 更新当前长度
+
+    //    if (currentWidth < 0.0f) {
+    //        currentWidth = 0.0f; // 确保长度不为负数
+    //    }
+
+    //    blueBar->clear(); // 清除之前的绘制
+    //    blueBar->drawSolidRect(Vec2(origin.x, visibleSize.height - 50), Vec2(origin.x + currentWidth, visibleSize.height), Color4F::BLUE);
+    //    }, 1.0f, "decrease_bar"); // 每秒执行一次
+
+
+
+
+
+
+
+
+
     if (remainingTimeInSeconds > 0) {
         remainingTimeInSeconds--;
 
@@ -246,6 +367,6 @@ void BaseRoundScene::updateTimerCallback(float dt)
         // 时间结束，切换到另一个场景
         unschedule(CC_SCHEDULE_SELECTOR(BaseRoundScene::updateTimerCallback));
         //switchToNextScene();
-        Director::getInstance()->popScene();
+        //Director::getInstance()->popScene();
     }
 }

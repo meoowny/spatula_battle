@@ -39,8 +39,8 @@ bool PreparationScene::init()
     //显示战斗区英雄
     displayBattleLegend();
 
-    //显示小小英雄
-    displayPlayer();
+    //显示我方小小英雄
+    displayMyPlayer();
 
     // 添加鼠标监听器
     auto listener = EventListenerMouse::create();
@@ -48,105 +48,87 @@ bool PreparationScene::init()
     listener->onMouseMove = CC_CALLBACK_1(PreparationScene::onMouseMove, this);
     listener->onMouseUp = CC_CALLBACK_1(PreparationScene::onMouseUp, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-
-    //开始倒计时，设置为1分钟
+   
+    //开始倒计时
     countdown();
     return true;
 }
 
-//显示小小英雄
-void PreparationScene::displayPlayer()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-
-    myPlayer = Sprite::create("Peashooter_0.png");
-    if (myPlayer == nullptr)
-    {
-        problemLoading("'Peashooter_0.png'");
-    }
-    else
-    {
-        myPlayer->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 2.55, visibleSize.height / 3.2));
-        addChild(myPlayer, 3);
-    }
-}
-
+//鼠标按下的回调函数
 void PreparationScene::onMouseDown(EventMouse* event)
 {
-    EventMouse::MouseButton button = event->getMouseButton();
-    if (button == EventMouse::MouseButton::BUTTON_LEFT)
-    {
-        mouseLeftClick(event);
-    }
-    if (button == EventMouse::MouseButton::BUTTON_RIGHT)
-    {
-        mouseRightClick(event);
+    selectLegend(event);
+    //如果有英雄被选中，才显示棋盘
+    if (selectedSprite) {
+        displayBoard();
     }
 }
 
-void PreparationScene::mouseLeftClick(EventMouse* event)
-{
-    //for (auto sprite : sprites)
-  //{
-  //    if (sprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
-  //    {
-  //        // 记录当前被点击的精灵
-  //        selectedSprite = sprite;
-
-  //        /*offset = event->getLocation() - selectedSprite->getPosition();*/
-  //        break;
-  //    }
-  //}
-}
-
-void PreparationScene::mouseRightClick(EventMouse* event)
-{
-    auto dirs = Director::getInstance()->getRunningScene();
-    // 获取鼠标点击的目标位置
-    Vec2 targetPosition = Vec2(event->getCursorX(), event->getCursorY());
-
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    targetPosition.x = clampf(targetPosition.x, visibleSize.width / 2 - visibleSize.width / 2.5, visibleSize.width / 2 + visibleSize.width / 2.5);
-    targetPosition.y = clampf(targetPosition.y, visibleSize.height / 2 - visibleSize.height / 5, visibleSize.height / 2 + visibleSize.height / 5 + 50);
-
-    // 计算精灵移动的时间
-    float duration = 1.0f;
-
-    // 创建精灵的运动动作
-    auto moveAction = MoveTo::create(duration, targetPosition);
-    myPlayer->runAction(moveAction);
-
-    myPlayer->stopAllActions();    // 停止之前的动作
-    myPlayer->runAction(moveAction);
-}
-
+//鼠标移动的回调函数
 void PreparationScene::onMouseMove(EventMouse* event)
 {
-    //if (selectedSprite)
-    //{
-    //    // 移动被选中的精灵
-    //    selectedSprite->setPosition(Vec2(event->getCursorX(), event->getCursorY())/*- offset*/);
-    //}
+    dragLegend(event);
+}
+
+//显示棋盘
+void PreparationScene::displayBoard()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    for (int i = 0; i < boardWidth; i++) {
+        for (int j = 0; j < boardHeight; j++) {
+            auto chessboardCell = Sprite::create("chessboardCell.png");
+            if (chessboardCell == nullptr)
+            {
+                problemLoading("'chessboardCell.png'");
+            }
+            else
+            {
+                chessboard[i][j] = chessboardCell;
+                chessboardCell->setPosition(Vec2(visibleSize.width / 3.6 + i * chessboardCellWidth, visibleSize.height / 2.9 + j * chessboardCellHeight));
+                chessboardCell->setScale(0.1);
+                addChild(chessboardCell, 0);
+            }
+        }
+    }
 }
 
 void PreparationScene::onMouseUp(EventMouse* event)
 {
-    //if (selectedSprite)
-    //{
-    //    // 判断是否在指定区域内
-    //    Rect targetRect = Rect(500, 500, 300, 300);
+    if (selectedSprite)
+    {
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+        Vec2 mouseLocation(event->getCursorX(), event->getCursorY());
 
-    //    if (targetRect.containsPoint(event->getLocation()))
-    //    {
-    //        // 移动到指定区域的中心
-    //        selectedSprite->setPosition(targetRect.getMidX(), targetRect.getMidY());
-    //    }
-    //    else
-    //    {
-    //        // 回到初始位置
-    //        selectedSprite->setPosition(Vec2(350 * (sprites.getIndex(selectedSprite) + 1) - 200, 200));
-    //    }
-    //    // 重置选中的精灵
-    //    selectedSprite = nullptr;
-    //}
+        // 判断是否在指定区域内
+        bool isInBoard = false;
+        // 判断是否在指定区域内
+        for (int i = 0; i < boardWidth; i++) {
+            for (int j = 0; j < boardHeight; j++) {           
+
+                //当鼠标松开后，棋盘不再显示
+                //if (chessboard[i][j]) {    //这个会报错
+                //   chessboard[i][j]->removeFromParentAndCleanup(true);
+                //}
+
+                Rect targetRect= chessboard[i][j]->getBoundingBox();               
+                if (targetRect.containsPoint(mouseLocation))
+                {
+                    // 移动到指定区域的中心
+                    selectedSprite->setPosition(targetRect.getMidX(), targetRect.getMidY());
+                    isInBoard = true;
+                    break;
+                }
+               
+                 //否则回到初始位置
+                auto it = std::find(sprites.begin(), sprites.end(), selectedSprite);
+                if (it != sprites.end()) {
+                    int position = std::distance(sprites.begin(), it);
+                    selectedSprite->setPosition(Vec2(visibleSize.width / 4.8 + position * 100, visibleSize.height / 4));
+                }
+            }
+            if (isInBoard) break;
+        }
+        // 重置选中的精灵
+        selectedSprite = nullptr;
+    }
 }
