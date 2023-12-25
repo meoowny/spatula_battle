@@ -26,10 +26,15 @@
 #ifndef __SETUP_SCENE_H__
 #define __SETUP_SCENE_H__
 
+#include <string>
+#include <sstream>
 #include "cocos2d.h"
 #include"ui/CocosGUI.h"
 #include"SimpleAudioEngine.h"
+
 USING_NS_CC;
+using namespace std;
+
 class Setup : public cocos2d::Scene
 {
 public:
@@ -37,9 +42,6 @@ public:
 
     virtual bool init();
     CREATE_FUNC(Setup);
-    void onVolumeChange(Ref* sender, ui::Slider::EventType type);
-    void onFpsChange(Ref* sender, ui::Slider::EventType type);
-    void onBackButtonClicked(Ref* sender);
 private:
 };
 

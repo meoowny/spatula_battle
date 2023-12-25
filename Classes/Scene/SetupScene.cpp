@@ -50,9 +50,9 @@ bool Setup::init() {
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     //设置背景
-    auto background = Sprite::create("StartupSceneBackground.jpg");
+    auto background = Sprite::create("setupSceneBackground.png");
     background->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-    background->setScale(1.5);
+    background->setScale(1.1);
     this->addChild(background);
 
     auto backLabel = Label::createWithTTF("Click here to goBack", "fonts/Marker Felt.ttf", 40);
@@ -64,65 +64,94 @@ bool Setup::init() {
     auto volumeLabel = Label::createWithTTF("当前音量大小", "fonts/STHUPO.TTF", 30);
     volumeLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.8));
     volumeLabel->setTextColor(Color4B::YELLOW);
+    volumeLabel->enableShadow();
     this->addChild(volumeLabel);
 
     //帧数大小提示
-    auto fpsLabel = Label::createWithTTF("֡当前帧数大小", "fonts/STHUPO.TTF", 30);
+    // 中文支持暂时有问题，实验性质的 stringstream 暂时使用英文进行提示
+    stringstream fpsPrompt;
+    fpsPrompt << "Current FPS: "
+        << static_cast<int>(1 / Director::getInstance()->getAnimationInterval() + 0.5f);
+    auto fpsLabel = Label::createWithTTF(fpsPrompt.str(), "fonts/LXGWWenKaiGBScreenR.ttf", 30);
+    //auto fpsLabel = Label::createWithTTF("֡当前帧数大小", "fonts/STHUPO.TTF", 30);
+    fpsLabel->setName("fpsLabel");
     fpsLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.6));
     fpsLabel->setTextColor(Color4B::YELLOW);
+    fpsLabel->enableShadow();
     this->addChild(fpsLabel);
 
     // 音量滑块
     auto volumeSlider = ui::Slider::create();
     volumeSlider->setName("volumeSlider");
-    volumeSlider->loadBarTexture("sliderTrack.png");
-    volumeSlider->loadSlidBallTextures("sliderThumb.png", "sliderThumb.png", "");
-    volumeSlider->loadProgressBarTexture("sliderProgress.png");
+    volumeSlider->loadBarTexture("slider_Back.png");
+    volumeSlider->loadSlidBallTextures("sliderNode_Normal.png", "sliderNode_Press.png", "sliderNode_Disable.png");
+    volumeSlider->loadProgressBarTexture("slider_PressBar.png");
+    volumeSlider->setScale(3);
     volumeSlider->setPercent(static_cast<int>(CocosDenshion::SimpleAudioEngine::getInstance()->getEffectsVolume() * 50)); // Initial volume value
     volumeSlider->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.7));
-    volumeSlider->addEventListener(CC_CALLBACK_2(Setup::onVolumeChange, this));
+    //volumeSlider->addEventListener(CC_CALLBACK_2(Setup::onVolumeChange, this));
+    volumeSlider->addEventListener([&](Ref* sender, ui::Slider::EventType type) {
+        if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
+            auto volumeSlider = dynamic_cast<ui::Slider*>(this->getChildByName("volumeSlider"));
+            auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+            int volume = volumeSlider->getPercent();
+            audio->setEffectsVolume(volume / 100.0f);
+            audio->setBackgroundMusicVolume(volume / 100.0f);
+        }
+        });
     this->addChild(volumeSlider);
 
     // 帧数滑块
     auto fpsSlider = ui::Slider::create();
     fpsSlider->setName("fpsSlider");
-    fpsSlider->loadBarTexture("sliderTrack.png");
-    fpsSlider->loadSlidBallTextures("sliderThumb.png", "sliderThumb.png", "");
-    fpsSlider->loadProgressBarTexture("sliderProgress.png");
-	fpsSlider->setPercent(1.0f / Director::getInstance()->getAnimationInterval());  // 依据当前 FPS 值初始化滑块的显示值
+    fpsSlider->loadBarTexture("slider_Back.png");
+    fpsSlider->loadSlidBallTextures("sliderNode_Normal.png", "sliderNode_Press.png", "sliderNode_Disable.png");
+    fpsSlider->loadProgressBarTexture("slider_PressBar.png");
+    fpsSlider->setScale(3);
+    fpsSlider->setPercent(1.0f / Director::getInstance()->getAnimationInterval());  // 依据当前 FPS 值初始化滑块的显示值
     fpsSlider->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.5));
-    fpsSlider->addEventListener(CC_CALLBACK_2(Setup::onFpsChange, this));
-    this->addChild(fpsSlider);
+    //fpsSlider->addEventListener(CC_CALLBACK_2(Setup::onFpsChange, this));
+    fpsSlider->addEventListener([&](Ref* sender, ui::Slider::EventType type) {
+        if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
+			auto dir = Director::getInstance();
+			auto visibleSize = Director::getInstance()->getVisibleSize();
+			Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    // 返回按钮
-    auto backButton = ui::Button::create("backButton.png");
-    backButton->setPosition(Vec2(origin.x + visibleSize.width * 0.1, origin.y + visibleSize.height * 0.9));
-    backButton->addClickEventListener(CC_CALLBACK_1(Setup::onBackButtonClicked, this));
-    backButton->setScale(1.5);
-    this->addChild(backButton);
+			auto fpsSlider = dynamic_cast<ui::Slider*>(this->getChildByName("fpsSlider"));
+            int fpsValue = fpsSlider->getPercent();
+            dir->setAnimationInterval(1.0 / fpsValue);
 
-    return true;
+            auto originFpsLabel = dynamic_cast<Label*>(this->getChildByName("fpsLabel"));
+            if (originFpsLabel != NULL) {
+                auto dirs = dir->getRunningScene();
+				dirs->removeChildByName("fpsLabel");
+				stringstream fpsPrompt;
+				fpsPrompt << "Current FPS: " << fpsValue;
+				auto fpsLabel = Label::createWithTTF(fpsPrompt.str(), "fonts/LXGWWenKaiGBScreenR.ttf", 30);
+				fpsLabel->setName("fpsLabel");
+				fpsLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.6));
+				fpsLabel->setTextColor(Color4B::YELLOW);
+				dirs->addChild(fpsLabel);
+			}
+		}
+		});
+	this->addChild(fpsSlider);
+
+	// 返回按钮
+	auto backButton = ui::Button::create("backButton_Normal.png", "backButton_Selected.png");
+	//backButton->setTitleText("Back");
+    //backButton->setTitleColor(Color3B::BLACK);
+    //backButton->setTitleFontSize(15);
+    //backButton->setTitleFontName("fonts/LXGWWenKaiGBScreenR.ttf");
+    //backButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::BOTTOM);
+	backButton->setPosition(Vec2(origin.x + visibleSize.width * 0.1, origin.y + visibleSize.height * 0.9));
+	backButton->addClickEventListener([&](Ref* sender) {
+		Director::getInstance()->popScene();
+		});
+	backButton->setVisible(true);
+	backButton->setScale(1.5);
+	this->addChild(backButton);
+
+	return true;
 }
 
-void Setup::onVolumeChange(Ref* sender, ui::Slider::EventType type) {
-    if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
-        auto volumeSlider = dynamic_cast<ui::Slider*>(this->getChildByName("volumeSlider"));
-        auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
-        int volume = volumeSlider->getPercent();
-        audio->setEffectsVolume(volume / 100.0f);
-        audio->setBackgroundMusicVolume(volume / 100.0f);
-	}
-}
-
-void Setup::onFpsChange(Ref* sender, ui::Slider::EventType type) {
-	if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED) {
-		auto fpsSlider = dynamic_cast<ui::Slider*>(this->getChildByName("fpsSlider"));
-		int fpsValue = fpsSlider->getPercent();
-		Director::getInstance()->setAnimationInterval(1.0 / fpsValue);
-	}
-}
-
-void Setup::onBackButtonClicked(Ref* sender) {
-	// Return to the previous scene
-	Director::getInstance()->popScene();
-}
