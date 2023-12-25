@@ -40,9 +40,9 @@ bool StartupScene::init()
 	setupButton->addClickEventListener([=](Ref* sender) {
 		Director::getInstance()->pushScene(Setup::createScene());
 		});
-		this->addChild(setupButton);
-		
-	
+	this->addChild(setupButton);
+
+
 
 	//设置游戏名标签
 	auto labelGameName = Label::createWithSystemFont("一起来铲铲", "STHUPO.TTF", 200);
@@ -51,10 +51,18 @@ bool StartupScene::init()
 	this->addChild(labelGameName);
 	this->addChild(addMenuItem());//添加菜单
 
+	// 玩家信息类作为一个结点存放在一个持续存在的场景下，用于存储玩家信息
+	// 但根据 Player.cpp/testCallBack 的反馈来看，还不能用
+	auto playerInfo = PlayerInfo::create("Peashooter/Peashooter_0.png", false);
+	playerInfo->setName("playerInfo");
+	playerInfo->setPosition(Vec2::ZERO);
+	playerInfo->setVisible(false);
+	this->addChild(playerInfo, 9);
+
 	// 放一个帧动画的演示，连续快速点击 Create 按钮有奇效
 	auto menuImage = MenuItemImage::create(
-		"Peashooter_9.png",   // 正常状态的按钮图片
-		"Peashooter_0.png",   // 按下状态的按钮图片
+		"PotatoMine/PotatoMine/PotatoMine_7.png",   // 正常状态的按钮图片
+		"PotatoMine/PotatoMineExplode/PotatoMineExplode_0.png",   // 按下状态的按钮图片
 		testCallBack          // 帧动画的实现放在 testCallBack 中了
 	);
 	menuImage->setPosition(visibleSize.width * 0.9, visibleSize.height * 0.1);
@@ -98,12 +106,12 @@ Menu* StartupScene::addMenuItem()
 	);
 	setupButton->setPosition(visibleSize.width * 0.9, visibleSize.height * 0.1);
 
-	
+
 
 	//将标签添加到菜单里
-	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemMenuClose ,NULL);
+	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemMenuClose, NULL);
 	menu->alignItemsVerticallyWithPadding(30);//设置菜单条目间的宽度
-	menu->setPosition(visibleSize.width*3 / 4, visibleSize.height*2 / 5);
+	menu->setPosition(visibleSize.width * 3 / 4, visibleSize.height * 2 / 5);
 	menu->setColor(Color3B::BLACK);
 	return menu;
 }
