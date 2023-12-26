@@ -3,10 +3,11 @@
 
 #include "BaseRoundScene.h"
 
-const int boardWidth = 7;
-const int boardHeight = 3;
+const int battleBoardWidth = 7;
+const int battleBoardHeight = 3;
 const int chessboardCellWidth = 100;
 const int chessboardCellHeight = 100;
+const int preparationBoardWidth = 9;;
 
 class PreparationScene : public BaseRoundScene
 {
@@ -16,6 +17,8 @@ public:
 
     void displayBoard();         //显示棋盘
 
+    void boardCellSelected(EventMouse* event);   //棋盘回显
+
     //监听鼠标操作函数
     void onMouseDown(EventMouse* event);
     void onMouseMove(EventMouse* event);
@@ -23,7 +26,10 @@ public:
 
     CREATE_FUNC(PreparationScene);
 private:
-    Sprite* chessboard[boardWidth][boardHeight]; //棋盘格子
+    Sprite* battleChessboard[battleBoardWidth][battleBoardWidth];      //战斗区棋盘
+    Sprite* battleSelectedChessboard[battleBoardWidth][battleBoardWidth];      //战斗区回显棋盘
+    Sprite* preparationChessboard[preparationBoardWidth];              //备战区棋盘
+    Sprite* preparationSelectedChessboard[preparationBoardWidth];              //备战区回显棋盘
 
     // int chessboard[boardWidth][boardHeight];//棋盘英雄
 

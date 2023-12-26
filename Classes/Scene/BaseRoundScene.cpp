@@ -171,8 +171,6 @@ void BaseRoundScene::displayPrepareLegend()
         }
     }
 
-
-
 }
 
 //ÏÔÊ¾Õ½¶·ÇøÓ¢ĞÛ
