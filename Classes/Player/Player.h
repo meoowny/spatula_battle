@@ -23,6 +23,10 @@ struct LegendWithPlace
 	LegendInfo* legend;
 	int x;
 	int y;
+
+	LegendWithPlace(LegendInfo* l = NULL, int px = 0, int py = 0)
+		: legend(l), x(px), y(py)
+	{ }
 };
 
 // Player 继承自 Sprite 类，需要使用 create 函数及相关函数，参考 cocos2d 写法
@@ -75,7 +79,7 @@ private:
 	PlayerInfo* const _info;
 };
 
-void testCallBack(Ref* sender);
+void testCallBack(PlayerInfo* playerInfo, Ref* sender);
 
 #endif
 

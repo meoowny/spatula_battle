@@ -54,18 +54,18 @@ bool StartupScene::init()
 	this->addChild(addMenuItem());//添加菜单
 
 	// 玩家信息类作为一个结点存放在一个持续存在的场景下，用于存储玩家信息
-	// 但根据 Player.cpp/testCallBack 的反馈来看，还不能用
+	// 目前加入场景是为了让 cocos 自己管理指针，务必 addChild
 	auto playerInfo = PlayerInfo::create("Peashooter/Peashooter_0.png", false);
 	playerInfo->setName("playerInfo");
 	playerInfo->setPosition(Vec2::ZERO);
 	playerInfo->setVisible(false);
-	this->addChild(playerInfo, 9);
+	this->addChild(playerInfo);
 
 	// 放一个帧动画的演示，连续快速点击 Create 按钮有奇效
 	auto menuImage = MenuItemImage::create(
 		"PotatoMine/PotatoMine/PotatoMine_7.png",   // 正常状态的按钮图片
 		"PotatoMine/PotatoMineExplode/PotatoMineExplode_0.png",   // 按下状态的按钮图片
-		testCallBack          // 帧动画的实现放在 testCallBack 中了
+		CC_CALLBACK_1(testCallBack, playerInfo)          // 帧动画的实现放在 testCallBack 中了
 	);
 	menuImage->setPosition(visibleSize.width * 0.9, visibleSize.height * 0.1);
 
@@ -73,14 +73,14 @@ bool StartupScene::init()
 	menuItem1->setFontNameObj("arial.ttf");
 	menuItem1->setFontSizeObj(32);
 	menuItem1->setName("menuItem1");
-	menuItem1->setColor(Color3B(0, 0, 0));
+	menuItem1->setColor(Color3B::YELLOW);
+	menuItem1->setAnchorPoint(Vec2(0.2, 1));
 	menuImage->addChild(menuItem1);
 
-	auto menuI = Menu::create(menuImage, NULL);
-	menuI->setName("menu");
-	menuI->setPosition(Vec2::ZERO);
+	auto tmpMenu = Menu::create(menuImage, NULL);
+	tmpMenu->setPosition(Vec2::ZERO);
 
-	this->addChild(menuI, 2);
+	this->addChild(tmpMenu);
 
 	return true;
 }
@@ -97,7 +97,6 @@ Menu* StartupScene::addMenuItem()
 	auto itemStandaloneMode = MenuItemLabel::create(labelStandaloneMode, CC_CALLBACK_1(StartupScene::standaloneModeCallBack, this));
 
 	//添加退出游戏标签
-	//auto labelMenuClose = Label::createWithSystemFont("我去图书馆了", "STHUPO.TTF", 120);
 	auto itemMenuClose = MenuItemFont::create(
 		"我去图书馆了",
 		[](Ref* sender) {
@@ -108,17 +107,6 @@ Menu* StartupScene::addMenuItem()
 	itemMenuClose->setFontNameObj("STHUPO.TTF");
 	itemMenuClose->setFontSizeObj(120);
 	itemMenuClose->setName("menuItem1");
-	//auto itemMenuClose = MenuItemLabel::create(labelMenuClose, CC_CALLBACK_1(StartupScene::menuCloseCallBack, this));
-
-	//添加设置按钮
-	auto setupButton = MenuItemImage::create(
-		"SetupButton_Noarmal.png",   // 正常状态的按钮图片
-		"SetupButton_Selected.png", // 按下状态的按钮图片
-		CC_CALLBACK_1(StartupScene::onSetupButtonClick, this) // 按钮回调函数
-	);
-	setupButton->setPosition(visibleSize.width * 0.9, visibleSize.height * 0.1);
-
-
 
 	//将标签添加到菜单里
 	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemMenuClose, NULL);
@@ -141,16 +129,3 @@ void StartupScene::standaloneModeCallBack(Ref* pSender)
 	Director::getInstance()->pushScene(PreparationScene::createScene());
 }
 
-////回调函数，跳转到退出游戏
-//void StartupScene::menuCloseCallBack(Ref* pSender)
-//{
-//	// 退出时结束音乐的播放
-//	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-//	Director::getInstance()->end();
-//}
-
-//回调函数，跳转到设置界面
-void StartupScene::onSetupButtonClick(Ref* pSender) {
-	auto scene = Setup::createScene();
-	Director::getInstance()->pushScene(scene);
-}

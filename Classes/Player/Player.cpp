@@ -106,7 +106,7 @@ bool Player::moveLegend(Legend* legend, Region src, Region dst, int dst_x, int d
 	return true;
 }
 
-void testCallBack(Ref* sender) {
+void testCallBack(PlayerInfo* playerInfo, Ref* sender) {
 	auto dirs = Director::getInstance()->getRunningScene();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -114,13 +114,11 @@ void testCallBack(Ref* sender) {
 	dirs->removeChildByName("player", false);
 	dirs->removeChildByName("testLegend");
 
-	// 暂时无法获取玩家信息（继承自 Node）结点，原因不明
+	// 不可从场景获取 playerInfo 结点，原因不明，改用传入的参数
 	//auto node = dirs->getChildByName("playerInfo");
 	//if (node == NULL) {
 	//	exit(0);
 	//}
-	//auto playerInfo = dynamic_cast<PlayerInfo*>(node);
-	static PlayerInfo* playerInfo = new PlayerInfo("Peashooter/Peashooter_0.png", false);
 	auto player = Player::create(playerInfo);
 	player->setPosition(visibleSize.width / 4, visibleSize.height / 4);
 
@@ -158,13 +156,10 @@ void testCallBack(Ref* sender) {
 	Animate* animate = Animate::create(animation);
 
 	Action* action = RepeatForever::create(animate);
-	action->setTag(2);
 
-	if (player->getActionByTag(2) == NULL)
-		player->runAction(action);
+	player->runAction(action);
 
 	// 为玩家购买一个英雄并放在场上，如果玩家已经有一个英雄则为这个英雄添加一个动作
-	//player->buyLegend(Aphelios::create(""));
 	auto info = player->getPreparedLegends().at(0);
 	if (info == NULL) {
 		log("heel");
@@ -177,7 +172,7 @@ void testCallBack(Ref* sender) {
 	legend->setName("testLegend");
 	legend->setAnchorPoint(Vec2::ZERO);
 	legend->runAction(MoveBy::create(2.0f, Vec2(0, 300)));
-	legend->runAction(action);
+	legend->runAction(action->clone());
 	dirs->addChild(legend, 3);
 }
 
