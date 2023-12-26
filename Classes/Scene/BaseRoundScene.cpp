@@ -307,7 +307,7 @@ void BaseRoundScene::countdown()
     remainingTimeInSeconds = totalTimeInSeconds;
 
     // 在屏幕上创建一个标签用于显示剩余时间
-    labelRemainTime = Label::createWithTTF("Time: 01:00", "fonts/arial.ttf", 24);
+    labelRemainTime = Label::createWithTTF("Time: 01:00", "fonts/UbuntuNFMono.ttf", 24);
     labelRemainTime->setScale(4);
     labelRemainTime->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - 50));
     this->addChild(labelRemainTime);
@@ -365,6 +365,6 @@ void BaseRoundScene::updateTimerCallback(float dt)
         // 时间结束，切换到另一个场景
         unschedule(CC_SCHEDULE_SELECTOR(BaseRoundScene::updateTimerCallback));
         //switchToNextScene();
-        //Director::getInstance()->popScene();
+        Director::getInstance()->popScene();
     }
 }

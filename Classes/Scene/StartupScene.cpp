@@ -38,7 +38,7 @@ bool StartupScene::init()
 	 //添加设置按钮
 	auto setupButton = ui::Button::create("SetupButton_Normal.png", "SetupButton_Selected.png");
 	setupButton->setPosition(Vec2(visibleSize.width * 0.1, visibleSize.height * 0.9));//把按钮放置在场景的右上角
-	setupButton->addClickEventListener([=](Ref* sender) {
+	setupButton->addClickEventListener([&](Ref* sender) {
 		Director::getInstance()->pushScene(Setup::createScene());
 		});
 	this->addChild(setupButton);
@@ -49,6 +49,7 @@ bool StartupScene::init()
 	auto labelGameName = Label::createWithSystemFont("一起来铲铲", "STHUPO.TTF", 200);
 	labelGameName->setPosition(visibleSize.width / 3, visibleSize.height * 3 / 4);//将游戏名标签放置屏幕中间偏上
 	labelGameName->setColor(Color3B::YELLOW);
+	labelGameName->enableShadow(Color4B::BLACK, Size(8, -8));
 	this->addChild(labelGameName);
 	this->addChild(addMenuItem());//添加菜单
 
@@ -96,8 +97,18 @@ Menu* StartupScene::addMenuItem()
 	auto itemStandaloneMode = MenuItemLabel::create(labelStandaloneMode, CC_CALLBACK_1(StartupScene::standaloneModeCallBack, this));
 
 	//添加退出游戏标签
-	auto labelMenuClose = Label::createWithSystemFont("我去图书馆了", "STHUPO.TTF", 120);
-	auto itemMenuClose = MenuItemLabel::create(labelMenuClose, CC_CALLBACK_1(StartupScene::menuCloseCallBack, this));
+	//auto labelMenuClose = Label::createWithSystemFont("我去图书馆了", "STHUPO.TTF", 120);
+	auto itemMenuClose = MenuItemFont::create(
+		"我去图书馆了",
+		[](Ref* sender) {
+			// 退出时结束音乐的播放
+			CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+			Director::getInstance()->end();
+		});
+	itemMenuClose->setFontNameObj("STHUPO.TTF");
+	itemMenuClose->setFontSizeObj(120);
+	itemMenuClose->setName("menuItem1");
+	//auto itemMenuClose = MenuItemLabel::create(labelMenuClose, CC_CALLBACK_1(StartupScene::menuCloseCallBack, this));
 
 	//添加设置按钮
 	auto setupButton = MenuItemImage::create(
@@ -130,13 +141,13 @@ void StartupScene::standaloneModeCallBack(Ref* pSender)
 	Director::getInstance()->pushScene(PreparationScene::createScene());
 }
 
-//回调函数，跳转到退出游戏
-void StartupScene::menuCloseCallBack(Ref* pSender)
-{
-	// 退出时结束音乐的播放
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	Director::getInstance()->end();
-}
+////回调函数，跳转到退出游戏
+//void StartupScene::menuCloseCallBack(Ref* pSender)
+//{
+//	// 退出时结束音乐的播放
+//	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+//	Director::getInstance()->end();
+//}
 
 //回调函数，跳转到设置界面
 void StartupScene::onSetupButtonClick(Ref* pSender) {

@@ -121,17 +121,11 @@ bool Setup::init() {
             int fpsValue = fpsSlider->getPercent();
             dir->setAnimationInterval(1.0 / fpsValue);
 
-            auto originFpsLabel = dynamic_cast<Label*>(this->getChildByName("fpsLabel"));
-            if (originFpsLabel != NULL) {
-                auto dirs = dir->getRunningScene();
-				dirs->removeChildByName("fpsLabel");
+            auto fpsLabel = dynamic_cast<Label*>(this->getChildByName("fpsLabel"));
+            if (fpsLabel != NULL) {
 				stringstream fpsPrompt;
 				fpsPrompt << "Current FPS: " << fpsValue;
-				auto fpsLabel = Label::createWithTTF(fpsPrompt.str(), "fonts/LXGWWenKaiGBScreenR.ttf", 30);
-				fpsLabel->setName("fpsLabel");
-				fpsLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.6));
-				fpsLabel->setTextColor(Color4B::YELLOW);
-				dirs->addChild(fpsLabel);
+                fpsLabel->setString(fpsPrompt.str());
 			}
 		}
 		});

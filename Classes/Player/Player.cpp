@@ -126,6 +126,7 @@ void testCallBack(Ref* sender) {
 
 	player->setName("player");
 	player->setPosition(Vec2(origin.x + visibleSize.width / 3, origin.y + visibleSize.height / 2));
+	player->setRotation(-50.5);
 	dirs->addChild(player, 3);
 
 	auto moveBy = MoveBy::create(2.0f, Vec2(0, 300));
