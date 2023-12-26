@@ -2,6 +2,7 @@
 #define __SOCKET_SERVER_H__
 
 #include "SocketBase.h"
+#include <map>
 
 struct RecvData
 {
@@ -47,7 +48,7 @@ private:
 	std::list<HSocket> _clientSockets;
 	std::list<SocketMessage*> _UIMessageQueue;
 	std::mutex   _UIMessageQueueMutex;
-
+	std::map<char, HSocket> idToSocket;//用来将用户端与其ID一一对应，根据ID找到用户端
 };
 
 #endif#pragma once

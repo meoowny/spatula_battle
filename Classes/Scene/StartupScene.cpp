@@ -96,6 +96,10 @@ Menu* StartupScene::addMenuItem()
 	auto labelStandaloneMode = Label::createWithSystemFont("单机模式", "STHUPO.TTF", 120);
 	auto itemStandaloneMode = MenuItemLabel::create(labelStandaloneMode, CC_CALLBACK_1(StartupScene::standaloneModeCallBack, this));
 
+	//添加服务器标签
+	auto labelServerMode = Label::createWithSystemFont("Server", "Arial.TTF", 120);
+	auto itemServerMode = MenuItemLabel::create(labelServerMode, CC_CALLBACK_1(StartupScene::serverModeCallBack, this));
+
 	//添加退出游戏标签
 	auto itemMenuClose = MenuItemFont::create(
 		"我去图书馆了",
@@ -109,7 +113,7 @@ Menu* StartupScene::addMenuItem()
 	itemMenuClose->setName("menuItem1");
 
 	//将标签添加到菜单里
-	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemMenuClose, NULL);
+	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemServerMode, itemMenuClose, NULL);
 	menu->alignItemsVerticallyWithPadding(30);//设置菜单条目间的宽度
 	menu->setPosition(visibleSize.width * 3 / 4, visibleSize.height * 2 / 5);
 	menu->setColor(Color3B::BLACK);
@@ -119,7 +123,7 @@ Menu* StartupScene::addMenuItem()
 //回调函数，跳转到联机模式
 void StartupScene::onlineModeCallBack(Ref* pSender)
 {
-	//Director::getInstance()->replaceScene(second_scene::createScene());
+	Director::getInstance()->replaceScene(OnlineModeScene::createScene());
 }
 
 //回调函数，跳转到单机模式
@@ -127,5 +131,17 @@ void StartupScene::standaloneModeCallBack(Ref* pSender)
 {
 	// 暂时跳转至准备场景，之后实现一个 waitRoom 场景，Preparation 场景在这个场景的基础上 push 和 pop
 	Director::getInstance()->pushScene(PreparationScene::createScene());
+}
+
+//回调函数，跳转到服务器模式
+void StartupScene::serverModeCallBack(Ref* pSender)
+{
+	Director::getInstance()->replaceScene(ServerModeScene::createScene());
+}
+
+//回调函数，跳转到退出游戏
+void StartupScene::menuCloseCallBack(Ref* pSender)
+{
+	Director::getInstance()->end();
 }
 
