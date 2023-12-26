@@ -88,16 +88,16 @@ bool StartupScene::init()
 Menu* StartupScene::addMenuItem()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();//获得屏幕大小
-	//设置联机模式标签
-	auto labelOnlineMode = Label::createWithSystemFont("联机模式", "STHUPO.TTF", 120);
-	auto itemOnlineMode = MenuItemLabel::create(labelOnlineMode, CC_CALLBACK_1(StartupScene::onlineModeCallBack, this));
-
 	//设置单机模式标签
 	auto labelStandaloneMode = Label::createWithSystemFont("单机模式", "STHUPO.TTF", 120);
 	auto itemStandaloneMode = MenuItemLabel::create(labelStandaloneMode, CC_CALLBACK_1(StartupScene::standaloneModeCallBack, this));
 
+	//设置联机模式标签
+	auto labelOnlineMode = Label::createWithSystemFont("联机模式", "STHUPO.TTF", 120);
+	auto itemOnlineMode = MenuItemLabel::create(labelOnlineMode, CC_CALLBACK_1(StartupScene::onlineModeCallBack, this));
+
 	//添加服务器标签
-	auto labelServerMode = Label::createWithSystemFont("Server", "Arial.TTF", 120);
+	auto labelServerMode = Label::createWithSystemFont("服务模式", "STHUPO.TTF", 120);
 	auto itemServerMode = MenuItemLabel::create(labelServerMode, CC_CALLBACK_1(StartupScene::serverModeCallBack, this));
 
 	//添加退出游戏标签
@@ -113,7 +113,7 @@ Menu* StartupScene::addMenuItem()
 	itemMenuClose->setName("menuItem1");
 
 	//将标签添加到菜单里
-	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemServerMode, itemMenuClose, NULL);
+	auto menu = Menu::create(itemStandaloneMode, itemOnlineMode, itemServerMode, itemMenuClose, NULL);
 	menu->alignItemsVerticallyWithPadding(30);//设置菜单条目间的宽度
 	menu->setPosition(visibleSize.width * 3 / 4, visibleSize.height * 2 / 5);
 	menu->setColor(Color3B::BLACK);
@@ -139,9 +139,4 @@ void StartupScene::serverModeCallBack(Ref* pSender)
 	Director::getInstance()->replaceScene(ServerModeScene::createScene());
 }
 
-//回调函数，跳转到退出游戏
-void StartupScene::menuCloseCallBack(Ref* pSender)
-{
-	Director::getInstance()->end();
-}
 
