@@ -3,16 +3,16 @@
 
 #include "BaseRoundScene.h"
 
-const int battleBoardWidth = 7;
-const int battleBoardHeight = 3;
 const int chessboardCellWidth = 100;
 const int chessboardCellHeight = 100;
-const int preparationBoardWidth = 9;;
 
 class PreparationScene : public BaseRoundScene
 {
 public:
-	static Scene* createScene();
+    PreparationScene(PlayerInfo* playerInfo)
+        : BaseRoundScene(playerInfo) { }
+
+	static Scene* createScene(PlayerInfo* playerInfo);
 	virtual bool init();
 
     void displayBoard();         //显示棋盘
@@ -24,12 +24,23 @@ public:
     void onMouseMove(EventMouse* event);
     void onMouseUp(EventMouse* event);
 
-    CREATE_FUNC(PreparationScene);
+    //CREATE_FUNC(PreparationScene);
+
+    static PreparationScene* create(PlayerInfo* playerInfo) {
+        PreparationScene* pRet = new(std::nothrow) PreparationScene(playerInfo); if (pRet && pRet->init()) {
+            pRet->autorelease(); return pRet;
+        }
+        else {
+            delete pRet; pRet = nullptr; return nullptr;
+        }
+    }
+
+
 private:
     Sprite* battleChessboard[battleBoardWidth][battleBoardWidth];      //战斗区棋盘
     Sprite* battleSelectedChessboard[battleBoardWidth][battleBoardWidth];      //战斗区回显棋盘
-    Sprite* preparationChessboard[preparationBoardWidth];              //备战区棋盘
-    Sprite* preparationSelectedChessboard[preparationBoardWidth];              //备战区回显棋盘
+    Sprite* preparationChessboard[preparationSize];              //备战区棋盘
+    Sprite* preparationSelectedChessboard[preparationSize];              //备战区回显棋盘
 
     // int chessboard[boardWidth][boardHeight];//棋盘英雄
 

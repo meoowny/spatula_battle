@@ -1,8 +1,8 @@
 #include "PreparationScene.h"
 
-Scene* PreparationScene::createScene()
+Scene* PreparationScene::createScene(PlayerInfo* playerInfo)
 {
-    return PreparationScene::create();
+    return PreparationScene::create(playerInfo);
 }
 
 static void problemLoading(const char* filename)
@@ -33,14 +33,14 @@ bool PreparationScene::init()
     //显示商店英雄卡牌
     /*displayStoreLegend();*/
 
+    //显示我方小小英雄
+    displayMyPlayer();
+
     //显示备战区英雄
     displayPrepareLegend();
 
     //显示战斗区英雄
     displayBattleLegend();
-
-    //显示我方小小英雄
-    displayMyPlayer();
 
     //显示棋盘
     displayBoard();
@@ -68,7 +68,7 @@ void PreparationScene::onMouseDown(EventMouse* event)
                 battleChessboard[i][j]->setVisible(true);
             }
         }
-        for (int i = 0; i < preparationBoardWidth; i++) {
+        for (int i = 0; i < preparationSize; i++) {
             preparationChessboard[i]->setVisible(true);
         }
     }
@@ -105,7 +105,7 @@ void PreparationScene::displayBoard()
         }
     }
     //备战区
-    for (int i = 0; i < preparationBoardWidth; i++) {
+    for (int i = 0; i < preparationSize; i++) {
         auto chessboardCell = Sprite::create("chessboardCell.png");      
         preparationChessboard[i] = chessboardCell;
         chessboardCell->setPosition(Vec2(visibleSize.width / 4.8 + i * chessboardCellWidth, visibleSize.height / 4));
@@ -141,7 +141,7 @@ void PreparationScene::boardCellSelected(EventMouse* event)
             }
         }
 
-        for (int i = 0; i < preparationBoardWidth; i++) {
+        for (int i = 0; i < preparationSize; i++) {
             Rect targetRect = preparationSelectedChessboard[i]->getBoundingBox();
             if (targetRect.containsPoint(mouseLocation))
             {
@@ -169,7 +169,7 @@ void PreparationScene::onMouseUp(EventMouse* event)
             }
         }
 
-        for (int i = 0; i < preparationBoardWidth; i++) {
+        for (int i = 0; i < preparationSize; i++) {
             preparationChessboard[i]->setVisible(false);
             preparationSelectedChessboard[i]->setVisible(false);
         }
@@ -199,7 +199,7 @@ void PreparationScene::onMouseUp(EventMouse* event)
         }
 
      
-        for (int i = 0; i < preparationBoardWidth; i++) {
+        for (int i = 0; i < preparationSize; i++) {
             if (!isInBoard) {
                 Rect targetRect = preparationChessboard[i]->getBoundingBox();
                 if (targetRect.containsPoint(mouseLocation))

@@ -43,6 +43,13 @@ bool StartupScene::init()
 		});
 	this->addChild(setupButton);
 
+// 玩家信息类作为一个结点存放在一个持续存在的场景下，用于存储玩家信息
+	// 目前加入场景是为了让 cocos 自己管理指针，务必 addChild
+	auto playerInfo = PlayerInfo::create("Peashooter/Peashooter_0.png", false);
+	playerInfo->setName("playerInfo");
+	playerInfo->setPosition(Vec2::ZERO);
+	playerInfo->setVisible(false);
+	this->addChild(playerInfo);
 
 
 	//设置游戏名标签
@@ -51,16 +58,9 @@ bool StartupScene::init()
 	labelGameName->setColor(Color3B::YELLOW);
 	labelGameName->enableShadow(Color4B::BLACK, Size(8, -8));
 	this->addChild(labelGameName);
-	this->addChild(addMenuItem());//添加菜单
+	this->addChild(addMenuItem(playerInfo));//添加菜单
 
-	// 玩家信息类作为一个结点存放在一个持续存在的场景下，用于存储玩家信息
-	// 目前加入场景是为了让 cocos 自己管理指针，务必 addChild
-	auto playerInfo = PlayerInfo::create("Peashooter/Peashooter_0.png", false);
-	playerInfo->setName("playerInfo");
-	playerInfo->setPosition(Vec2::ZERO);
-	playerInfo->setVisible(false);
-	this->addChild(playerInfo);
-
+	
 	// 放一个帧动画的演示，连续快速点击 Create 按钮有奇效
 	auto menuImage = MenuItemImage::create(
 		"PotatoMine/PotatoMine/PotatoMine_7.png",   // 正常状态的按钮图片
@@ -85,16 +85,16 @@ bool StartupScene::init()
 	return true;
 }
 
-Menu* StartupScene::addMenuItem()
+Menu* StartupScene::addMenuItem(PlayerInfo* playerInfo)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();//获得屏幕大小
 	//设置联机模式标签
 	auto labelOnlineMode = Label::createWithSystemFont("联机模式", "STHUPO.TTF", 120);
-	auto itemOnlineMode = MenuItemLabel::create(labelOnlineMode, CC_CALLBACK_1(StartupScene::onlineModeCallBack, this));
+	auto itemOnlineMode = MenuItemLabel::create(labelOnlineMode, StartupScene::onlineModeCallBack);
 
 	//设置单机模式标签
 	auto labelStandaloneMode = Label::createWithSystemFont("单机模式", "STHUPO.TTF", 120);
-	auto itemStandaloneMode = MenuItemLabel::create(labelStandaloneMode, CC_CALLBACK_1(StartupScene::standaloneModeCallBack, this));
+	auto itemStandaloneMode = MenuItemLabel::create(labelStandaloneMode, CC_CALLBACK_1(StartupScene::standaloneModeCallBack, playerInfo));
 
 	//添加退出游戏标签
 	auto itemMenuClose = MenuItemFont::create(
@@ -123,9 +123,9 @@ void StartupScene::onlineModeCallBack(Ref* pSender)
 }
 
 //回调函数，跳转到单机模式
-void StartupScene::standaloneModeCallBack(Ref* pSender)
+void StartupScene::standaloneModeCallBack(PlayerInfo* playerInfo, Ref* pSender)
 {
 	// 暂时跳转至准备场景，之后实现一个 waitRoom 场景，Preparation 场景在这个场景的基础上 push 和 pop
-	Director::getInstance()->pushScene(PreparationScene::createScene());
+	Director::getInstance()->pushScene(PreparationScene::createScene(playerInfo));
 }
 

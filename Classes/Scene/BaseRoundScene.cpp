@@ -155,21 +155,46 @@ void BaseRoundScene::displayPrepareLegend()
     //测试用
 
     //待修改
+    auto dirs = Director::getInstance()->getRunningScene();
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    for (int i = 0; i < 9; i++) {
-        Sprite* preparationBackground = Sprite::create("Peashooter_0.png");
-        if (preparationBackground == nullptr)
-        {
-            problemLoading("'Peashooter_0.png'");
+    auto player = dynamic_cast<Player*>(this->getChildByName("player1"));
+    if (player == nullptr) {
+        exit(0);
+    }
+
+    string id = "0";
+    int count = 0;
+    for (auto i : player->getPreparedLegends()) {
+        // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
+        if (i == nullptr)
+            continue;
+        auto legend = Legend::create(i);
+        if (legend == nullptr) {
+            problemLoading(legend->getImagePath());
         }
-        else
-        {
-            sprites.push_back(preparationBackground);
-            preparationBackground->setPosition(Vec2(visibleSize.width / 4.8 + i * 100, visibleSize.height / 4));
-            //preparationBackground->setScale(5);
-            addChild(preparationBackground, 0);
+		else {
+			legend->setName(id);
+			sprites.push_back(legend);
+			legend->setPosition(Vec2(visibleSize.width / 4.8 + count * 100, visibleSize.height / 4));
+            addChild(legend);
+			id = '0' + count;
+			count++;
         }
     }
+    //for (int i = 0; i < preparationSize; i++) {
+    //    Sprite* preparationBackground = Sprite::create("Peashooter_0.png");
+    //    if (preparationBackground == nullptr)
+    //    {
+    //        problemLoading("'Peashooter_0.png'");
+    //    }
+    //    else
+    //    {
+    //        sprites.push_back(preparationBackground);
+    //        preparationBackground->setPosition(Vec2(visibleSize.width / 4.8 + i * 100, visibleSize.height / 4));
+    //        //preparationBackground->setScale(5);
+    //        addChild(preparationBackground, 0);
+    //    }
+    //}
 
 }
 
@@ -184,15 +209,18 @@ void BaseRoundScene::displayMyPlayer()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    myPlayer = Sprite::create("Peashooter_0.png");
-    if (myPlayer == nullptr)
-    {
-        problemLoading("'Peashooter_0.png'");
+
+
+    //myPlayer = Sprite::create("Peashooter_0.png");
+    auto myPlayer = Player::create(_playerInfo1);
+    if (myPlayer == nullptr)    {
+        problemLoading(myPlayer->getResourceName().c_str());
     }
     else
     {
+        myPlayer->setName("player1");
         myPlayer->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 2.55, visibleSize.height / 3.2));
-        addChild(myPlayer, 3);
+        this->addChild(myPlayer, 3);
     }
     //添加鼠标监听器
     auto listener = EventListenerMouse::create();
@@ -241,6 +269,7 @@ void BaseRoundScene::moveMyPlayer(EventMouse* event)
 
     // 创建精灵的运动动作
     auto moveAction = MoveTo::create(duration, targetPosition);
+    auto myPlayer = dirs->getChildByName("player1");
     myPlayer->runAction(moveAction);
 
     myPlayer->stopAllActions();    // 停止之前的动作
@@ -271,9 +300,8 @@ void BaseRoundScene::refreshButtonClickCallback(Ref* pSender)
 void BaseRoundScene::buyLegendCallback(Ref* pSender)
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    //一、首先判断钱够不够
 
-    //return;
+    //buyLegend();
 
     //二、其次判断备战区是否已满
 
@@ -284,6 +312,10 @@ void BaseRoundScene::buyLegendCallback(Ref* pSender)
 
 
     //四、然后，才在备战区添加一位英雄
+
+ 
+
+
     auto prepareLegend = Sprite::create("HelloWorld.png");
     prepareLegend->setScale(2.2);
     prepareLegend->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 4, visibleSize.height / 10));

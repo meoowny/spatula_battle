@@ -15,6 +15,8 @@ const int levelUpExp[maxLevel] = { 0, 4, 10, 20, 40, 50, 80, 120, 160, 210 };
 const int purchaseExpCost = 4;
 // TODO: 记得改为 include
 const int preparationSize = 9;
+const int battleBoardWidth = 7;
+const int battleBoardHeight = 3;
 
 enum Region {BOARD, PREPARATION};
 

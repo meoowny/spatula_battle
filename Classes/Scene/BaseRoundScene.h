@@ -13,6 +13,9 @@ using namespace ui;
 class BaseRoundScene : public Scene
 {
 public:
+    BaseRoundScene(PlayerInfo* playerInfo1 = NULL, PlayerInfo* playerInfo2 = NULL)
+        :_playerInfo1(playerInfo1), _playerInfo2(playerInfo2){}
+
     void displayBackground();    //显示背景
     void displayStore();         //显示商店
     void displayBuyButton();     //显示购买经验值按钮
@@ -45,10 +48,13 @@ protected:
     //待修改 只是测试用
     vector<Sprite*> sprites;
 
+    PlayerInfo* _playerInfo1;
+    PlayerInfo* _playerInfo2;
+
 private:
     Label* labelRemainTime;     //显示剩余时间的标签
     int remainingTimeInSeconds; //剩余时间
-    Sprite* myPlayer;           //己方小小英雄
+    //Sprite* myPlayer;           //己方小小英雄
 
 
 

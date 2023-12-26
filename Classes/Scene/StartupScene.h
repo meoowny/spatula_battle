@@ -13,11 +13,11 @@ public:
 	static Scene* createScene();//创建first_scene的场景
 	virtual bool init();//first_scene的初始化
 	CREATE_FUNC(StartupScene);//创建first_scene的create方法
-	Menu* addMenuItem();//添加菜单条目，并返回菜单
-	void onlineModeCallBack(Ref* pSender);//跳转到联机模式
-	void standaloneModeCallBack(Ref* pSender);//跳转到单机模式
+	Menu* addMenuItem(PlayerInfo* playerInfo);//添加菜单条目，并返回菜单
+	static void onlineModeCallBack(Ref* pSender);//跳转到联机模式
+	static void standaloneModeCallBack(PlayerInfo* playerInfo, Ref* pSender);//跳转到单机模式
 	//void menuCloseCallBack(Ref* pSender);//跳转到退出游戏
-	void onSetupButtonClick(Ref* psender);
+	static void onSetupButtonClick(Ref* psender);
 };
 
 #endif //__SATRTUP_SCENE_H__
