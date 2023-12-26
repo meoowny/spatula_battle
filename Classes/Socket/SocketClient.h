@@ -5,6 +5,8 @@
 class SocketClient : public SocketBase
 {
 public:
+	//char ID;//存储该用户端玩家ID
+
 	static SocketClient* construct();
 	void destroy();
 

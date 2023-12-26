@@ -155,11 +155,21 @@ void SocketServer::newClientConnected(HSocket socket)
 		SocketMessage* msg = new SocketMessage(NEW_CONNECTION, (unsigned char*)&socket, sizeof(HSocket));
 		_UIMessageQueue.push_back(msg);
 	}
+	_mutex.lock();
+
 	//将当前用户的序号传给当前用户端，用来当做该用户端的id
-	char id[2] = { 0 };
-	id[0] = 48 + _clientSockets.size();
-	this->sendMessage(socket, id, 2);
-	//
+	char ID[2] = { 0 };
+	ID[0] = 'i';//作为标识符，用来区分传递的信息是id还是总人数
+	ID[1] = 48 + _clientSockets.size();
+	this->sendMessage(socket, ID, 2);
+	//使用map将每个玩家的id与其socket相对应
+	idToSocket.insert(std::map<char, HSocket>::value_type(ID[1], socket));
+	//将当前玩家总人数传给每个玩家
+	char playerNum[2] = { 0 };
+	playerNum[0] = 'a';
+	playerNum[1] = 48 + _clientSockets.size();
+	this->sendMessage(playerNum, 2);
+	_mutex.unlock();
 }
 
 void SocketServer::recvMessage(HSocket socket)
@@ -188,7 +198,7 @@ void SocketServer::recvMessage(HSocket socket)
 				_UIMessageQueue.push_back(msg);
 			}
 			//将收到的信息传给所有客户端
-			this->sendMessage(buff, ret);
+			//this->sendMessage(buff, ret);
 
 		}
 	}
