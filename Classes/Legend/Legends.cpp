@@ -1,6 +1,6 @@
 #include "Legend/Legends.h"
 
-int Aphelios::ability_attack()
+int Aphelios::abilityAttack()
 {
 	int ability_damage;
 	int basic_damage;
@@ -24,12 +24,12 @@ int Aphelios::ability_attack()
 	}
 	else {
 		_mana = 0;
-		ability_damage = basic_damage + 0.2 * _attack_damage;
+		ability_damage = basic_damage + 0.2 * getAttackDamage();
 		return ability_damage;
 	}
 }
 
-int Caitlyn::ability_attack() {
+int Caitlyn::abilityAttack() {
 	int ability_damage;
 	int basic_damage;
 	switch (_level) {
@@ -52,12 +52,12 @@ int Caitlyn::ability_attack() {
 	}
 	else {
 		_mana = 0;
-		ability_damage = basic_damage + 0.3 * _attack_damage;
+		ability_damage = basic_damage + 0.3 * getAttackDamage();
 		return ability_damage;
 	}
 }
 
-int Ezreal::ability_attack()
+int Ezreal::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -80,13 +80,13 @@ int Ezreal::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.9 * _attack_damage;
+		result = basic_damage + 0.9 * getAttackDamage();
 		return result;
 	}
 
 }
 
-int Lucian::ability_attack()
+int Lucian::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -109,12 +109,12 @@ int Lucian::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 2 * _attack_damage;
+		result = basic_damage + 2 * getAttackDamage();
 		return result;
 	}
 }
 
-int Miss_Fortune::ability_attack()
+int Miss_Fortune::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -137,12 +137,12 @@ int Miss_Fortune::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.85 * _attack_damage;
+		result = basic_damage + 0.85 * getAttackDamage();
 		return result;
 	}
 }
 
-int Graves::ability_attack()
+int Graves::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -165,12 +165,12 @@ int Graves::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.75 * _attack_damage;
+		result = basic_damage + 0.75 * getAttackDamage();
 		return result;
 	}
 }
 
-int Varus::ability_attack()
+int Varus::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -193,7 +193,7 @@ int Varus::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 3 * _attack_damage;
+		result = basic_damage + 3 * getAttackDamage();
 		return result;
 	}
 }
@@ -201,7 +201,7 @@ int Varus::ability_attack()
 
 
 //ap
-int Katarina::ability_attack()
+int Katarina::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -224,12 +224,12 @@ int Katarina::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 2.85 * _attack_damage;
+		result = basic_damage + 2.85 * getAttackDamage();
 		return result;
 	}
 }
 
-int Akali::ability_attack()
+int Akali::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -252,12 +252,12 @@ int Akali::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.9 * _attack_damage;
+		result = basic_damage + 0.9 * getAttackDamage();
 		return result;
 	}
 }
 
-int Annie::ability_attack()
+int Annie::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -280,12 +280,12 @@ int Annie::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.65 * _attack_damage;
+		result = basic_damage + 0.65 * getAttackDamage();
 		return result;
 	}
 }
 
-int Viktor::ability_attack()
+int Viktor::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -308,12 +308,12 @@ int Viktor::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.9 * _attack_damage;
+		result = basic_damage + 0.9 * getAttackDamage();
 		return result;
 	}
 }
 
-int Sona::ability_attack()
+int Sona::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -336,12 +336,12 @@ int Sona::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.5 * _attack_damage;
+		result = basic_damage + 0.5 * getAttackDamage();
 		return result;
 	}
 }
 
-int Jhin::ability_attack()
+int Jhin::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -364,12 +364,12 @@ int Jhin::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 2 * _attack_damage;
+		result = basic_damage + 2 * getAttackDamage();
 		return result;
 	}
 }
 
-int Viego::ability_attack()
+int Viego::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -392,12 +392,12 @@ int Viego::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 2 * _attack_damage;
+		result = basic_damage + 2 * getAttackDamage();
 		return result;
 	}
 }
 
-int Qiyana::ability_attack()
+int Qiyana::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -420,12 +420,12 @@ int Qiyana::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 5 * _attack_damage;
+		result = basic_damage + 5 * getAttackDamage();
 		return result;
 	}
 }
 
-int Kayn::ability_attack()
+int Kayn::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -448,12 +448,12 @@ int Kayn::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 2 * _attack_damage;
+		result = basic_damage + 2 * getAttackDamage();
 		return result;
 	}
 }
 
-int Bel_Veth::ability_attack()
+int Bel_Veth::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -476,12 +476,12 @@ int Bel_Veth::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 4 * _attack_damage;
+		result = basic_damage + 4 * getAttackDamage();
 		return result;
 	}
 }
 
-int Ekko::ability_attack()
+int Ekko::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -504,12 +504,12 @@ int Ekko::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 1.5 * _attack_damage;
+		result = basic_damage + 1.5 * getAttackDamage();
 		return result;
 	}
 }
 
-int Riven::ability_attack()
+int Riven::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -532,12 +532,12 @@ int Riven::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 1.8 * _attack_damage;
+		result = basic_damage + 1.8 * getAttackDamage();
 		return result;
 	}
 }
 
-int Fiora::ability_attack()
+int Fiora::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -560,12 +560,12 @@ int Fiora::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 4 * _attack_damage;
+		result = basic_damage + 4 * getAttackDamage();
 		return result;
 	}
 }
 
-int Camille::ability_attack()
+int Camille::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -588,12 +588,12 @@ int Camille::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 6 * _attack_damage;
+		result = basic_damage + 6 * getAttackDamage();
 		return result;
 	}
 }
 
-int Irelia::ability_attack()
+int Irelia::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -616,12 +616,12 @@ int Irelia::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.9 * _attack_damage;
+		result = basic_damage + 0.9 * getAttackDamage();
 		return result;
 	}
 }
 
-int Sett::ability_attack()
+int Sett::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -644,12 +644,12 @@ int Sett::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 3 * _attack_damage;
+		result = basic_damage + 3 * getAttackDamage();
 		return result;
 	}
 }
 
-int Ganplank::ability_attack()
+int Ganplank::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -672,12 +672,12 @@ int Ganplank::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 2 * _attack_damage;
+		result = basic_damage + 2 * getAttackDamage();
 		return result;
 	}
 }
 
-int Thresh::ability_attack()
+int Thresh::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -700,12 +700,12 @@ int Thresh::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 1 * _attack_damage;
+		result = basic_damage + 1 * getAttackDamage();
 		return result;
 	}
 }
 
-int Renata_Glasc::ability_attack()
+int Renata_Glasc::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -728,12 +728,12 @@ int Renata_Glasc::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 1 * _attack_damage;
+		result = basic_damage + 1 * getAttackDamage();
 		return result;
 	}
 }
 
-int Rakan::ability_attack()
+int Rakan::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -756,12 +756,12 @@ int Rakan::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 1 * _attack_damage;
+		result = basic_damage + 1 * getAttackDamage();
 		return result;
 	}
 }
 
-int Bard::ability_attack()
+int Bard::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -784,12 +784,12 @@ int Bard::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 3 * _attack_damage;
+		result = basic_damage + 3 * getAttackDamage();
 		return result;
 	}
 }
 
-int Nautilus::ability_attack()
+int Nautilus::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -812,12 +812,12 @@ int Nautilus::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.8 * _attack_damage;
+		result = basic_damage + 0.8 * getAttackDamage();
 		return result;
 	}
 }
 
-int Pyke::ability_attack()
+int Pyke::abilityAttack()
 {
 	int basic_damage;
 	int result;
@@ -840,7 +840,7 @@ int Pyke::ability_attack()
 	}
 	else {
 		_mana = 0;
-		result = basic_damage + 0.8 * _attack_damage;
+		result = basic_damage + 0.8 * getAttackDamage();
 		return result;
 	}
 }
