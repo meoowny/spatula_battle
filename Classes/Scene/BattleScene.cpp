@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 #include "BattleScene.h"
 
 Scene* BattleScene::createScene(PlayerInfo* playerInfo1, PlayerInfo* playerInfo2)
@@ -14,7 +12,7 @@ static void problemLoading(const char* filename)
 }
 
 BattleScene::BattleScene(PlayerInfo* playerInfo1, PlayerInfo* playerInfo2)
-    : BaseRoundScene(playerInfo1, playerInfo2)
+    : BattleScene(playerInfo1, playerInfo2)
 {
    /* auto dirs = Director::getInstance()->getRunningScene();
     auto myPlayer = dynamic_cast<Player*>(this->getChildByName("player1"));

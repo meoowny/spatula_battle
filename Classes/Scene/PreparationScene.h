@@ -5,7 +5,7 @@
 
 const int chessboardCellWidth = 100;
 const int chessboardCellHeight = 100;
-const int preparationBoardWidth = 9;;
+const int preparationBoardWidth = 9;
 
 class PreparationScene : public BaseRoundScene
 {
