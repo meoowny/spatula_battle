@@ -15,11 +15,11 @@ Legend* Legend::create(LegendInfo* const info)
 
 bool Legend::levelUp()
 {
-	if (_level >= 3) {
+	if (_info->_level >= 3) {
 		return false;
 	}
 	else {
-		_level++;
+		_info->_level++;
 		_info->_most_health *= 1.1;
 		_health *= 1.1;
 		//_critical_strike_chance += 10;
@@ -32,7 +32,7 @@ bool Legend::levelUp()
 int Legend::getCost() const
 {
 	int result = _info->_cost;
-	for (int i = 1; i < _level; i++) {
+	for (int i = 1; i < _info->_level; i++) {
 		result = result * 3 - 1;
 	}
 	return result;

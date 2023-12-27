@@ -145,7 +145,8 @@ void BattleScene::performBattlingLogic(float delta)
 
             // ÒÆ¶¯Âß¼­
           
-        Vec2 destination = findNearestEnemy(chessBoard);
+
+        //Vec2 destination = findMovePath(chessBoard);
 //        piece->moveTo(destination);
 
 
@@ -182,10 +183,14 @@ void BattleScene::performBattlingLogic(float delta)
 }
 
 
-Vec2 BattleScene::findNearestEnemy(int chessBoard[battleBoardWidth][battleBoardHeight * 2])
-{
-   
-}
+//Vec2 BattleScene::findNearestEnemy(int chessBoard[battleBoardWidth][battleBoardHeight * 2])
+//{
+//   
+//}
+
+
+
+
 //
 //void GameScene::checkCollisions()
 //{
@@ -233,4 +238,6 @@ Vec2 BattleScene::findNearestEnemy(int chessBoard[battleBoardWidth][battleBoardH
 //{
 //    // ÓÎÏ·½áÊøÂß¼­
 //    // ...
+
 //}
+

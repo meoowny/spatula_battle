@@ -87,14 +87,25 @@ bool StartupScene::init()
 
 Menu* StartupScene::addMenuItem(PlayerInfo* playerInfo)
 {
+	//auto playerInfo = this->getChildByName("playerInfo");
+	if (playerInfo == NULL) {
+		throw "Empty playerInfo in StartupScene::addMenuItem";
+	}
+
 	Size visibleSize = Director::getInstance()->getVisibleSize();//获得屏幕大小
+	//设置单机模式标签
+	auto labelStandaloneMode = Label::createWithSystemFont("单机模式", "STHUPO.TTF", 120);
+	auto itemStandaloneMode = MenuItemLabel::create(labelStandaloneMode, CC_CALLBACK_1(StartupScene::standaloneModeCallBack, playerInfo));
+
 	//设置联机模式标签
 	auto labelOnlineMode = Label::createWithSystemFont("联机模式", "STHUPO.TTF", 120);
 	auto itemOnlineMode = MenuItemLabel::create(labelOnlineMode, StartupScene::onlineModeCallBack);
 
-	//设置单机模式标签
-	auto labelStandaloneMode = Label::createWithSystemFont("单机模式", "STHUPO.TTF", 120);
-	auto itemStandaloneMode = MenuItemLabel::create(labelStandaloneMode, CC_CALLBACK_1(StartupScene::standaloneModeCallBack, playerInfo));
+	//添加服务器标签
+	auto labelServerMode = Label::createWithSystemFont("服务模式", "STHUPO.TTF", 120);
+	auto itemServerMode = MenuItemLabel::create(labelServerMode, [](Ref* sender) {
+		Director::getInstance()->replaceScene(ServerModeScene::createScene());
+		});
 
 	//添加退出游戏标签
 	auto itemMenuClose = MenuItemFont::create(
@@ -109,7 +120,7 @@ Menu* StartupScene::addMenuItem(PlayerInfo* playerInfo)
 	itemMenuClose->setName("menuItem1");
 
 	//将标签添加到菜单里
-	auto menu = Menu::create(itemOnlineMode, itemStandaloneMode, itemMenuClose, NULL);
+	auto menu = Menu::create(itemStandaloneMode, itemOnlineMode, itemServerMode, itemMenuClose, NULL);
 	menu->alignItemsVerticallyWithPadding(30);//设置菜单条目间的宽度
 	menu->setPosition(visibleSize.width * 3 / 4, visibleSize.height * 2 / 5);
 	menu->setColor(Color3B::BLACK);
@@ -119,7 +130,7 @@ Menu* StartupScene::addMenuItem(PlayerInfo* playerInfo)
 //回调函数，跳转到联机模式
 void StartupScene::onlineModeCallBack(Ref* pSender)
 {
-	//Director::getInstance()->replaceScene(second_scene::createScene());
+	Director::getInstance()->replaceScene(OnlineModeScene::createScene());
 }
 
 //回调函数，跳转到单机模式
@@ -130,5 +141,16 @@ void StartupScene::standaloneModeCallBack(PlayerInfo* playerInfo, Ref* pSender)
 
 	//Director::getInstance()->pushScene(BattleScene::createScene(playerInfo, playerInfo));
 
+	//Director::getInstance()->pushScene(PreparationScene::createScene(playerInfo));
+
+	//Director::getInstance()->pushScene(BattleScene::createScene(playerInfo, playerInfo));
+
+
 }
+
+//回调函数，跳转到服务器模式
+//void StartupScene::serverModeCallBack(Ref* pSender)
+//{
+//}
+
 

@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include"ui/CocosGUI.h"
 #include "Scene/PreparationScene.h"
+#include "Scene/ServerModeScene.h"
+#include "Scene/OnlineModeScene.h"
 #include "Scene/BattleScene.h"
 
 using namespace cocos2d;
