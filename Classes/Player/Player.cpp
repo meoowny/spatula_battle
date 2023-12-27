@@ -32,7 +32,7 @@ PlayerInfo::~PlayerInfo()
 	}
 }
 
-PlayerInfo* PlayerInfo::create(const string& filename, bool isAI)
+PlayerInfo* PlayerInfo::create(const std::string& filename, bool isAI)
 {
 	PlayerInfo* info = new (std::nothrow) PlayerInfo(filename, isAI);
 	if (info && info->init()) {

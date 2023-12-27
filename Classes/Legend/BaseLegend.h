@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <Windows.h>
-using namespace std;
+//using namespace std;
 using namespace cocos2d;
 
 // 类似于 Player 类，Legend 类也有对应的 LegendInfo，但 LegendInfo 存放英雄的固有属性，Legend 存放的是实时属性，每回合会刷新
@@ -15,13 +15,13 @@ class LegendInfo
 	friend class Legend;
 
 public:
-	LegendInfo(const string& name, int most_health, int cost, int attackDamage, int armor, int criticalStrikeChance, int range)
+	LegendInfo(const std::string& name, int most_health, int cost, int attackDamage, int armor, int criticalStrikeChance, int range)
 		:_name(name), _most_health(most_health), _cost(cost),
 		_attack_damage(attackDamage), _armor(armor), _critical_strike_chance(criticalStrikeChance), _range(range), _level(1)
 	{ }
 
 private:
-	const string _name;
+	const std::string _name;
 	int _most_health;
 	const int _cost;
 	//派生类中的初始化列表
@@ -37,7 +37,7 @@ class Legend: public Sprite
 	friend class Player;
 public:
 	//get函数
-	virtual string getLegendName() const { return _info->_name; }
+	virtual std::string getLegendName() const { return _info->_name; }
 	virtual int getHealth() const;
 	virtual int getMana() const { return _mana; }
 	virtual int getLevel() const { return _info->_level; }

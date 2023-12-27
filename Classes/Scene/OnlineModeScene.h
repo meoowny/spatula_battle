@@ -4,6 +4,7 @@
 #include "socket/SocketClient.h"
 #include <string>
 #include <sstream>
+#include "Player/Player.h"
 
 class OnlineModeScene : public Layer
 {

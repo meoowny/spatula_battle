@@ -8,13 +8,13 @@
 #include "Legend/Legends.h"
 
 USING_NS_CC;
-using namespace std;
+//using namespace std;
 
 template <int size>
-using LegendInfoArray = array<LegendInfo*, size>;
+using LegendInfoArray = std::array<LegendInfo*, size>;
 template <int row, int col>
-using LegendInfoMatrix = array<array<LegendInfo*, col>, row>;
-using Position = pair<int, int>;
+using LegendInfoMatrix = std::array<std::array<LegendInfo*, col>, row>;
+using Position = std::pair<int, int>;
 
 const int maxLevel = 10;
 const int levelUpExp[maxLevel] = { 0, 4, 10, 20, 40, 50, 80, 120, 160, 210 };
@@ -32,16 +32,16 @@ class PlayerInfo: public Node
 	friend class Player;
 
 public:
-	PlayerInfo(const string& filename, bool isAI);
+	PlayerInfo(const std::string& filename, bool isAI);
 	~PlayerInfo();
 
-	static PlayerInfo* create(const string& filename, bool isAI);
+	static PlayerInfo* create(const std::string& filename, bool isAI);
 private:
 	bool _isAI;
 	int _coins;
 	int _experience;
 	int _health;
-	const string _image_path;
+	const std::string _image_path;
 	//array<LegendWithPlace> _battlingLegends;
 	//array<Legend*> _preparedLegends;
 	LegendInfoMatrix<battleBoardHeight, battleBoardWidth> _battlingLegends;

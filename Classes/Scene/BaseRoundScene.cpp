@@ -162,7 +162,7 @@ void BaseRoundScene::displayMyPrepareLegend()
         exit(0);
     }
 
-    string id = "0";
+    std::string id = "0";
     int count = 0;
     for (auto i : player->getPreparedLegends()) {
         // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试

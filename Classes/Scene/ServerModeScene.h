@@ -1,8 +1,8 @@
 #ifndef __SERVERMODE_SCENE_H__
 #define __SERVERMODE_SCENE_H__
 
-#include "socket/SocketServer.h"
-
+#include "Socket/SocketServer.h"
+#include "Player/Player.h"
 
 class ServerModeScene :public Layer
 {
@@ -14,11 +14,15 @@ public:
 	void onEnter();
 	void onExit();
 
-protected:
-	void initNetwork();//网络初始化
+	void startGameCallBack(Ref* pSender);//跳转到游戏开始
+	void givePlayerInfoCallBack(Ref* pSender);//分配玩家信息
 
 private:
 	SocketServer* server;
+
+protected:
+	void initNetwork();//网络初始化
+
 };
 
 #endif

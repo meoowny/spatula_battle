@@ -48,7 +48,7 @@ public:
 //protected:
 
     //待修改 只是测试用
-    vector<Sprite*> sprites;
+    std::vector<Sprite*> sprites;
 
     PlayerInfo* _playerInfo1;
     PlayerInfo* _playerInfo2;
