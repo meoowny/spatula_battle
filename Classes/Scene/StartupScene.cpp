@@ -130,7 +130,14 @@ void StartupScene::onlineModeCallBack(Ref* pSender)
 void StartupScene::standaloneModeCallBack(Ref* pSender)
 {
 	// 暂时跳转至准备场景，之后实现一个 waitRoom 场景，Preparation 场景在这个场景的基础上 push 和 pop
+<<<<<<< Updated upstream
 	Director::getInstance()->pushScene(PreparationScene::createScene());
+=======
+	//Director::getInstance()->pushScene(PreparationScene::createScene(playerInfo));
+
+	Director::getInstance()->pushScene(BattleScene::createScene(playerInfo, playerInfo));
+
+>>>>>>> Stashed changes
 }
 
 //回调函数，跳转到服务器模式
