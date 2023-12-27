@@ -17,7 +17,7 @@ class LegendInfo
 public:
 	LegendInfo(const string& name, int most_health, int cost, int attackDamage, int armor, int criticalStrikeChance, int range)
 		:_name(name), _most_health(most_health), _cost(cost),
-		_attack_damage(attackDamage), _armor(armor), _critical_strike_chance(criticalStrikeChance), _range(range)
+		_attack_damage(attackDamage), _armor(armor), _critical_strike_chance(criticalStrikeChance), _range(range), _level(1)
 	{ }
 
 private:
@@ -29,6 +29,7 @@ private:
 	int _armor;
 	int _critical_strike_chance;
 	int _range;
+	int _level;
 };
 
 class Legend: public Sprite
@@ -39,7 +40,7 @@ public:
 	virtual string getLegendName() const { return _info->_name; }
 	virtual int getHealth() const;
 	virtual int getMana() const { return _mana; }
-	virtual int getLevel() const { return _level; }
+	virtual int getLevel() const { return _info->_level; }
 	virtual int getAttackDamage() const;
 	virtual int getArmor() const { return _info->_armor; }
 	virtual int getCriticalStrike_Chance() const { return _info->_critical_strike_chance; }
@@ -57,7 +58,7 @@ public:
 	static Legend* create(LegendInfo* const info);
 
 protected:
-	Legend(LegendInfo* const info) : _info(info), _health(_info->_most_health), _mana(0), _level(1)
+	Legend(LegendInfo* const info) : _info(info), _health(_info->_most_health), _mana(0)
 	{ }
 
 	//Legend(const string& name, int most_health, int cost)
@@ -69,7 +70,6 @@ protected:
 	LegendInfo* const _info;
 	int _health;
 	int _mana;
-	int _level;
 
 	//const string _name;
 	//int _most_health;

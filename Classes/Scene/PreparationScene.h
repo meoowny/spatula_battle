@@ -3,8 +3,6 @@
 
 #include "BaseRoundScene.h"
 
-const int battleBoardWidth = 7;
-const int battleBoardHeight = 3;
 const int chessboardCellWidth = 100;
 const int chessboardCellHeight = 100;
 const int preparationBoardWidth = 9;;

@@ -3,16 +3,32 @@
 USING_NS_CC;
 
 PlayerInfo::PlayerInfo(const std::string& filename, bool isAI)
-	: _isAI(isAI), _coins(5), _health(100), _preparedLegends(preparationSize), _image_path(filename)
-{ }
+	: _isAI(isAI), _coins(5), _health(100), _image_path(filename)
+{
+	for (auto& i : _preparedLegends) {
+		i = NULL;
+	}
+	for (auto& i : _battlingLegends) {
+		for (auto& j : i) {
+			j = NULL;
+		}
+	}
+}
 
 PlayerInfo::~PlayerInfo()
 {
+	// array 析构有问题，去构造改
 	for (auto i : _battlingLegends) {
-		delete i.legend;
+		for (auto j : i) {
+			if (j != NULL) {
+				delete j;
+			}
+		}
 	}
 	for (auto i : _preparedLegends) {
-		delete i;
+		if (i != NULL) {
+			delete i;
+		}
 	}
 }
 
@@ -81,6 +97,7 @@ bool Player::buyLegend(Legend* legend)
 				break;
 			}
 		}
+
 		if (isFull) {
 			return false;
 		}
@@ -90,9 +107,35 @@ bool Player::buyLegend(Legend* legend)
 	}
 }
 
-bool Player::sellLegend(Legend* legend)
+bool Player::sellLegend(const Position& position)
 {
 	// 销毁指针
+	auto legendInfo = _info->_battlingLegends[position.first][position.second];
+	if (legendInfo == NULL) {
+		return false;
+	}
+
+	auto tmpLegend = Legend::create(legendInfo);
+	_info->_coins += tmpLegend->getCost();
+
+	delete legendInfo;
+
+	return true;
+}
+
+bool Player::sellLegend(const int position)
+{
+	// 销毁指针
+	auto legendInfo = _info->_preparedLegends[position];
+	if (legendInfo == NULL) {
+		return false;
+	}
+
+	auto tmpLegend = Legend::create(legendInfo);
+	_info->_coins += tmpLegend->getCost();
+
+	delete legendInfo;
+
 	return true;
 }
 
@@ -101,9 +144,48 @@ bool Player::checkout(bool isWinner, int attack)
 	return true;
 }
 
-bool Player::moveLegend(Legend* legend, Region src, Region dst, int dst_x, int dst_y)
+LegendInfo* Player::moveLegend(const Position& src, const Position& dst)
 {
-	return true;
+	if (_info->_battlingLegends[src.first][src.second] == NULL
+		|| _info->_battlingLegends[dst.first][dst.second] != NULL) {
+		return NULL;
+	}
+	_info->_battlingLegends[dst.first][dst.second] = _info->_battlingLegends[src.first][src.second];
+	_info->_battlingLegends[src.first][src.second] = NULL;
+	return _info->_battlingLegends[dst.first][dst.second];
+}
+
+LegendInfo* Player::moveLegend(const int src, const Position& dst)
+{
+	if (_info->_preparedLegends[src] == NULL
+		|| _info->_battlingLegends[dst.first][dst.second] != NULL) {
+		return NULL;
+	}
+	_info->_battlingLegends[dst.first][dst.second] = _info->_preparedLegends[src];
+	_info->_preparedLegends[src] = NULL;
+	return _info->_battlingLegends[dst.first][dst.second];
+}
+
+LegendInfo* Player::moveLegend(const Position& src, const int dst)
+{
+	if (_info->_battlingLegends[src.first][src.second] == NULL
+		|| _info->_preparedLegends[dst] != NULL) {
+		return NULL;
+	}
+	_info->_preparedLegends[dst] = _info->_battlingLegends[src.first][src.second];
+	_info->_battlingLegends[src.first][src.second] = NULL;
+	return _info->_preparedLegends[dst];
+}
+
+LegendInfo* Player::moveLegend(const int src, const int dst)
+{
+	if (_info->_preparedLegends[src] == NULL
+		|| _info->_preparedLegends[dst] != NULL) {
+		return NULL;
+	}
+	_info->_preparedLegends[dst] = _info->_preparedLegends[src];
+	_info->_preparedLegends[src] = NULL;
+	return _info->_preparedLegends[dst];
 }
 
 void testCallBack(PlayerInfo* playerInfo, Ref* sender) {

@@ -4,7 +4,7 @@ int Aphelios::abilityAttack()
 {
 	int ability_damage;
 	int basic_damage;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 125;
 			break;
@@ -32,7 +32,7 @@ int Aphelios::abilityAttack()
 int Caitlyn::abilityAttack() {
 	int ability_damage;
 	int basic_damage;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 200;
 			break;
@@ -61,7 +61,7 @@ int Ezreal::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 200;
 			break;
@@ -90,7 +90,7 @@ int Lucian::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 165;
 			break;
@@ -118,7 +118,7 @@ int Miss_Fortune::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 160;
 			break;
@@ -146,7 +146,7 @@ int Graves::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 250;
 			break;
@@ -174,7 +174,7 @@ int Varus::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 120;
 			break;
@@ -205,7 +205,7 @@ int Katarina::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 375;
 			break;
@@ -233,7 +233,7 @@ int Akali::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 225;
 			break;
@@ -261,7 +261,7 @@ int Annie::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 150;
 			break;
@@ -289,7 +289,7 @@ int Viktor::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 225;
 			break;
@@ -317,7 +317,7 @@ int Sona::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 150;
 			break;
@@ -345,7 +345,7 @@ int Jhin::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 150;
 			break;
@@ -373,7 +373,7 @@ int Viego::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 300;
 			break;
@@ -401,7 +401,7 @@ int Qiyana::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 100;
 			break;
@@ -429,7 +429,7 @@ int Kayn::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 300;
 			break;
@@ -457,7 +457,7 @@ int Bel_Veth::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 100;
 			break;
@@ -485,7 +485,7 @@ int Ekko::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 150;
 			break;
@@ -513,7 +513,7 @@ int Riven::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 300;
 			break;
@@ -541,7 +541,7 @@ int Fiora::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 200;
 			break;
@@ -569,7 +569,7 @@ int Camille::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 300;
 			break;
@@ -597,7 +597,7 @@ int Irelia::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 125;
 			break;
@@ -625,7 +625,7 @@ int Sett::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 125;
 			break;
@@ -653,7 +653,7 @@ int Ganplank::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 120;
 			break;
@@ -681,7 +681,7 @@ int Thresh::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 250;
 			break;
@@ -709,7 +709,7 @@ int Renata_Glasc::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 100;
 			break;
@@ -737,7 +737,7 @@ int Rakan::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 70;
 			break;
@@ -765,7 +765,7 @@ int Bard::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 80;
 			break;
@@ -793,7 +793,7 @@ int Nautilus::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 150;
 			break;
@@ -821,7 +821,7 @@ int Pyke::abilityAttack()
 {
 	int basic_damage;
 	int result;
-	switch (_level) {
+	switch (getLevel()) {
 		case 1:
 			basic_damage = 250;
 			break;
