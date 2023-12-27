@@ -148,8 +148,8 @@ void BaseRoundScene::displayStoreLegend()
 
 }
 
-//显示备战区英雄
-void BaseRoundScene::displayPrepareLegend()
+//显示我方备战区英雄
+void BaseRoundScene::displayMyPrepareLegend()
 {
 
     //测试用
@@ -198,8 +198,8 @@ void BaseRoundScene::displayPrepareLegend()
 
 }
 
-//显示战斗区英雄
-void BaseRoundScene::displayBattleLegend()
+//显示我方战斗区英雄
+void BaseRoundScene::displayMyBattleLegend()
 {
 
 }
@@ -209,8 +209,6 @@ void BaseRoundScene::displayMyPlayer()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-
-
     //myPlayer = Sprite::create("Peashooter_0.png");
     auto myPlayer = Player::create(_playerInfo1);
     if (myPlayer == nullptr)    {
@@ -219,29 +217,37 @@ void BaseRoundScene::displayMyPlayer()
     else
     {
         myPlayer->setName("player1");
-        myPlayer->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 2.55, visibleSize.height / 3.2));
+        myPlayer->setAnchorPoint(Vec2(0.5f, 0.5f));
+        myPlayer->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 3, visibleSize.height / 2.8));
         this->addChild(myPlayer, 3);
     }
+    auto HP = LoadingBar::create("HP_bar.png");
+    HP->setDirection(LoadingBar::Direction::RIGHT);
+    HP->setScale(0.4);
+    HP->setAnchorPoint(Vec2(0.5, -10));
+    HP->setPercent(100);
+    //HP->setPosition(Vec2(myPlayer->getContentSize().width / 2, myPlayer->getContentSize().height / 2));
+    myPlayer->addChild(HP);
     //添加鼠标监听器
     auto listener = EventListenerMouse::create();
     listener->onMouseDown = CC_CALLBACK_1(BaseRoundScene::moveMyPlayer, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-void BaseRoundScene::selectLegend(EventMouse* event)
+Sprite* BaseRoundScene::selectLegend(EventMouse* event)
 {
-    for (auto sprite : sprites)
-  {
-      if (sprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
+    for (auto selectedSprite : sprites)
+    {
+      if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
       {
           // 记录当前被点击的精灵
-          selectedSprite = sprite;
-          break;
+          return selectedSprite;
       }
-  }
+    }
+    return nullptr;
 }
 
-void BaseRoundScene::dragLegend(EventMouse* event)
+void BaseRoundScene::dragLegend(EventMouse* event, Sprite* selectedSprite)
 {
     if (selectedSprite)
    {
@@ -261,8 +267,8 @@ void BaseRoundScene::moveMyPlayer(EventMouse* event)
     Vec2 targetPosition = Vec2(event->getCursorX(), event->getCursorY());
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    targetPosition.x = clampf(targetPosition.x, visibleSize.width / 2 - visibleSize.width / 2.5, visibleSize.width / 2 + visibleSize.width / 2.5);
-    targetPosition.y = clampf(targetPosition.y, visibleSize.height / 2 - visibleSize.height / 5, visibleSize.height / 2 + visibleSize.height / 5 + 50);
+    targetPosition.x = clampf(targetPosition.x, visibleSize.width / 2 - visibleSize.width / 3, visibleSize.width / 2 + visibleSize.width / 3 + offset_x);
+    targetPosition.y = clampf(targetPosition.y, visibleSize.height / 2.8, visibleSize.height - visibleSize.height / 2.8 + offset_y);
 
     // 计算精灵移动的时间
     float duration = 1.0f;
@@ -374,13 +380,6 @@ void BaseRoundScene::updateTimerCallback(float dt)
     //    blueBar->clear(); // 清除之前的绘制
     //    blueBar->drawSolidRect(Vec2(origin.x, visibleSize.height - 50), Vec2(origin.x + currentWidth, visibleSize.height), Color4F::BLUE);
     //    }, 1.0f, "decrease_bar"); // 每秒执行一次
-
-
-
-
-
-
-
 
 
     if (remainingTimeInSeconds > 0) {

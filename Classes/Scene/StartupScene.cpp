@@ -127,5 +127,8 @@ void StartupScene::standaloneModeCallBack(PlayerInfo* playerInfo, Ref* pSender)
 {
 	// 暂时跳转至准备场景，之后实现一个 waitRoom 场景，Preparation 场景在这个场景的基础上 push 和 pop
 	Director::getInstance()->pushScene(PreparationScene::createScene(playerInfo));
+
+	//Director::getInstance()->pushScene(BattleScene::createScene(playerInfo, playerInfo));
+
 }
 

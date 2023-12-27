@@ -36,11 +36,11 @@ bool PreparationScene::init()
     //显示我方小小英雄
     displayMyPlayer();
 
-    //显示备战区英雄
-    displayPrepareLegend();
+    //显示我方备战区英雄
+    displayMyPrepareLegend();
 
-    //显示战斗区英雄
-    displayBattleLegend();
+    //显示我方战斗区英雄
+    displayMyBattleLegend();
 
     //显示棋盘
     displayBoard();
@@ -60,7 +60,7 @@ bool PreparationScene::init()
 //鼠标按下的回调函数
 void PreparationScene::onMouseDown(EventMouse* event)
 {
-    selectLegend(event);
+    selectedSprite = selectLegend(event);
     //如果有英雄被选中，才显示棋盘
     if (selectedSprite) {
         for (int i = 0; i < battleBoardWidth; i++) {
@@ -77,7 +77,7 @@ void PreparationScene::onMouseDown(EventMouse* event)
 //鼠标移动的回调函数
 void PreparationScene::onMouseMove(EventMouse* event)
 {
-    dragLegend(event);
+    dragLegend(event, selectedSprite);
     boardCellSelected(event);  
 }
 
