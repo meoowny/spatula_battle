@@ -20,18 +20,36 @@ BattleScene::BattleScene(PlayerInfo* playerInfo1, PlayerInfo* playerInfo2)
         exit(0);
     }*/
 
-
+    //auto dirs = Director::getInstance()->getRunningScene();
+    //Size visibleSize = Director::getInstance()->getVisibleSize();
 
     //auto oppoPlayer = dynamic_cast<Player*>(this->getChildByName("player2"));
-           //auto oppoBattlingLegends = oppoPlayer->getBattlingLegends();
+    ////auto oppoBattlingLegends = oppoPlayer->getBattlingLegends();
+    //string id = "0";
+    //int count = 0;
+    //for (auto& i : oppoPlayer->getBattlingLegends()) {
+    //    for (auto& j : i) {
+    //        if (j == nullptr)
+    //            continue;
 
-    /*for (auto i : myPlayer->getBattlingLegends()) {
 
-        for (auto j : i) {
-            if (j == nullptr)
-                continue;
-        }
-    }*/
+    //        auto legend = Legend::create(j);
+    //        if (legend == nullptr) {
+    //            problemLoading(legend->getImagePath());
+    //        }
+    //        else {
+    //            legend->setName(id);
+    //            sprites.push_back(legend);
+
+    //            //j-i.begin
+
+    //            legend->setPosition(Vec2(visibleSize.width / 3.6 + count / battleBoardHeight * chessboardCellWidth, visibleSize.height / 2.9 + count % battleBoardHeight * chessboardCellHeight));
+    //            addChild(legend);
+    //            id += '0' + count;
+    //            count++;
+    //        }
+    //    }
+    //}
 
     //for (int i = 0; i < battleBoardWidth; i++) {
     //    for (int j = 0; j < battleBoardHeight * 2; j++) {
@@ -83,7 +101,7 @@ bool BattleScene::init()
     displayMyBattleLegend();
 
     //显示对方备战区英雄
-    //displayOppoPrepareLegend();
+    displayOppoPrepareLegend();
 
     //显示对方战斗区英雄
     //displayOppoBattleLegend();
@@ -112,8 +130,50 @@ void BattleScene::displayOppoPlayer()
 
         oppoPlayer->setName("player2");
         oppoPlayer->setAnchorPoint(Vec2(0.5f, 0.5f));
-        oppoPlayer->setPosition(Vec2(visibleSize.width / 2 + visibleSize.width / 3 + offset_x, visibleSize.height - visibleSize.height / 2.8 + offset_y));
+        oppoPlayer->setPosition(Vec2(visibleSize.width / 2 + visibleSize.width / 3 + offset_x, visibleSize.height - visibleSize.height / 2.8 + offset_y));//坐标不改  苦苦算出来的。。。
         this->addChild(oppoPlayer, 3);
+    }
+}
+
+void BattleScene::displayOppoPrepareLegend()
+{
+    //待修改
+    auto dirs = Director::getInstance()->getRunningScene();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    auto player = dynamic_cast<Player*>(this->getChildByName("player2"));
+    if (player == nullptr) {
+        exit(0);
+    }
+
+    string id = "0";
+    int count = 0;
+    for (auto i : player->getPreparedLegends()) {
+        // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
+        if (i == nullptr)
+            continue;
+        auto legend = Legend::create(i);
+        if (legend == nullptr) {
+            problemLoading(legend->getImagePath());
+        }
+        else {
+            legend->setName(id);
+            sprites.push_back(legend);
+            legend->setPosition(Vec2(visibleSize.width / 1.5 - count * 70, visibleSize.height / 1.15));//坐标不改  苦苦算出来的。。。
+            addChild(legend);
+            id += '0' + count;
+            count++;
+
+
+            //血条
+            //healthBar = ProgressTimer::create(Sprite::create("health_bar.png"));
+            //healthBar->setType(ProgressTimer::Type::BAR);
+            //healthBar->setMidpoint(Vec2(0, 0.5));
+            //healthBar->setBarChangeRate(Vec2(1, 0));
+            //healthBar->setPosition(Vec2(0, sprite->getContentSize().height / 2 + 10));           
+            //int currentHP=getHealth();) {         
+             //   healthBar->setPercentage(currentHP / totalHP * 100);
+            //}
+        }
     }
 }
 
@@ -133,86 +193,100 @@ void BattleScene::performBattlingLogic(float delta)
     }
 
     int count = 0;
-    for (auto i : myPlayer->getPreparedLegends()) {
-        // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
-        if (i == nullptr)
-            continue;
-        auto legend = Legend::create(i);
-        if (legend == nullptr) {
-            problemLoading(legend->getImagePath());
-        }
-        else {
+    for (auto& i : myPlayer->getBattlingLegends()) {
+        for (auto& j : i) {
+            // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
+            if (j == nullptr)
+                continue;
+            auto legend = Legend::create(j);
+            if (legend == nullptr) {
+                problemLoading(legend->getImagePath());
+            }
+            else {
+                // 若在攻击范围内，则进行攻击
+                //if(opponentLegendInRange(i-(myPlayer->getPreparedLegends().begin(),legend->y))
+                //{
 
-            // 移动逻辑
-          
+                    //  int attackDamage=getAttack();
+                    // beingAttack(attackDamage);
+                //}
 
-        //Vec2 destination = findMovePath(chessBoard);
-//        piece->moveTo(destination);
+                //否则进行移动
+            //else{
+            //Vec2 destination = findMovePath(legend->x,legend->y);
+            //piece->moveTo(destination);
+            //}
 
-
-
-
-
-            // 蓝条增加
-            // piece->blueBar += delta * 5;  // 假设每秒增加5
-            // 蓝条未满时按照一定频率释放普通攻击
-//        if (piece->blueBar < piece->maxBlueBar)
-//        {
-//            // 假设每秒释放一次普通攻击
-//            piece->normalAttackCooldown -= delta;
-//            if (piece->normalAttackCooldown <= 0)
-//            {
-//                piece->normalAttack();
-//                piece->normalAttackCooldown = piece->maxNormalAttackCooldown;
-//            }
-//        }
-//        else
-//        {
-//            // 蓝条满时释放大招
-//            piece->ultimateAttack();
-//            piece->blueBar = 0;  // 清空蓝条
-//        }
-
-          
-            legend->setName("0");
-            sprites.push_back(legend);
-            addChild(legend);
-            count++;
+                legend->setName("0");
+                sprites.push_back(legend);
+                addChild(legend);
+                count++;
+            }
         }
     }
 }
 
+bool BattleScene::opponentLegendInRange(int x, int y, int range) {
+    for (int i = -range; i <= range; i++) {
+        for (int j = -range; j <= range; j++) {
+            int newX = x + i;
+            int newY = y + j;
+            if (isValidPosition(newX, newY) && chessBoard[newX][newY] == enemyFlag) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
-//Vec2 BattleScene::findNearestEnemy(int chessBoard[battleBoardWidth][battleBoardHeight * 2])
-//{
-//   
-//}
+bool BattleScene::isValidPosition(int x, int y) 
+{
+    return x >= 0 && x < battleBoardWidth && y >= 0 && y < battleBoardHeight * 2;
+}
 
+double BattleScene::calculateDistance(int x1, int y1, int x2, int y2)
+{
+    return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+}
 
+Vec2 BattleScene::findMovePath(int x, int y,int Flag) {
+    //离自己最近的对方英雄的位置
+    int dst_x = x;
+    int dst_y = y;
+    double minDistance = numeric_limits<double>::max();
+
+    for (int i = 0; i < battleBoardWidth; i++) {
+        for (int j = 0; j < battleBoardHeight * 2; j++) {
+            if (chessBoard[i][j] == enemyFlag) {
+                double distance = calculateDistance(x, y, i, j);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    dst_x = i;
+                    dst_y = j;
+                }
+            }
+        }
+    }
+
+    //移动的方向
+    int dir_x = 0;
+    int dir_y = 0;
+    dir_x = (dst_x > x) ? 1 : ((dst_x < x) ? -1 : 0);
+    dir_y = (dst_y > y) ? 1 : ((dst_y < y) ? -1 : 0);
+ 
+    Vec2 movePath(x + dir_x, y + dir_y);
+
+    chessBoard[x][y] = emptyFlag;
+    chessBoard[x + dir_x][y + dir_y] = Flag;
+
+    return movePath;
+}
 
 
 //
 //void GameScene::checkCollisions()
 //{
-//    // 简化处理，假设两个角色碰撞时，进行战斗，减少对方血量
-//    for (auto& piece : chessPieces)
-//    {
-//        for (auto& otherPiece : chessPieces)
-//        {
-//            if (piece != otherPiece && piece->getBoundingBox().intersectsRect(otherPiece->getBoundingBox()))
-//            {
-//                piece->attack(otherPiece);
-//            }
-//        }
-//    }
 //
-//    // 检查游戏结束条件
-//    if (isGameOver())
-//    {
-//        // 游戏结束逻辑
-//        endGame();
-//    }
-//}
 //
 //bool GameScene::isGameOver()
 //{

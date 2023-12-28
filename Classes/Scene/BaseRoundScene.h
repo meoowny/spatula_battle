@@ -12,6 +12,8 @@ using namespace ui;
 
 const int offset_x = -150;
 const int offset_y = 220;
+const int chessboardCellWidth = 100;
+const int chessboardCellHeight = 100;
 
 class BaseRoundScene : public Scene
 {
@@ -45,7 +47,7 @@ public:
 
     CREATE_FUNC(BaseRoundScene);
 
-//protected:
+protected:
 
     //待修改 只是测试用
     vector<Sprite*> sprites;

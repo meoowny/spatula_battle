@@ -184,6 +184,8 @@ void PreparationScene::onMouseUp(EventMouse* event)
                 {
                     // 移动到指定区域的中心
                     selectedSprite->setPosition(targetRect.getMidX(), targetRect.getMidY());
+
+                    //moveLegend
                     isInBoard = true;
                     break;
                 }

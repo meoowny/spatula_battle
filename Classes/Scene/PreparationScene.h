@@ -3,9 +3,6 @@
 
 #include "BaseRoundScene.h"
 
-const int chessboardCellWidth = 100;
-const int chessboardCellHeight = 100;
-
 class PreparationScene : public BaseRoundScene
 {
 public:

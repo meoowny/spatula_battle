@@ -201,7 +201,38 @@ void BaseRoundScene::displayMyPrepareLegend()
 //显示我方战斗区英雄
 void BaseRoundScene::displayMyBattleLegend()
 {
+    //待修改
+    auto dirs = Director::getInstance()->getRunningScene();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    auto player = dynamic_cast<Player*>(this->getChildByName("player1"));
+    if (player == nullptr) {
+        exit(0);
+    }
 
+    string id = "0";
+    int count = 0;
+    for (auto& i : player->getBattlingLegends()) {
+        for (auto& j : i) {
+            // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
+            if (j == nullptr)
+                continue;
+            auto legend = Legend::create(j);
+            if (legend == nullptr) {
+                problemLoading(legend->getImagePath());
+            }
+            else {
+                legend->setName(id);
+                sprites.push_back(legend);
+
+                //j-i.begin
+
+                legend->setPosition(Vec2(visibleSize.width / 3.6 + count / battleBoardHeight * chessboardCellWidth, visibleSize.height / 2.9 + count % battleBoardHeight * chessboardCellHeight));
+                addChild(legend);
+                id += '0' + count;
+                count++;
+            }
+        }
+    }
 }
 
 //显示我方小小英雄
