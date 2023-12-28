@@ -31,7 +31,7 @@ bool PreparationScene::init()
     displayRefreshButton();
 
     //显示商店英雄卡牌
-    /*displayStoreLegend();*/
+    displayStoreLegend();
 
     //显示我方小小英雄
     displayMyPlayer();

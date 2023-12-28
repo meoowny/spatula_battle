@@ -46,7 +46,8 @@ void BaseRoundScene::displayBuyButton()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     //如果未达到满级，则创建按钮
-
+    auto dirs = Director::getInstance()->getRunningScene();
+    
 
     /*
 
@@ -127,22 +128,25 @@ void BaseRoundScene::displayStoreLegend()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-
-
-
-    // for()
-
-
-
-
-
-
-    auto StoreLegend = Button::create("Peashooter_0.png", "Peashooter_0.png", "Peashooter_1.png");
+    Vector<Sprite*> StoreLegends;
+    Sprite* Legend1 = Sprite::create("Legend1.png");
+    StoreLegends.pushBack(Legend1);
+    Sprite* Legend2 = Sprite::create("Legend2.png");
+    StoreLegends.pushBack(Legend2);
+    Sprite* Legend3 = Sprite::create("Legend3.png");
+    StoreLegends.pushBack(Legend3);
+    int gap = 1;
+    for (auto sprite : StoreLegends) {
+        sprite->setPosition(Vec2(visibleSize.width * gap / 5, visibleSize.height / 12));
+        gap++;
+        addChild(sprite, 2);
+    }
+    /*auto StoreLegend = Button::create("Peashooter_0.png", "Peashooter_0.png", "Peashooter_1.png");
     StoreLegend->setScale(2.2);
     StoreLegend->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 4, visibleSize.height / 12));
     StoreLegend->addClickEventListener(CC_CALLBACK_1(BaseRoundScene::buyLegendCallback, this));
     addChild(StoreLegend, 2);
-
+*/
 
 
 
@@ -208,7 +212,7 @@ void BaseRoundScene::displayMyBattleLegend()
 void BaseRoundScene::displayMyPlayer()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-
+    auto dirs = Director::getInstance()->getRunningScene();
     //myPlayer = Sprite::create("Peashooter_0.png");
     auto myPlayer = Player::create(_playerInfo1);
     if (myPlayer == nullptr)    {
@@ -221,6 +225,16 @@ void BaseRoundScene::displayMyPlayer()
         myPlayer->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 3, visibleSize.height / 2.8));
         this->addChild(myPlayer, 3);
     }
+    //显示我方小小英雄金币数量
+    Label* labelCoins;
+    int myCoins = myPlayer->getCoin();
+    labelCoins = Label::createWithTTF("My Coins", "fonts/UbuntuNFMono.ttf", 20);
+    labelCoins->setName("labelCoins");
+    labelCoins->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12+120));
+    this->addChild(labelCoins);
+    labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
+    this->removeChild(dirs->getChildByName("labelCoins"));
+
     auto HP = LoadingBar::create("HP_bar.png");
     HP->setDirection(LoadingBar::Direction::RIGHT);
     HP->setScale(0.4);
@@ -285,10 +299,19 @@ void BaseRoundScene::moveMyPlayer(EventMouse* event)
 //购买经验值按钮回调函数
 void BaseRoundScene::buyButtonClickCallback(Ref* pSender)
 {
-    //玩家升级经验
-
-    // ...
-
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    auto dirs = Director::getInstance()->getRunningScene();
+    auto myPlayer = dynamic_cast<Player*>(dirs->getChildByName("player1"));
+    myPlayer->buyExperience();
+    //显示我方小小英雄金币数量
+    Label* labelCoins;
+    labelCoins = Label::createWithTTF("My Coins", "fonts/UbuntuNFMono.ttf", 20);
+    int myCoins = myPlayer->getCoin();
+    labelCoins->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12 + 120));
+    this->addChild(labelCoins);
+    labelCoins->setName("labelCoins");
+    labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
+    this->removeChild(dirs->getChildByName("labelCoins"));
     //displayBuyButton();
 }
 
