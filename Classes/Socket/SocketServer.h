@@ -1,7 +1,9 @@
+#pragma once
 #ifndef __SOCKET_SERVER_H__
 #define __SOCKET_SERVER_H__
 
 #include "SocketBase.h"
+#include "Scene/ServerModeScene.h"
 #include <map>
 
 struct RecvData
@@ -13,6 +15,7 @@ struct RecvData
 
 class SocketServer : public SocketBase
 {
+	friend class ServerModeScene;//将ServerModeScene设置为友元，便于获取客户端信息
 public:
 	static SocketServer* getInstance();
 	void destroyInstance();
@@ -21,6 +24,7 @@ public:
 	void sendMessage(HSocket socket, const char* data, int count);
 	void sendMessage(const char* data, int count);
 	void update(float dt);
+
 
 	std::function<void(const char* ip)> onStart;
 	std::function<void(HSocket socket)> onNewConnection;
@@ -51,4 +55,4 @@ private:
 	std::map<char, HSocket> idToSocket;//用来将用户端与其ID一一对应，根据ID找到用户端
 };
 
-#endif#pragma once
+#endif

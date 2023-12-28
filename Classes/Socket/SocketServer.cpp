@@ -23,7 +23,7 @@ SocketServer::SocketServer() :
 	onStart(nullptr),
 	onNewConnection(nullptr)
 {
-
+	Director::getInstance()->getScheduler()->scheduleUpdate(this, 0, false);
 }
 
 SocketServer::~SocketServer()
@@ -197,9 +197,6 @@ void SocketServer::recvMessage(HSocket socket)
 				SocketMessage* msg = new SocketMessage(RECEIVE, (unsigned char*)&recvData, sizeof(RecvData));
 				_UIMessageQueue.push_back(msg);
 			}
-			//将收到的信息传给所有客户端
-			//this->sendMessage(buff, ret);
-
 		}
 	}
 

@@ -82,7 +82,7 @@ int Legend::beingAttack(int attack_damage)
 	_health = _health - be_damaged;  //ÑªÁ¿¼õÉÙº¯Êı
 	if (_health <= 0) {
 		_health = 0;
-		cout << "ÄúÒÑÕóÍö£¡" << endl;
+		std::cout << "ÄúÒÑÕóÍö£¡" << std::endl;
 	}
 	return be_damaged;
 }
