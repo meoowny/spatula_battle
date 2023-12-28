@@ -57,6 +57,11 @@ list(APPEND GAME_SOURCE
      Classes/Player/Player.cpp
      Classes/Legend/BaseLegend.cpp
      Classes/Legend/Legends.cpp
+     Classes/Scene/BaseRoundScene.cpp
+     Classes/Scene/PreparationScene.cpp
+     Classes/Scene/BattleScene.cpp
+     Classes/Scene/OnlineModeScene.cpp
+     Classes/Scene/ServerModeScene.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -68,6 +73,11 @@ list(APPEND GAME_HEADER
      Classes/Player/Player.h
      Classes/Legend/BaseLegend.h
      Classes/Legend/Legends.h
+     Classes/Scene/BaseRoundScene.h
+     Classes/Scene/PreparationScene.h
+     Classes/Scene/BattleScene.h
+     Classes/Scene/OnlineModeScene.h
+     Classes/Scene/ServerModeScene.h
      )
 
 if(ANDROID)
