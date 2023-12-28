@@ -15,6 +15,9 @@ bool OnlineModeScene::init()
 		return false;
 	}
 	ID = 0;
+	myPlayerInfo = NULL;
+
+	
 	initNetwork();//网络初始化
 	return true;
 }
@@ -36,6 +39,7 @@ void OnlineModeScene::onExit()
 void OnlineModeScene::onRecv(const char* data, int count)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();//获得屏幕大小
+
 	switch (count)//对服务器信息类型进行分类
 	{
 		case 2://若传递的信息为当前玩家ID或总玩家数量
@@ -67,6 +71,14 @@ void OnlineModeScene::onRecv(const char* data, int count)
 				labelOutputPlayerNum->setTag(100);//100作为该标签的标记
 				this->addChild(labelOutputPlayerNum);
 			}
+			break;
+		case sizeof(StartPlayerInfo) ://传入为开始玩家信息
+			StartPlayerInfo tempPlayerInfo;
+			memcpy(&tempPlayerInfo, data, sizeof(StartPlayerInfo));
+			myPlayerInfo = new PlayerInfo(tempPlayerInfo.fileName, tempPlayerInfo.isAI);
+			break;
+		case 6://开始游戏
+			Director::getInstance()->pushScene(PreparationScene::createScene(myPlayerInfo));
 			break;
 	}
 }

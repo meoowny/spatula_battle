@@ -4,6 +4,7 @@
 #include "Socket/SocketServer.h"
 #include "Player/Player.h"
 
+
 class ServerModeScene :public Layer
 {
 public:
@@ -18,7 +19,8 @@ public:
 	void givePlayerInfoCallBack(Ref* pSender);//分配玩家信息
 
 private:
-	SocketServer* server;
+	class SocketServer* server;
+
 
 protected:
 	void initNetwork();//网络初始化

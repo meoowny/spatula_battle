@@ -15,6 +15,22 @@ PlayerInfo::PlayerInfo(const std::string& filename, bool isAI)
 	}
 }
 
+
+/*PlayerInfo::PlayerInfo(const char* filename, bool isAI)
+	: _isAI(isAI), _coins(5), _health(100), _image_path("0")
+{
+	for (auto& i : _preparedLegends) {
+		i = NULL;
+	}
+	for (auto& i : _battlingLegends) {
+		for (auto& j : i) {
+			j = NULL;
+		}
+	}
+	strcpy(_image_path, filename);
+}*/
+
+
 PlayerInfo::~PlayerInfo()
 {
 	// array 析构有问题，去构造改
@@ -44,7 +60,20 @@ PlayerInfo* PlayerInfo::create(const std::string& filename, bool isAI)
 		return nullptr;
 	}
 }
-
+/*
+PlayerInfo* PlayerInfo::create(const char* filename, bool isAI)
+{
+	PlayerInfo* info = new (std::nothrow) PlayerInfo(filename, isAI);
+	if (info && info->init()) {
+		info->autorelease();
+		return info;
+	}
+	else {
+		CC_SAFE_DELETE(info);
+		return nullptr;
+	}
+}
+*/
 Player* Player::create(PlayerInfo* const info)
 {
 	Player* player = new (std::nothrow) Player(info);

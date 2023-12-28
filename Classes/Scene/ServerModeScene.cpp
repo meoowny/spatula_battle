@@ -15,8 +15,22 @@ bool ServerModeScene::init()
 		return false;
 	}
 	initNetwork();
-
+	
 	Size visibleSize = Director::getInstance()->getVisibleSize();//获得屏幕大小
+
+	//添加背景图片
+	auto background = Sprite::create("ServerModeBackground.jpg");
+	background->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	background->setScale(3.0);
+	this->addChild(background);
+
+	
+	//添加“由你来掌控游戏”标签
+	auto labelGameName = Label::createWithSystemFont("你来掌控游戏", "STHUPO.TTF", 200);
+	labelGameName->setPosition(visibleSize.width / 2, visibleSize.height * 3 / 4);//将游戏名标签放置屏幕中间偏上
+	labelGameName->setColor(Color3B::YELLOW);
+	labelGameName->enableShadow(Color4B::BLACK, Size(8, -8));
+	this->addChild(labelGameName);
 
 	//设置开始游戏标签
 	auto labelStartGame = Label::createWithSystemFont("开始了", "STHUPO.TTF", 120);
@@ -49,21 +63,33 @@ void ServerModeScene::onExit()
 //通知玩家游戏开始
 void ServerModeScene::startGameCallBack(Ref* pSender)
 {
-	
+	server->_mutex.lock();
+	//为当前所有客户端分发游戏开始信息
+	server->sendMessage("start", 6);
+	server->_mutex.unlock();
 }
 
 //分配玩家信息
 void ServerModeScene::givePlayerInfoCallBack(Ref* pSender)
 {
 	std::list<HSocket>::iterator iterClient;//迭代器，辅助遍历当前所有客户端
-	std::string tempPlayerFileName = "Peashooter_0.png";
-
+	int serverNum = 0;
 	server->_mutex.lock();
 	//遍历当前所有客户端，为其分发玩家信息
 	for (iterClient = server->_clientSockets.begin(); iterClient != server->_clientSockets.end(); iterClient++)
 	{
-		PlayerInfo tempPlayerInfo(tempPlayerFileName, false);
-		server->sendMessage(*iterClient, (char*)(&tempPlayerInfo), sizeof(PlayerInfo));
+		serverNum++;
+		//每个玩家分配不一样的小小英雄
+		if (serverNum % 2 == 1)
+		{
+			StartPlayerInfo tempStartPlayerInfo = { "Peashooter_0.png" ,false };
+			server->sendMessage(*iterClient, (char*)(&tempStartPlayerInfo), sizeof(StartPlayerInfo));
+		}
+		else
+		{
+			StartPlayerInfo tempStartPlayerInfo = { "HelloWorld.png" ,false };
+			server->sendMessage(*iterClient, (char*)(&tempStartPlayerInfo), sizeof(StartPlayerInfo));
+		}
 	}
 	server->_mutex.unlock();
 }

@@ -10,6 +10,15 @@
 USING_NS_CC;
 //using namespace std;
 
+
+//传递的初始玩家信息
+struct StartPlayerInfo
+{
+	char fileName[30];
+	bool isAI;
+};
+
+
 template <int size>
 using LegendInfoArray = std::array<LegendInfo*, size>;
 template <int row, int col>
@@ -33,15 +42,18 @@ class PlayerInfo: public Node
 
 public:
 	PlayerInfo(const std::string& filename, bool isAI);
+	//PlayerInfo(const char* filename, bool isAI);
 	~PlayerInfo();
-
+	
 	static PlayerInfo* create(const std::string& filename, bool isAI);
+	//static PlayerInfo* create(const char* filename, bool isAI);
 private:
 	bool _isAI;
 	int _coins;
 	int _experience;
 	int _health;
-	const std::string _image_path;
+	const std::string _image_path;//Vector<char>
+	//char _image_path[30];
 	//array<LegendWithPlace> _battlingLegends;
 	//array<Legend*> _preparedLegends;
 	LegendInfoMatrix<battleBoardHeight, battleBoardWidth> _battlingLegends;

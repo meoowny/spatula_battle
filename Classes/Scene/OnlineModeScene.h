@@ -5,6 +5,9 @@
 #include <string>
 #include <sstream>
 #include "Player/Player.h"
+#include"Scene/PreparationScene.h"
+
+
 
 class OnlineModeScene : public Layer
 {
@@ -23,6 +26,9 @@ public:
 protected:
 	void initNetwork();//ÍøÂç³õÊ¼»¯
 	SocketClient* client;
+
+private:
+	PlayerInfo *myPlayerInfo;
 };
 
 
