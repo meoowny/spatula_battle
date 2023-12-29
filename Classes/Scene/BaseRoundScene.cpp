@@ -28,10 +28,10 @@ void BaseRoundScene::displayBackground()
 void BaseRoundScene::displayStore()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    auto store = Sprite::create("Store.jpg");
+    auto store = Sprite::create("Store.png");
     if (store == nullptr)
     {
-        problemLoading("'Store.jpg'");
+        problemLoading("'Store.png'");
     }
     else
     {
@@ -128,37 +128,44 @@ void BaseRoundScene::displayStoreLegend()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    Vector<Sprite*> StoreLegends;
+    //测试用 实际应该获取信息
+
+
+    /*Vector<Sprite*> StoreLegends;
     Sprite* Legend1 = Sprite::create("Legend1.png");
     StoreLegends.pushBack(Legend1);
     Sprite* Legend2 = Sprite::create("Legend2.png");
     StoreLegends.pushBack(Legend2);
     Sprite* Legend3 = Sprite::create("Legend3.png");
-    StoreLegends.pushBack(Legend3);
-    int gap = 1;
-    for (auto sprite : StoreLegends) {
-        sprite->setPosition(Vec2(visibleSize.width * gap / 5, visibleSize.height / 12));
+    StoreLegends.pushBack(Legend3);*/
+
+    Vector<Button*>storeLegends;
+    Button* Legend1 = Button::create("Legend1.png", "emptyStore.jpg", "emptyStore.jpg");
+     storeLegends.pushBack(Legend1);
+     Button* Legend2 = Button::create("Legend1.png", "emptyStore.jpg", "emptyStore.jpg");
+     storeLegends.pushBack(Legend2);
+     Button* Legend3 = Button::create("Legend3.png", "emptyStore.jpg", "emptyStore.jpg");
+     storeLegends.pushBack(Legend3);
+
+    int gap = 0;
+    for (auto storeLegend : storeLegends) {
+        //storeLegend->create(StringUtils::format("image%d.png", gap), StringUtils::format("image%d.png", gap), "emptyStore.jpg");
+        storeLegend->setPosition(Vec2(visibleSize.width / 3.6 + gap * 230, visibleSize.height / 12));
+        storeLegend->addClickEventListener(CC_CALLBACK_1(BaseRoundScene::buyLegendCallback, this));
         gap++;
-        addChild(sprite, 2);
+        addChild(storeLegend, 2);
     }
-    /*auto StoreLegend = Button::create("Peashooter_0.png", "Peashooter_0.png", "Peashooter_1.png");
+   /* auto StoreLegend = Button::create("Peashooter_0.png", "Peashooter_0.png", "Peashooter_1.png");
     StoreLegend->setScale(2.2);
     StoreLegend->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 4, visibleSize.height / 12));
     StoreLegend->addClickEventListener(CC_CALLBACK_1(BaseRoundScene::buyLegendCallback, this));
-    addChild(StoreLegend, 2);
-*/
-
-
+    addChild(StoreLegend, 2);*/
 
 }
 
 //显示我方备战区英雄
 void BaseRoundScene::displayMyPrepareLegend()
 {
-
-    //测试用
-
-    //待修改
     auto dirs = Director::getInstance()->getRunningScene();
     Size visibleSize = Director::getInstance()->getVisibleSize();
     auto player = dynamic_cast<Player*>(this->getChildByName("player1"));
@@ -178,28 +185,12 @@ void BaseRoundScene::displayMyPrepareLegend()
         }
 		else {
 			legend->setName(id);
-			sprites.push_back(legend);
 			legend->setPosition(Vec2(visibleSize.width / 4.8 + count * 100, visibleSize.height / 4));
             addChild(legend);
 			id = '0' + count;
 			count++;
         }
     }
-    //for (int i = 0; i < preparationSize; i++) {
-    //    Sprite* preparationBackground = Sprite::create("Peashooter_0.png");
-    //    if (preparationBackground == nullptr)
-    //    {
-    //        problemLoading("'Peashooter_0.png'");
-    //    }
-    //    else
-    //    {
-    //        sprites.push_back(preparationBackground);
-    //        preparationBackground->setPosition(Vec2(visibleSize.width / 4.8 + i * 100, visibleSize.height / 4));
-    //        //preparationBackground->setScale(5);
-    //        addChild(preparationBackground, 0);
-    //    }
-    //}
-
 }
 
 //显示我方战斗区英雄
@@ -213,7 +204,7 @@ void BaseRoundScene::displayMyBattleLegend()
         exit(0);
     }
 
-    string id = "0";
+    std::string id = "0";
     int count = 0;
     for (auto& i : player->getBattlingLegends()) {
         for (auto& j : i) {
@@ -226,10 +217,6 @@ void BaseRoundScene::displayMyBattleLegend()
             }
             else {
                 legend->setName(id);
-                sprites.push_back(legend);
-
-                //j-i.begin
-
                 legend->setPosition(Vec2(visibleSize.width / 3.6 + count / battleBoardHeight * chessboardCellWidth, visibleSize.height / 2.9 + count % battleBoardHeight * chessboardCellHeight));
                 addChild(legend);
                 id += '0' + count;
@@ -244,7 +231,6 @@ void BaseRoundScene::displayMyPlayer()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     auto dirs = Director::getInstance()->getRunningScene();
-    //myPlayer = Sprite::create("Peashooter_0.png");
     auto myPlayer = Player::create(_playerInfo1);
     if (myPlayer == nullptr)    {
         problemLoading(myPlayer->getResourceName().c_str());
@@ -256,15 +242,6 @@ void BaseRoundScene::displayMyPlayer()
         myPlayer->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 3, visibleSize.height / 2.8));
         this->addChild(myPlayer, 3);
     }
-    //显示我方小小英雄金币数量
-    Label* labelCoins;
-    int myCoins = myPlayer->getCoin();
-    labelCoins = Label::createWithTTF("My Coins", "fonts/UbuntuNFMono.ttf", 20);
-    labelCoins->setName("labelCoins");
-    labelCoins->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12+120));
-    this->addChild(labelCoins);
-    labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
-    this->removeChild(dirs->getChildByName("labelCoins"));
 
     auto HP = LoadingBar::create("HP_bar.png");
     HP->setDirection(LoadingBar::Direction::RIGHT);
@@ -279,25 +256,67 @@ void BaseRoundScene::displayMyPlayer()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-Sprite* BaseRoundScene::selectLegend(EventMouse* event)
+//显示我方小小英雄金币数量
+void BaseRoundScene::displayCoinNumber()
 {
-    for (auto selectedSprite : sprites)
-    {
-      if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
-      {
-          // 记录当前被点击的精灵
-          return selectedSprite;
-      }
-    }
-    return nullptr;
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    auto dirs = Director::getInstance()->getRunningScene();
+    auto myPlayer= dynamic_cast<Player*>(this->getChildByName("player1"));
+    Label* labelCoins;
+    int myCoins = myPlayer->getCoin();
+    labelCoins = Label::createWithTTF("My Coins", "fonts/UbuntuNFMono.ttf", 20);
+    labelCoins->setName("labelCoins");
+    labelCoins->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12 + 120));
+    this->addChild(labelCoins);
+    labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
+    this->removeChild(dirs->getChildByName("labelCoins"));
 }
 
-void BaseRoundScene::dragLegend(EventMouse* event, Sprite* selectedSprite)
+LegendWithLocation BaseRoundScene::selectLegend(EventMouse* event)
 {
-    if (selectedSprite)
+    auto myPlayer=dynamic_cast<Player*>(this->getChildByName("player1"));
+    LegendWithLocation selectedSpriteWithLocation;
+    selectedSpriteWithLocation.legend = nullptr;
+    selectedSpriteWithLocation.position = { -1,-1 };
+    int i = 0, j = 0;
+    for (auto selectedSprite : myPlayer->getPreparedLegends()) {
+        if (selectedSprite != nullptr) {
+            if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
+            {
+                selectedSpriteWithLocation.legend = selectedSprite;
+                selectedSpriteWithLocation.position = { i,-1 };
+                // 记录当前被点击的精灵
+                return selectedSpriteWithLocation;
+            }
+        }
+        i++;
+    }
+    i = 0; j = 0;
+    for (auto& array : myPlayer->getBattlingLegends()) {
+        for (auto& selectedSprite : array) {
+            if (selectedSprite != nullptr) {
+                if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
+                {
+                    selectedSpriteWithLocation.legend = selectedSprite;
+                    selectedSpriteWithLocation.position = { i,j };
+                    // 记录当前被点击的精灵
+                    return selectedSpriteWithLocation;
+                }
+            }
+            j++;
+        }
+        i++;
+    }
+
+    return selectedSpriteWithLocation;
+}
+
+void BaseRoundScene::dragLegend(EventMouse* event, LegendWithLocation selectedSpriteWithLocation)
+{
+    if (selectedSpriteWithLocation.legend)
    {
        // 移动被选中的精灵
-       selectedSprite->setPosition(Vec2(event->getCursorX(), event->getCursorY()));
+        selectedSpriteWithLocation.legend->setPosition(Vec2(event->getCursorX(), event->getCursorY()));
    }
 }
 
@@ -373,14 +392,48 @@ void BaseRoundScene::buyLegendCallback(Ref* pSender)
 
     //四、然后，才在备战区添加一位英雄
 
- 
+    auto dirs = Director::getInstance()->getRunningScene();
+    auto player = dynamic_cast<Player*>(this->getChildByName("player1"));
+    if (player == nullptr) {
+        exit(0);
+    }
+
+    //player->buyLegend(legend);
 
 
-    auto prepareLegend = Sprite::create("HelloWorld.png");
-    prepareLegend->setScale(2.2);
-    prepareLegend->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 4, visibleSize.height / 10));
-    /*refreshButton->addClickEventListener(CC_CALLBACK_1(PreparationScene::buyLegendCallback, this));*/
-    addChild(prepareLegend, 2);
+    //for (auto i : player->getPreparedLegends()) {
+    //    // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
+    //    if (i == nullptr)
+    //        continue;
+    //    auto legend = Legend::create(i);
+    //    if (legend == nullptr) {
+    //        problemLoading(legend->getImagePath());
+    //    }
+    //    else {
+    //        player->buyLegend(legend);
+    //        for (auto sprite : sprites) {
+    //            // 从场景中移除Sprite
+    //            sprite->removeFromParent();
+    //        }
+
+    //        // 清空sprites vector
+    //        sprites.clear();
+    //        displayMyPrepareLegend();
+           /* legend->setName(id);
+            sprites.push_back(legend);
+            legend->setPosition(Vec2(visibleSize.width / 4.8 + count * 100, visibleSize.height / 4));
+            addChild(legend);
+            id = '0' + count;
+            count++;*/
+      /*  }
+    }*/
+
+
+    //auto prepareLegend = Sprite::create("HelloWorld.png");
+    //prepareLegend->setScale(2.2);
+    //prepareLegend->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 4, visibleSize.height / 10));
+    ///*refreshButton->addClickEventListener(CC_CALLBACK_1(PreparationScene::buyLegendCallback, this));*/
+    //addChild(prepareLegend, 2);
 
     // 点击后设置按钮为不可点击状态
     auto button = dynamic_cast<Button*>(pSender);

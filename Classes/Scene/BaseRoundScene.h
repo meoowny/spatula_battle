@@ -15,6 +15,12 @@ const int offset_y = 220;
 const int chessboardCellWidth = 100;
 const int chessboardCellHeight = 100;
 
+struct LegendWithLocation 
+{
+    LegendInfo* legend;
+    Position position;
+};
+
 class BaseRoundScene : public Scene
 {
 public:
@@ -29,11 +35,12 @@ public:
     void displayMyPrepareLegend(); //显示备战区英雄
     void displayMyBattleLegend();  //显示战斗区英雄
     void displayMyPlayer();      //显示我方小小英雄
+    void displayCoinNumber();   //显示我方金币数量
     //void displayDeleteButton();  //显示删除按钮
 
 
-    Sprite* selectLegend(EventMouse* event); //选择要拖动的英雄
-    void dragLegend(EventMouse* event, Sprite* selectedSprite);   //拖动英雄
+    LegendWithLocation selectLegend(EventMouse* event); //选择要拖动的英雄
+    void dragLegend(EventMouse* event, LegendWithLocation selectedSpriteWithLocation);   //拖动英雄
 
     void moveMyPlayer(EventMouse* event);          //移动小小英雄
 
@@ -50,15 +57,15 @@ public:
 protected:
 
     //待修改 只是测试用
-    std::vector<Sprite*> sprites;
+    //std::vector<Sprite*> sprites;
 
     PlayerInfo* _playerInfo1;
     PlayerInfo* _playerInfo2;
 
+
 private:
     Label* labelRemainTime;     //显示剩余时间的标签
     int remainingTimeInSeconds; //剩余时间
-    //Sprite* myPlayer;           //己方小小英雄
 
 
 

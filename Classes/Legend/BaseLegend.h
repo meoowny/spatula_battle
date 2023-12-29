@@ -10,7 +10,7 @@ using namespace cocos2d;
 
 // 类似于 Player 类，Legend 类也有对应的 LegendInfo，但 LegendInfo 存放英雄的固有属性，Legend 存放的是实时属性，每回合会刷新
 
-class LegendInfo
+class LegendInfo:public Node
 {
 	friend class Legend;
 

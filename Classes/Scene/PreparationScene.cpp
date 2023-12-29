@@ -1,3 +1,21 @@
+/*待完成：
+   一、onMouseUp函数中  moveLegend  如何把src的信息传过去
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+
 #include "PreparationScene.h"
 
 Scene* PreparationScene::createScene(PlayerInfo* playerInfo)
@@ -30,17 +48,20 @@ bool PreparationScene::init()
     //显示刷新按钮
     displayRefreshButton();
 
-    //显示商店英雄卡牌
-    displayStoreLegend();
-
     //显示我方小小英雄
     displayMyPlayer();
+
+    //显示我方金币数量
+    displayCoinNumber();
 
     //显示我方备战区英雄
     displayMyPrepareLegend();
 
     //显示我方战斗区英雄
     displayMyBattleLegend();
+
+    //显示商店英雄卡牌
+    displayStoreLegend();
 
     //显示棋盘
     displayBoard();
@@ -60,9 +81,9 @@ bool PreparationScene::init()
 //鼠标按下的回调函数
 void PreparationScene::onMouseDown(EventMouse* event)
 {
-    selectedSprite = selectLegend(event);
+    selectedSpriteWithLocation = selectLegend(event);
     //如果有英雄被选中，才显示棋盘
-    if (selectedSprite) {
+    if (selectedSpriteWithLocation.legend) {
         for (int i = 0; i < battleBoardWidth; i++) {
             for (int j = 0; j < battleBoardHeight; j++) {
                 battleChessboard[i][j]->setVisible(true);
@@ -77,7 +98,7 @@ void PreparationScene::onMouseDown(EventMouse* event)
 //鼠标移动的回调函数
 void PreparationScene::onMouseMove(EventMouse* event)
 {
-    dragLegend(event, selectedSprite);
+    dragLegend(event, selectedSpriteWithLocation);
     boardCellSelected(event);  
 }
 
@@ -125,12 +146,12 @@ void PreparationScene::displayBoard()
 //棋盘回显
 void PreparationScene::boardCellSelected(EventMouse* event)
 {
-    if (selectedSprite)
+    if (selectedSpriteWithLocation.legend)
     {
         Vec2 mouseLocation(event->getCursorX(), event->getCursorY());
         for (int i = 0; i < battleBoardWidth; i++) {
             for (int j = 0; j < battleBoardHeight; j++) {
-                Rect targetRect = battleSelectedChessboard[i][j]->getBoundingBox();
+                Rect targetRect = battleChessboard[i][j]->getBoundingBox();
                 if (targetRect.containsPoint(mouseLocation))
                 {
                     battleSelectedChessboard[i][j]->setVisible(true);
@@ -142,7 +163,7 @@ void PreparationScene::boardCellSelected(EventMouse* event)
         }
 
         for (int i = 0; i < preparationSize; i++) {
-            Rect targetRect = preparationSelectedChessboard[i]->getBoundingBox();
+            Rect targetRect = preparationChessboard[i]->getBoundingBox();
             if (targetRect.containsPoint(mouseLocation))
             {
                 preparationSelectedChessboard[i]->setVisible(true);
@@ -156,7 +177,7 @@ void PreparationScene::boardCellSelected(EventMouse* event)
 
 void PreparationScene::onMouseUp(EventMouse* event)
 {
-    if (selectedSprite)
+    if (selectedSpriteWithLocation.legend)
     {
         Size visibleSize = Director::getInstance()->getVisibleSize();
         Vec2 mouseLocation(event->getCursorX(), event->getCursorY());
@@ -177,25 +198,36 @@ void PreparationScene::onMouseUp(EventMouse* event)
         // 判断是否在指定区域内
         bool isInBoard = false;
 
+        auto player = dynamic_cast<Player*>(this->getChildByName("player1"));
+        if (player == nullptr) {
+            exit(0);
+        }
+
         for (int i = 0; i < battleBoardWidth; i++) {
             for (int j = 0; j < battleBoardHeight; j++) {
                 Rect targetRect= battleChessboard[i][j]->getBoundingBox();
                 if (targetRect.containsPoint(mouseLocation))
                 {
                     // 移动到指定区域的中心
-                    selectedSprite->setPosition(targetRect.getMidX(), targetRect.getMidY());
-
-                    //moveLegend
+                    selectedSpriteWithLocation.legend->setPosition(targetRect.getMidX(), targetRect.getMidY());
+                    if (selectedSpriteWithLocation.position.second == -1) {
+                        player->moveLegend(selectedSpriteWithLocation.position.first, {i,j});
+                    }
+                    else {
+                        player->moveLegend(selectedSpriteWithLocation.position, { i,j });
+                    }
                     isInBoard = true;
                     break;
                 }
                
                  //否则回到初始位置
-                auto it = std::find(sprites.begin(), sprites.end(), selectedSprite);
+                selectedSpriteWithLocation.legend->setPosition(Vec2(selectedSpriteWithLocation.position.first, selectedSpriteWithLocation.position.second));
+
+                /*auto it = std::find(sprites.begin(), sprites.end(), selectedSprite);
                 if (it != sprites.end()) {
                     int position = std::distance(sprites.begin(), it);
                     selectedSprite->setPosition(Vec2(visibleSize.width / 4.8 + i * chessboardCellWidth, visibleSize.height / 4));
-                }
+                }*/
             }
             if (isInBoard) break;
         }
@@ -207,21 +239,29 @@ void PreparationScene::onMouseUp(EventMouse* event)
                 if (targetRect.containsPoint(mouseLocation))
                 {
                     // 移动到指定区域的中心
-                    selectedSprite->setPosition(targetRect.getMidX(), targetRect.getMidY());
+                    selectedSpriteWithLocation.legend->setPosition(targetRect.getMidX(), targetRect.getMidY());
+                    if (selectedSpriteWithLocation.position.second == -1) {
+                        player->moveLegend(selectedSpriteWithLocation.position.first, i);
+                    }
+                    else {
+                        player->moveLegend(selectedSpriteWithLocation.position, i);
+                    }
                     isInBoard = true;
                     break;
                 }
 
                 //否则回到初始位置
-                auto it = std::find(sprites.begin(), sprites.end(), selectedSprite);
+
+                selectedSpriteWithLocation.legend->setPosition(Vec2(selectedSpriteWithLocation.position.first, selectedSpriteWithLocation.position.second));
+               /* auto it = std::find(sprites.begin(), sprites.end(), selectedSprite);
                 if (it != sprites.end()) {
                     int position = std::distance(sprites.begin(), it);
                     selectedSprite->setPosition(Vec2(visibleSize.width / 4.8 + position * 100, visibleSize.height / 4));
-                }
+                }*/
             }
         }
         
         // 重置选中的精灵
-        selectedSprite = nullptr;
+        selectedSpriteWithLocation.legend = nullptr;
     }
 }

@@ -23,47 +23,34 @@ BattleScene::BattleScene(PlayerInfo* playerInfo1, PlayerInfo* playerInfo2)
     //auto dirs = Director::getInstance()->getRunningScene();
     //Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    //auto oppoPlayer = dynamic_cast<Player*>(this->getChildByName("player2"));
-    ////auto oppoBattlingLegends = oppoPlayer->getBattlingLegends();
-    //string id = "0";
-    //int count = 0;
-    //for (auto& i : oppoPlayer->getBattlingLegends()) {
-    //    for (auto& j : i) {
-    //        if (j == nullptr)
-    //            continue;
 
-
-    //        auto legend = Legend::create(j);
-    //        if (legend == nullptr) {
-    //            problemLoading(legend->getImagePath());
-    //        }
-    //        else {
-    //            legend->setName(id);
-    //            sprites.push_back(legend);
-
-    //            //j-i.begin
-
-    //            legend->setPosition(Vec2(visibleSize.width / 3.6 + count / battleBoardHeight * chessboardCellWidth, visibleSize.height / 2.9 + count % battleBoardHeight * chessboardCellHeight));
-    //            addChild(legend);
-    //            id += '0' + count;
-    //            count++;
-    //        }
-    //    }
-    //}
-
-    //for (int i = 0; i < battleBoardWidth; i++) {
-    //    for (int j = 0; j < battleBoardHeight * 2; j++) {
-    //        //我方英雄
-    //        if (j < battleBoardHeight) {
-
-    //        }
-    //        //对方英雄
-    //        else {
-
-    //        }
-    //    }
-    //}
-
+    auto myPlayer = dynamic_cast<Player*>(this->getChildByName("player1"));
+    auto oppoPlayer = dynamic_cast<Player*>(this->getChildByName("player2"));
+    int i = 0, j = 0;
+    for (auto& legend_i : myPlayer->getBattlingLegends()) {
+        for (auto& legend_j : legend_i) {
+            if (legend_j == nullptr) {
+                chessBoard[i][j] = emptyFlag;
+                j++;
+                continue;
+            }
+            chessBoard[i][j] = myFlag;
+            j++;
+        }
+        i++;
+    }
+    i = 0, j = 0;
+    for (auto& legend_i : oppoPlayer->getBattlingLegends()) {
+        for (auto& legend_j : legend_i) {
+            if (legend_j == nullptr) {
+                chessBoard[i][j] = emptyFlag;
+                continue;
+            }
+            chessBoard[i+battleBoardHeight][j] = enemyFlag;
+            j++;
+        }
+        i++;
+    }
 }
 
 bool BattleScene::init()
@@ -85,9 +72,6 @@ bool BattleScene::init()
     //显示刷新按钮
     displayRefreshButton();
 
-    //显示商店英雄卡牌
-    /*displayStoreLegend();*/
-
     //显示我方小小英雄
     displayMyPlayer();
 
@@ -99,6 +83,9 @@ bool BattleScene::init()
 
     //显示我方战斗区英雄
     displayMyBattleLegend();
+
+    //显示商店英雄卡牌
+    /*displayStoreLegend();*/
 
     //显示对方备战区英雄
     displayOppoPrepareLegend();
@@ -145,7 +132,7 @@ void BattleScene::displayOppoPrepareLegend()
         exit(0);
     }
 
-    string id = "0";
+    std::string id = "0";
     int count = 0;
     for (auto i : player->getPreparedLegends()) {
         // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
@@ -157,7 +144,6 @@ void BattleScene::displayOppoPrepareLegend()
         }
         else {
             legend->setName(id);
-            sprites.push_back(legend);
             legend->setPosition(Vec2(visibleSize.width / 1.5 - count * 70, visibleSize.height / 1.15));//坐标不改  苦苦算出来的。。。
             addChild(legend);
             id += '0' + count;
@@ -218,7 +204,6 @@ void BattleScene::performBattlingLogic(float delta)
             //}
 
                 legend->setName("0");
-                sprites.push_back(legend);
                 addChild(legend);
                 count++;
             }
@@ -253,7 +238,7 @@ Vec2 BattleScene::findMovePath(int x, int y,int Flag) {
     //离自己最近的对方英雄的位置
     int dst_x = x;
     int dst_y = y;
-    double minDistance = numeric_limits<double>::max();
+    double minDistance = INT_MAX;
 
     for (int i = 0; i < battleBoardWidth; i++) {
         for (int j = 0; j < battleBoardHeight * 2; j++) {
