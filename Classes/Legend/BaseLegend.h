@@ -53,7 +53,7 @@ public:
 	virtual int beingHealed(int be_healed);
 	virtual int abilityAttack() { return 0; }
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 
 	static Legend* create(LegendInfo* const info);
 

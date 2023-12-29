@@ -3,7 +3,7 @@
 Legend* Legend::create(LegendInfo* const info)
 {
 	Legend* legend = new (std::nothrow) Legend(info);
-	if (legend && legend->initWithFile(getImagePath())) {
+	if (legend && legend->initWithFile(legend->getImagePath())) {
 		legend->autorelease();
 		return legend;
 	}

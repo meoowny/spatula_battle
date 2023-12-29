@@ -28,7 +28,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 // TODO: createInfo 暂未改，仅为复制补贴的 Aphelios 的 createInfo
@@ -58,7 +58,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -88,7 +88,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 class Lucian :public Legend
@@ -116,7 +116,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -146,7 +146,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -176,7 +176,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -206,7 +206,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -238,7 +238,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -268,7 +268,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -298,7 +298,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -327,7 +327,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -356,7 +356,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -385,7 +385,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -416,7 +416,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -445,7 +445,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -474,7 +474,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -503,7 +503,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -532,7 +532,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -563,7 +563,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -592,7 +592,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -621,7 +621,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -650,7 +650,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 class Sett :public Legend
@@ -678,7 +678,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -707,7 +707,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -738,7 +738,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -767,7 +767,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -796,7 +796,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -825,7 +825,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -854,7 +854,7 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
 
@@ -883,6 +883,6 @@ public:
 		}
 	}
 
-    static const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+    virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
