@@ -318,10 +318,22 @@ void BaseRoundScene::buyButtonClickCallback(Ref* pSender)
 //刷新按钮回调函数
 void BaseRoundScene::refreshButtonClickCallback(Ref* pSender)
 {
-    //  传给玩家类  需要重新获取英雄卡牌信息
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    auto dirs = Director::getInstance()->getRunningScene();
 
-    //  ...
+    //捕获节点
+    auto myPlayer = dynamic_cast<Player*>(dirs->getChildByName("player1"));
 
+    //刷新商店，同时扣金币
+    myPlayer->refreshStore();
+    Label* labelCoins;
+    labelCoins = Label::createWithTTF("My Coins", "fonts/UbuntuNFMono.ttf", 20);
+    int myCoins = myPlayer->getCoin();
+    labelCoins->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12 + 120));
+    this->addChild(labelCoins);
+    labelCoins->setName("labelCoins");
+    labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
+    this->removeChild(dirs->getChildByName("labelCoins"));
     //displayRefreshButton();
 }
 
