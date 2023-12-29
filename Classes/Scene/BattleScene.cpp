@@ -92,7 +92,7 @@ bool BattleScene::init()
     // schedule(CC_SCHEDULE_SELECTOR(BattleScene::performBattlingLogic), 1.0f);
 
 
-
+    countdown();
     return true;
 }
 

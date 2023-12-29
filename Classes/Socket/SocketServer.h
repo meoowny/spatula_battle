@@ -53,6 +53,7 @@ private:
 	std::list<SocketMessage*> _UIMessageQueue;
 	std::mutex   _UIMessageQueueMutex;
 	std::map<char, HSocket> idToSocket;//用来将用户端与其ID一一对应，根据ID找到用户端
+	std::map<HSocket, char> socketToId;//用来将用户端与其ID一一对应，根据用户端找ID
 };
 
 #endif
