@@ -27,6 +27,7 @@ using Position = std::pair<int, int>;
 
 const int maxLevel = 10;
 const int levelUpExp[maxLevel] = { 0, 4, 10, 20, 40, 50, 80, 120, 160, 210 };
+const int refreshStoreCost = 2;
 const int purchaseExpCost = 4;
 // TODO: 记得改为 include
 const int battleBoardWidth = 7;
@@ -69,6 +70,7 @@ public:
 	//bool increaseCoin(int coins);
 	int getLevel(void) const;
 
+	bool refreshStore(void);//刷新商店，同时扣金币
 	bool buyExperience(void); // 买经验，同时扣金币
 	bool checkout(bool isWinner, int attack = 0); // 关卡结算，经验、金币，同时负责小小英雄的扣血
 

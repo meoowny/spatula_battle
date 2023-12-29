@@ -62,6 +62,7 @@ list(APPEND GAME_SOURCE
      Classes/Scene/BattleScene.cpp
      Classes/Scene/OnlineModeScene.cpp
      Classes/Scene/ServerModeScene.cpp
+     Classes/Store/Store.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -78,6 +79,7 @@ list(APPEND GAME_HEADER
      Classes/Scene/BattleScene.h
      Classes/Scene/OnlineModeScene.h
      Classes/Scene/ServerModeScene.h
+     Classes/Store/Store.h
      )
 
 if(ANDROID)

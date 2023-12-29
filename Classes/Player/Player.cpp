@@ -3,7 +3,7 @@
 USING_NS_CC;
 
 PlayerInfo::PlayerInfo(const std::string& filename, bool isAI)
-	: _isAI(isAI), _coins(5), _health(100), _image_path(filename)
+	: _isAI(isAI), _coins(200), _health(100), _image_path(filename)
 {
 	for (auto& i : _preparedLegends) {
 		i = NULL;
@@ -96,6 +96,21 @@ int Player::getLevel(void) const
 		level++;
 	}
 	return level;
+}
+
+bool Player::refreshStore(void) {
+	if (_info->_coins < refreshStoreCost) {
+		return false;
+	}
+	else {
+		_info->_coins -= refreshStoreCost;
+		//这里加入调用商店刷新的函数
+		// 
+		// .....
+		// 
+		//重新分配商店卡池
+		return true;
+	}
 }
 
 bool Player::buyExperience(void)
