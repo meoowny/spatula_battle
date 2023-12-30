@@ -19,6 +19,11 @@ struct StartPlayerInfo
 };
 
 
+
+
+
+
+
 template <int size>
 using LegendInfoArray = std::array<LegendInfo*, size>;
 template <int row, int col>
@@ -34,12 +39,30 @@ const int battleBoardWidth = 7;
 const int battleBoardHeight = 3;
 const int preparationSize = 9;
 
+
+
+//传递的敌方玩家信息
+struct AfterParationInfo
+{
+	char fileName[30];
+	bool isAI;
+	int coins;
+	int experience;
+	int health;
+	LegendInfoMatrix<battleBoardHeight, battleBoardWidth> _battlingLegends;
+	LegendInfoArray<preparationSize> _preparedLegends;
+};
+
+
+
+
 // Player 继承自 Sprite 类，需要使用 create 函数及相关函数，参考 cocos2d 写法
 // 新增 PlayerInfo 类，新的 Player 类将会包含一个 PlayerInfo 指针用于获取和修改玩家信息，且 Player 从结点删除后不影响 PlayerInfo 的继续存在
 
 class PlayerInfo: public Node
 {
 	friend class Player;
+	friend class OnlineModeScene;
 
 public:
 	PlayerInfo(const std::string& filename, bool isAI);

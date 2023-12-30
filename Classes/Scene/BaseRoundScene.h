@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Player/Player.h"
+//#include "Scene/OnlineModeScene.h"
 
 #include <vector>//待修改  只是测试用
 
@@ -61,6 +62,7 @@ protected:
 
     PlayerInfo* _playerInfo1;
     PlayerInfo* _playerInfo2;
+    //SocketClient* _client;
 
 
 private:

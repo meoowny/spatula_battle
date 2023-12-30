@@ -460,7 +460,8 @@ void BaseRoundScene::countdown()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     //开始倒计时，设置为1分钟
-    int totalTimeInSeconds = 60;
+    //int totalTimeInSeconds = 60;
+    int totalTimeInSeconds = 5;
     remainingTimeInSeconds = totalTimeInSeconds;
 
     // 在屏幕上创建一个标签用于显示剩余时间

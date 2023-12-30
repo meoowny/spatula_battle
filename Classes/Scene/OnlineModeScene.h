@@ -6,8 +6,10 @@
 #include <sstream>
 #include "Player/Player.h"
 #include"Scene/PreparationScene.h"
+#include"Scene/BattleScene.h"
 
 
+#include "ExerciseScene.h"
 
 class OnlineModeScene : public Layer
 {
@@ -22,13 +24,17 @@ public:
 	void onRecv(const char* data, int count);
 	void onDisconnect();
 	char ID;
+	int roundNum;//记录场景跳转的数量
 
+	
 protected:
 	void initNetwork();//网络初始化
 	SocketClient* client;
 
+
 private:
 	PlayerInfo *myPlayerInfo;
+	PlayerInfo* enemyPlayerInfo;
 };
 
 
