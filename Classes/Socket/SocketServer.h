@@ -4,6 +4,7 @@
 
 #include "SocketBase.h"
 #include "Scene/ServerModeScene.h"
+//#include "Player/Player.h"
 #include <map>
 
 struct RecvData
@@ -12,6 +13,10 @@ struct RecvData
 	int dataLen;
 	char data[1024];
 };
+
+
+
+
 
 class SocketServer : public SocketBase
 {
@@ -54,6 +59,8 @@ private:
 	std::mutex   _UIMessageQueueMutex;
 	std::map<char, HSocket> idToSocket;//用来将用户端与其ID一一对应，根据ID找到用户端
 	std::map<HSocket, char> socketToId;//用来将用户端与其ID一一对应，根据用户端找ID
+	int num;
+	//std::map<HSocket, AfterParationInfo> socketToInfo;//将用户端与其备战后的信息相对应
 };
 
 #endif

@@ -18,10 +18,17 @@ struct StartPlayerInfo
 	bool isAI;
 };
 
-
-
-
-
+//传递的敌方玩家信息
+struct AfterParationInfo
+{
+	char fileName[30];
+	bool isAI;
+	int coins;
+	int experience;
+	int health;
+	int preparadLegends[9];
+	int battleLegend[9];
+};
 
 
 template <int size>
@@ -37,21 +44,6 @@ const int purchaseExpCost = 4;
 const int battleBoardWidth = 7;
 const int battleBoardHeight = 3;
 const int preparationSize = 9;
-
-
-
-//传递的敌方玩家信息
-struct AfterParationInfo
-{
-	char fileName[30];
-	bool isAI;
-	int coins;
-	int experience;
-	int health;
-	LegendInfoMatrix<battleBoardHeight, battleBoardWidth> _battlingLegends;
-	LegendInfoArray<preparationSize> _preparedLegends;
-};
-
 
 
 

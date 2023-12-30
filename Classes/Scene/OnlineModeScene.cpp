@@ -19,22 +19,45 @@ bool OnlineModeScene::init()
 	enemyPlayerInfo = NULL;
 	roundNum = 0;
 	initNetwork();//网络初始化
+
+
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();//获得屏幕大小
+	//
+	auto labelGivePlayerInfo = Label::createWithSystemFont("传", "STHUPO.TTF", 120);
+	auto itemGivePlayerInfo = MenuItemLabel::create(labelGivePlayerInfo, CC_CALLBACK_1(OnlineModeScene::givePlayerInfoCallBack, this));
+	auto menu = Menu::create( itemGivePlayerInfo, NULL);
+	menu->setPosition(visibleSize.width / 4, visibleSize.height / 4);
+	this->addChild(menu);
+
+	//
+
 	return true;
 }
 
+void OnlineModeScene::givePlayerInfoCallBack(Ref* pSender)
+{
+	client->sendMessage("abcd", 5);
+}
+
+
+
 void OnlineModeScene::onEnter()
 {
-	if (roundNum==1)
+	if (roundNum == 1)
 	{
 		roundNum++;
-
 		////备战回合结束，将己方信息传给服务器
 		////服务器接收到信息后会把敌方信息传给己方
 		////己方对EnemyInfo进行改动
-		//char fileName[30] = { 0 };
-		//strcpy(fileName, myPlayerInfo->_image_path.c_str());
-
-		Director::getInstance()->pushScene(BattleScene::createScene(myPlayerInfo, enemyPlayerInfo));
+		AfterParationInfo nowParationInfo = { 0 };
+		strcpy(nowParationInfo.fileName, myPlayerInfo->_image_path.c_str());
+		nowParationInfo.isAI = myPlayerInfo->_isAI;
+		nowParationInfo.coins = myPlayerInfo->_coins;
+		nowParationInfo.experience = myPlayerInfo->_experience;
+		nowParationInfo.health = myPlayerInfo->_health;
+		client->sendMessage((char*)(&nowParationInfo), sizeof(AfterParationInfo));
+		//Director::getInstance()->pushScene(BattleScene::createScene(myPlayerInfo, myPlayerInfo));
 	}
 	Layer::onEnter();
 }
@@ -51,6 +74,8 @@ void OnlineModeScene::onExit()
 void OnlineModeScene::onRecv(const char* data, int count)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();//获得屏幕大小
+
+
 	switch (count)//对服务器信息类型进行分类
 	{
 		case 2://若传递的信息为当前玩家ID或总玩家数量

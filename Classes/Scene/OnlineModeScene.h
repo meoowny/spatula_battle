@@ -26,6 +26,9 @@ public:
 	char ID;
 	int roundNum;//记录场景跳转的数量
 
+
+	void givePlayerInfoCallBack(Ref* pSender);//分配玩家信息
+
 	
 protected:
 	void initNetwork();//网络初始化

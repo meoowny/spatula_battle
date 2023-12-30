@@ -36,7 +36,7 @@ void BaseRoundScene::displayStore()
     else
     {
         store->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12));
-        store->setScale(2.2);
+        store->setScale(1.65);
         addChild(store, 1);
     }
 }
