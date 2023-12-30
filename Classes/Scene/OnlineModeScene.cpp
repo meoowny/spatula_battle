@@ -14,24 +14,36 @@ bool OnlineModeScene::init()
 	{
 		return false;
 	}
-	ID = 0;
+	ID = 48;
 	myPlayerInfo = NULL;
-
-	
+	enemyPlayerInfo = NULL;
+	roundNum = 0;
 	initNetwork();//网络初始化
 	return true;
 }
 
 void OnlineModeScene::onEnter()
 {
+	if (roundNum==1)
+	{
+		roundNum++;
+
+		////备战回合结束，将己方信息传给服务器
+		////服务器接收到信息后会把敌方信息传给己方
+		////己方对EnemyInfo进行改动
+		//char fileName[30] = { 0 };
+		//strcpy(fileName, myPlayerInfo->_image_path.c_str());
+
+		Director::getInstance()->pushScene(BattleScene::createScene(myPlayerInfo, enemyPlayerInfo));
+	}
 	Layer::onEnter();
 }
 
 void OnlineModeScene::onExit()
 {
-	client->destroy();
+	/*client->destroy();
 	client = nullptr;
-	Director::getInstance()->getEventDispatcher()->removeEventListener(_touchListener);
+	Director::getInstance()->getEventDispatcher()->removeEventListener(_touchListener);*/
 	Layer::onExit();
 }
 
@@ -39,7 +51,6 @@ void OnlineModeScene::onExit()
 void OnlineModeScene::onRecv(const char* data, int count)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();//获得屏幕大小
-
 	switch (count)//对服务器信息类型进行分类
 	{
 		case 2://若传递的信息为当前玩家ID或总玩家数量
@@ -73,12 +84,21 @@ void OnlineModeScene::onRecv(const char* data, int count)
 			}
 			break;
 		case sizeof(StartPlayerInfo) ://传入为开始玩家信息
+
+			//初始化己方玩家信息
 			StartPlayerInfo tempPlayerInfo;
 			memcpy(&tempPlayerInfo, data, sizeof(StartPlayerInfo));
 			myPlayerInfo = new PlayerInfo(tempPlayerInfo.fileName, tempPlayerInfo.isAI);
+
+			//初始化敌方英雄信息
+			//需要改动，当备战阶段结束后收到对方的信息，将enemyPlayerInfo中的信息进行改动
+			enemyPlayerInfo = new PlayerInfo(tempPlayerInfo.fileName, tempPlayerInfo.isAI);
+
 			break;
 		case 6://开始游戏
+			roundNum++;
 			Director::getInstance()->pushScene(PreparationScene::createScene(myPlayerInfo));
+
 			break;
 	}
 }
@@ -91,7 +111,7 @@ void OnlineModeScene::onDisconnect()
 //网络初始化
 void OnlineModeScene::initNetwork()
 {
-	client = SocketClient::construct();
+	client =  SocketClient::construct();
     client->onRecv = CC_CALLBACK_2(OnlineModeScene::onRecv, this);
 	client->onDisconnect = CC_CALLBACK_0(OnlineModeScene::onDisconnect, this);
 	if (!client->connectServer("127.0.0.1", 8000))

@@ -155,8 +155,18 @@ void SocketServer::newClientConnected(HSocket socket)
 		SocketMessage* msg = new SocketMessage(NEW_CONNECTION, (unsigned char*)&socket, sizeof(HSocket));
 		_UIMessageQueue.push_back(msg);
 	}
-	_mutex.lock();
 
+	////向客户端发送已连接的信息，用户接收到信息后，将ID发回服务器
+	////若客户端发回的ID为默认值'0'，则服务器为其分配ID
+	////若客户端发回的ID不为'0'，则服务器将其ID对应的socket改为当前的socket
+	//_mutex.lock();
+	//char ID[2] = { 0 };
+	//ID[0] = 'b';//作为标识符，用来区分传递的信息是id，总人数还是初次连接时已连接的信息
+	//ID[1] = 48;
+	//this->sendMessage(socket, ID, 2);
+	//_mutex.unlock();
+
+	_mutex.lock();
 	//将当前用户的序号传给当前用户端，用来当做该用户端的id
 	char ID[2] = { 0 };
 	ID[0] = 'i';//作为标识符，用来区分传递的信息是id还是总人数
@@ -164,12 +174,14 @@ void SocketServer::newClientConnected(HSocket socket)
 	this->sendMessage(socket, ID, 2);
 	//使用map将每个玩家的id与其socket相对应
 	idToSocket.insert(std::map<char, HSocket>::value_type(ID[1], socket));
+	socketToId.insert(std::map<HSocket, char>::value_type(socket, ID[1]));
 	//将当前玩家总人数传给每个玩家
 	char playerNum[2] = { 0 };
 	playerNum[0] = 'a';
 	playerNum[1] = 48 + _clientSockets.size();
 	this->sendMessage(playerNum, 2);
 	_mutex.unlock();
+	
 }
 
 void SocketServer::recvMessage(HSocket socket)
@@ -189,13 +201,13 @@ void SocketServer::recvMessage(HSocket socket)
 		{
 			if (ret > 0 && onRecv != nullptr)
 			{
-				std::lock_guard<std::mutex> lk(_UIMessageQueueMutex);
+				/*std::lock_guard<std::mutex> lk(_UIMessageQueueMutex);
 				RecvData recvData;
 				recvData.socketClient = socket;
 				memcpy(recvData.data, buff, ret);
 				recvData.dataLen = ret;
 				SocketMessage* msg = new SocketMessage(RECEIVE, (unsigned char*)&recvData, sizeof(RecvData));
-				_UIMessageQueue.push_back(msg);
+				_UIMessageQueue.push_back(msg);*/
 			}
 		}
 	}
