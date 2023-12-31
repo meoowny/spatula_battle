@@ -6,7 +6,7 @@ class ApheliosInfo : public LegendInfo
 {
 public:
     ApheliosInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Aphelios", 580, 2, 70, 26, 30, 4) { }
     virtual const char* getCardPath() { return "Cards/card_hypnoshroom.png"; }
 };
 
@@ -16,7 +16,7 @@ class CaitlynInfo :public LegendInfo
 {
 public:
     CaitlynInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Caitlyn", 480, 4, 62, 28, 30, 5) { }
     virtual const char* getCardPath() { return "Cards/card_cherrybomb.png"; }
 };
 
@@ -26,7 +26,7 @@ class EzrealInfo :public LegendInfo
 {
 public:
     EzrealInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Ezreal", 600, 2, 60, 24, 30, 4) { }
     virtual const char* getCardPath() { return "Cards/card_iceshroom.png"; }
 };
 
@@ -34,7 +34,7 @@ class LucianInfo :public LegendInfo
 {
 public:
     LucianInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Lucian", 641, 2, 60, 28, 30, 3) { }
     virtual const char* getCardPath() { return "Cards/card_chomper.png"; }
 };
 
@@ -44,7 +44,7 @@ class Miss_FortuneInfo :public LegendInfo
 {
 public:
     Miss_FortuneInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Miss_Fortune", 640, 2, 52, 28, 30, 4) { }
     virtual const char* getCardPath() { return "Cards/card_jalapeno.png"; }
 };
 
@@ -54,7 +54,7 @@ class GravesInfo :public LegendInfo
 {
 public:
     GravesInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Graves", 625, 2, 68, 33, 50, 3) { }
     virtual const char* getCardPath() { return "Cards/card_peashooter.png"; }
 };
 
@@ -64,7 +64,7 @@ class VarusInfo :public LegendInfo
 {
 public:
     VarusInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Varus", 600, 2, 62, 27, 30, 4) { }
     virtual const char* getCardPath() { return "Cards/card_potatomine.png"; }
 };
 
@@ -76,7 +76,7 @@ class KatarinaInfo :public LegendInfo
 {
 public:
     KatarinaInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Katarina", 672, 2, 58, 28, 10, 1) { }
     virtual const char* getCardPath() { return "Cards/card_puffshroom.png"; }
 };
 
@@ -86,7 +86,7 @@ class AkaliInfo :public LegendInfo
 {
 public:
     AkaliInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Akali", 570, 2, 62, 23, 10, 4) { }
     virtual const char* getCardPath() { return "Cards/card_repeaterpea.png"; }
 };
 
@@ -96,7 +96,7 @@ class AnnieInfo :public LegendInfo
 {
 public:
     AnnieInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Annie", 594, 2, 50, 19, 10, 4) { }
     virtual const char* getCardPath() { return "Cards/card_scaredyshroom.png"; }
 };
 
@@ -105,7 +105,7 @@ class ViktorInfo :public LegendInfo
 {
 public:
     ViktorInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Viktor", 600, 2, 53, 23, 10, 4) { }
     virtual const char* getCardPath() { return "Cards/card_snowpea.png"; }
 };
 
@@ -114,7 +114,7 @@ class SonaInfo :public LegendInfo
 {
 public:
     SonaInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Sona", 550, 2, 49, 26, 10, 4) { }
     virtual const char* getCardPath() { return "Cards/card_spikeweed.png"; }
 };
 
@@ -123,7 +123,7 @@ class JhinInfo :public LegendInfo
 {
 public:
     JhinInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Jhin", 655, 2, 70, 24, 40, 4) { }
     virtual const char* getCardPath() { return "Cards/card_squash.png"; }
 };
 
@@ -134,7 +134,7 @@ class ViegoInfo :public LegendInfo
 {
 public:
     ViegoInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Viego", 630, 2, 70, 34, 70, 1) { }
     virtual const char* getCardPath() { return "Cards/card_sunflower.png"; }
 };
 
@@ -143,7 +143,7 @@ class QiyanaInfo :public LegendInfo
 {
 public:
     QiyanaInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Qiyana", 590, 2, 66, 28, 10, 1) { }
     virtual const char* getCardPath() { return "Cards/card_sunshroom.png"; }
 };
 
@@ -152,7 +152,7 @@ class KaynInfo :public LegendInfo
 {
 public:
     KaynInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Kayn", 600, 2, 70, 28, 10, 1) { }
     virtual const char* getCardPath() { return "Cards/card_threepeashooter.png"; }
 };
 
@@ -161,7 +161,7 @@ class Bel_VethInfo :public LegendInfo
 {
 public:
     Bel_VethInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Bel_Veth", 610, 2, 60, 32, 20, 1) { }
     virtual const char* getCardPath() { return "Cards/card_wallnut.png"; }
 };
 
@@ -170,7 +170,7 @@ class EkkoInfo :public LegendInfo
 {
 public:
     EkkoInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Ekko", 655, 2, 58, 32, 10, 1) { }
 };
 
 
@@ -180,7 +180,7 @@ class RivenInfo : public LegendInfo
 {
 public:
     RivenInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Riven", 630, 2, 64, 33, 10, 1) { }
 };
 
 
@@ -188,7 +188,7 @@ class FioraInfo :public LegendInfo
 {
 public:
     FioraInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Fiora", 620, 2, 68, 33, 10, 1) { }
 };
 
 
@@ -196,7 +196,7 @@ class CamilleInfo :public LegendInfo
 {
 public:
     CamilleInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Camille", 646, 2, 68, 33, 5, 1) { }
 };
 
 
@@ -204,14 +204,14 @@ class IreliaInfo :public LegendInfo
 {
 public:
     IreliaInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Irelia", 590, 2, 65, 36, 10, 1) { }
 };
 
 class SettInfo :public LegendInfo
 {
 public:
     SettInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Sett", 670, 2, 60, 33, 10, 1) { }
 };
 
 
@@ -219,7 +219,7 @@ class GanplankInfo :public LegendInfo
 {
 public:
     GanplankInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Ganplank", 600, 2, 64, 31, 10, 1) { }
 };
 
 
@@ -229,7 +229,7 @@ class ThreshInfo :public LegendInfo
 {
 public:
     ThreshInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Thresh", 1000, 2, 10, 31, 0, 3) { }
 };
 
 
@@ -237,7 +237,7 @@ class Renata_GlascInfo :public LegendInfo
 {
 public:
     Renata_GlascInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Renta_Glasc", 700, 2, 10, 28, 20, 4) { }
 };
 
 
@@ -245,7 +245,7 @@ class RakanInfo :public LegendInfo
 {
 public:
     RakanInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Rakan", 1000, 2, 10, 32, 10, 1) { }
 };
 
 
@@ -253,7 +253,7 @@ class BardInfo :public LegendInfo
 {
 public:
     BardInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Bard", 1200, 2, 10, 34, 10, 4) { }
 };
 
 
@@ -261,7 +261,7 @@ class NautilusInfo :public LegendInfo
 {
 public:
     NautilusInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Nautilus", 1600, 2, 5, 39, 10, 1) { }
 };
 
 
@@ -269,6 +269,6 @@ class PykeInfo :public LegendInfo
 {
 public:
     PykeInfo()
-    : LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4) { }
+    : LegendInfo("Pyke", 900, 2, 60, 45, 10, 1) { }
 };
 

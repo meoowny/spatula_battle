@@ -26,6 +26,7 @@ SocketServer::SocketServer() :
 	Director::getInstance()->getScheduler()->scheduleUpdate(this, 0, false);
 }
 
+
 SocketServer::~SocketServer()
 {
 	this->clear();
@@ -142,6 +143,7 @@ void SocketServer::acceptFunc()
 	}
 }
 
+
 void SocketServer::newClientConnected(HSocket socket)
 {
 	log("new connect!");
@@ -182,6 +184,11 @@ void SocketServer::newClientConnected(HSocket socket)
 	this->sendMessage(playerNum, 2);
 	_mutex.unlock();
 	
+
+	/*_mutex.lock();
+	this->sendMessage("start", 6);
+	_mutex.unlock();*/
+
 }
 
 void SocketServer::recvMessage(HSocket socket)
@@ -201,16 +208,20 @@ void SocketServer::recvMessage(HSocket socket)
 		{
 			if (ret > 0 && onRecv != nullptr)
 			{
-				/*std::lock_guard<std::mutex> lk(_UIMessageQueueMutex);
+				std::lock_guard<std::mutex> lk(_UIMessageQueueMutex);
 				RecvData recvData;
 				recvData.socketClient = socket;
 				memcpy(recvData.data, buff, ret);
 				recvData.dataLen = ret;
 				SocketMessage* msg = new SocketMessage(RECEIVE, (unsigned char*)&recvData, sizeof(RecvData));
-				_UIMessageQueue.push_back(msg);*/
+				_UIMessageQueue.push_back(msg);
 			}
 		}
 	}
+
+	/*_mutex.lock();
+	this->sendMessage("start", 6);
+	_mutex.unlock();*/
 
 	_mutex.lock();
 	this->closeConnect(socket);
@@ -222,6 +233,7 @@ void SocketServer::recvMessage(HSocket socket)
 	}
 	_mutex.unlock();
 }
+
 
 void SocketServer::sendMessage(HSocket socket, const char* data, int count)
 {
@@ -297,3 +309,20 @@ void SocketServer::update(float dt)
 	CC_SAFE_DELETE(msg);
 	_UIMessageQueueMutex.unlock();
 }
+
+
+
+//if (ret == sizeof(AfterParationInfo))//若收到的英雄信息
+//{
+//	AfterParationInfo tempInfo;
+//	memcpy(&tempInfo, buff, sizeof(AfterParationInfo));
+//	socketToInfo.insert(std::map<HSocket, AfterParationInfo>::value_type(socket, tempInfo));
+//}
+//_mutex.lock();
+//if (ret == 7)
+//{
+//	sendMessage("start", 6);
+//}
+//sendMessage(socket, "start", 6);
+//_mutex.unlock();
+

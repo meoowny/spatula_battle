@@ -221,7 +221,7 @@ void PreparationScene::onMouseUp(EventMouse* event)
                 }
                
                  //否则回到初始位置
-                selectedSpriteWithLocation.legend->setPosition(Vec2(selectedSpriteWithLocation.position.first, selectedSpriteWithLocation.position.second));
+                //selectedSpriteWithLocation.legend->setPosition(Vec2(visibleSize.width / 4.8 + selectedSpriteWithLocation.position.first * chessboardCellWidth, selectedSpriteWithLocation.position.second));
 
                 /*auto it = std::find(sprites.begin(), sprites.end(), selectedSprite);
                 if (it != sprites.end()) {
@@ -252,7 +252,7 @@ void PreparationScene::onMouseUp(EventMouse* event)
 
                 //否则回到初始位置
 
-                selectedSpriteWithLocation.legend->setPosition(Vec2(selectedSpriteWithLocation.position.first, selectedSpriteWithLocation.position.second));
+                //selectedSpriteWithLocation.legend->setPosition(Vec2(selectedSpriteWithLocation.position.first, selectedSpriteWithLocation.position.second));
                /* auto it = std::find(sprites.begin(), sprites.end(), selectedSprite);
                 if (it != sprites.end()) {
                     int position = std::distance(sprites.begin(), it);

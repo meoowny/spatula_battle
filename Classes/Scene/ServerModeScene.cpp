@@ -63,15 +63,7 @@ void ServerModeScene::onExit()
 //通知玩家游戏开始
 void ServerModeScene::startGameCallBack(Ref* pSender)
 {
-	server->_mutex.lock();
-	//为当前所有客户端分发游戏开始信息
-	server->sendMessage("start", 6);
-	server->_mutex.unlock();
-}
 
-//分配玩家信息
-void ServerModeScene::givePlayerInfoCallBack(Ref* pSender)
-{
 	std::list<HSocket>::iterator iterClient;//迭代器，辅助遍历当前所有客户端
 	int serverNum = 0;
 	server->_mutex.lock();
@@ -80,15 +72,64 @@ void ServerModeScene::givePlayerInfoCallBack(Ref* pSender)
 	{
 		serverNum++;
 		//每个玩家分配不一样的小小英雄
-		if (serverNum % 2 == 1)
+		if (serverNum == 1)
 		{
+			StartPlayerInfo tempStartPlayerInfo = { "Chomper_0.png" ,false };
+			server->sendMessage(*iterClient, (char*)(&tempStartPlayerInfo), sizeof(StartPlayerInfo));
+		}
+		else if(serverNum==2)
+		{
+			
 			StartPlayerInfo tempStartPlayerInfo = { "Peashooter_0.png" ,false };
+			server->sendMessage(*iterClient, (char*)(&tempStartPlayerInfo), sizeof(StartPlayerInfo));
+		}
+		else if (serverNum == 3)
+		{
+			StartPlayerInfo tempStartPlayerInfo = { "ScaredyShroom_0.png" ,false };
 			server->sendMessage(*iterClient, (char*)(&tempStartPlayerInfo), sizeof(StartPlayerInfo));
 		}
 		else
 		{
-			StartPlayerInfo tempStartPlayerInfo = { "HelloWorld.png" ,false };
+			StartPlayerInfo tempStartPlayerInfo = { "SnowPea_0.png" ,false };
 			server->sendMessage(*iterClient, (char*)(&tempStartPlayerInfo), sizeof(StartPlayerInfo));
+		}
+	}
+	//为当前所有客户端分发游戏开始信息
+	server->sendMessage("start", 6);
+	server->_mutex.unlock();
+}
+
+//分配对面玩家信息
+void ServerModeScene::givePlayerInfoCallBack(Ref* pSender)
+{
+	std::list<HSocket>::iterator iterClient;//迭代器，辅助遍历当前所有客户端
+	int serverNum = 0;
+	server->_mutex.lock();
+	//初始化AI信息
+	for (iterClient = server->_clientSockets.begin(); iterClient != server->_clientSockets.end(); iterClient++)
+	{
+		serverNum++;
+		//每个AI玩家分配不一样的小小英雄
+		if (serverNum == 1)
+		{
+			AfterParationInfo tempAfterParation = { "WallNut_cracked1_0.png",true,50,10,50,{0},{0} };
+			server->sendMessage(*iterClient, (char*)(&tempAfterParation), sizeof(AfterParationInfo));
+		}
+		else if (serverNum == 2)
+		{
+
+			AfterParationInfo tempAfterParation = { "SunFlower_0.png",true,50,10,50,{0},{0} };
+			server->sendMessage(*iterClient, (char*)(&tempAfterParation), sizeof(AfterParationInfo));
+		}
+		else if (serverNum == 3)
+		{
+			AfterParationInfo tempAfterParation = { "PotatoMine_1.png",true,50,10,50,{0},{0} };
+			server->sendMessage(*iterClient, (char*)(&tempAfterParation), sizeof(AfterParationInfo));
+		}
+		else
+		{
+			AfterParationInfo tempAfterParation = { "Jalapeno_0.png",true,50,10,50,{0},{0} };
+			server->sendMessage(*iterClient, (char*)(&tempAfterParation), sizeof(AfterParationInfo));
 		}
 	}
 	server->_mutex.unlock();
@@ -100,3 +141,4 @@ void ServerModeScene::initNetwork()
 	server = SocketServer::getInstance();
 	server->startServer(8000);
 }
+

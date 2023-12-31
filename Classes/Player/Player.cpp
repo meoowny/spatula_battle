@@ -15,6 +15,25 @@ PlayerInfo::PlayerInfo(const std::string& filename, bool isAI)
 	}
 }
 
+////对playerinfo内信息进行改动
+//int PlayerInfo::changePlayerInfo(char fileName[30], bool isAI, int coins, int experience, int health, int* preparadLegends, int* battleLegend)
+//{
+//	for (int i = 0; i < 30; i++)
+//	{
+//		_image_path += fileName[i];
+//		if (fileName[i] == '\0')
+//		{
+//			break;
+//		}
+//	}
+//	_isAI = isAI;
+//	_coins = coins;
+//	_experience = experience;
+//	_health = health;
+//	return 0;
+//}
+
+
 
 /*PlayerInfo::PlayerInfo(const char* filename, bool isAI)
 	: _isAI(isAI), _coins(5), _health(100), _image_path("0")

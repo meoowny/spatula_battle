@@ -19,9 +19,17 @@ struct StartPlayerInfo
 };
 
 
-
-
-
+//传递的敌方玩家信息
+struct AfterParationInfo
+{
+	char fileName[30];
+	bool isAI;
+	int coins;
+	int experience;
+	int health;
+	int preparadLegends[9];
+	int battleLegend[9];
+};
 
 
 template <int size>
@@ -41,21 +49,6 @@ const int preparationSize = 9;
 
 
 
-//传递的敌方玩家信息
-struct AfterParationInfo
-{
-	char fileName[30];
-	bool isAI;
-	int coins;
-	int experience;
-	int health;
-	LegendInfoMatrix<battleBoardHeight, battleBoardWidth> _battlingLegends;
-	LegendInfoArray<preparationSize> _preparedLegends;
-};
-
-
-
-
 // Player 继承自 Sprite 类，需要使用 create 函数及相关函数，参考 cocos2d 写法
 // 新增 PlayerInfo 类，新的 Player 类将会包含一个 PlayerInfo 指针用于获取和修改玩家信息，且 Player 从结点删除后不影响 PlayerInfo 的继续存在
 
@@ -71,12 +64,16 @@ public:
 	
 	static PlayerInfo* create(const std::string& filename, bool isAI);
 	//static PlayerInfo* create(const char* filename, bool isAI);
+
+	//对playerinfo内信息进行改动
+	//int changePlayerInfo(char fileName[30], bool isAI, int coins, int experience, int health, int* preparadLegends, int* battleLegend);
+
 private:
 	bool _isAI;
 	int _coins;
 	int _experience;
 	int _health;
-	const std::string _image_path;//Vector<char>
+	std::string _image_path;//Vector<char>
 	//char _image_path[30];
 	//array<LegendWithPlace> _battlingLegends;
 	//array<Legend*> _preparedLegends;
