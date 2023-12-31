@@ -3,7 +3,7 @@
 USING_NS_CC;
 
 PlayerInfo::PlayerInfo(const std::string& filename, bool isAI)
-	: _isAI(isAI), _coins(200), _health(100), _image_path(filename)
+	: _isAI(isAI), _coins(20), _health(100), _image_path(filename)
 {
 	for (auto& i : _preparedLegends) {
 		i = NULL;

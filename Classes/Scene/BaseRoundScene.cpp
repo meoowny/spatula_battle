@@ -347,16 +347,17 @@ void BaseRoundScene::buyButtonClickCallback(Ref* pSender)
     Size visibleSize = Director::getInstance()->getVisibleSize();
     auto dirs = Director::getInstance()->getRunningScene();
     auto myPlayer = dynamic_cast<Player*>(dirs->getChildByName("player1"));
-    myPlayer->buyExperience();
-    //显示我方小小英雄金币数量
-    Label* labelCoins;
-    labelCoins = Label::createWithTTF("My Coins", "fonts/UbuntuNFMono.ttf", 20);
-    int myCoins = myPlayer->getCoin();
-    labelCoins->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12 + 120));
-    this->addChild(labelCoins);
-    labelCoins->setName("labelCoins");
-    labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
-    this->removeChild(dirs->getChildByName("labelCoins"));
+    if (myPlayer->buyExperience()) {
+        //显示我方小小英雄金币数量
+        Label* labelCoins;
+        labelCoins = Label::createWithTTF("My Coins", "fonts/UbuntuNFMono.ttf", 20);
+        int myCoins = myPlayer->getCoin();
+        labelCoins->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12 + 120));
+        this->addChild(labelCoins);
+        labelCoins->setName("labelCoins");
+        labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
+        this->removeChild(dirs->getChildByName("labelCoins"));
+    }
     //displayBuyButton();
 }
 
@@ -370,18 +371,20 @@ void BaseRoundScene::refreshButtonClickCallback(Ref* pSender)
     auto myPlayer = dynamic_cast<Player*>(dirs->getChildByName("player1"));
 
     //刷新商店，同时扣金币
-    myPlayer->refreshStore();
-    Label* labelCoins;
-    labelCoins = Label::createWithTTF("My Coins", "fonts/UbuntuNFMono.ttf", 20);
-    int myCoins = myPlayer->getCoin();
-    labelCoins->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12 + 120));
-    this->addChild(labelCoins);
-    labelCoins->setName("labelCoins");
-    labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
-    this->removeChild(dirs->getChildByName("labelCoins"));
+    if (myPlayer->refreshStore()) {
+        Label* labelCoins;
+        labelCoins = Label::createWithTTF("My Coins", "fonts/UbuntuNFMono.ttf", 20);
+        int myCoins = myPlayer->getCoin();
+        labelCoins->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12 + 120));
+        this->addChild(labelCoins);
+        labelCoins->setName("labelCoins");
+        labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
+        this->removeChild(dirs->getChildByName("labelCoins"));
 
-    //刷新商店，随机生成英雄卡牌
-    displayStoreLegend();
+        //刷新商店，随机生成英雄卡牌
+        displayStoreLegend();
+    }
+    
 
     //displayRefreshButton();
 }
