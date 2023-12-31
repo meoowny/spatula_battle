@@ -219,10 +219,9 @@ void SocketServer::recvMessage(HSocket socket)
 		}
 	}
 
-	num = 100;
-	_mutex.lock();
+	/*_mutex.lock();
 	this->sendMessage("start", 6);
-	_mutex.unlock();
+	_mutex.unlock();*/
 
 	_mutex.lock();
 	this->closeConnect(socket);

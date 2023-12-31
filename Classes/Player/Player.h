@@ -18,6 +18,7 @@ struct StartPlayerInfo
 	bool isAI;
 };
 
+
 //传递的敌方玩家信息
 struct AfterParationInfo
 {
@@ -62,12 +63,16 @@ public:
 	
 	static PlayerInfo* create(const std::string& filename, bool isAI);
 	//static PlayerInfo* create(const char* filename, bool isAI);
+
+	//对playerinfo内信息进行改动
+	//int changePlayerInfo(char fileName[30], bool isAI, int coins, int experience, int health, int* preparadLegends, int* battleLegend);
+
 private:
 	bool _isAI;
 	int _coins;
 	int _experience;
 	int _health;
-	const std::string _image_path;//Vector<char>
+	std::string _image_path;//Vector<char>
 	//char _image_path[30];
 	//array<LegendWithPlace> _battlingLegends;
 	//array<Legend*> _preparedLegends;

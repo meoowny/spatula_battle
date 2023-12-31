@@ -38,6 +38,7 @@ protected:
 private:
 	PlayerInfo *myPlayerInfo;
 	PlayerInfo* enemyPlayerInfo;
+	int changePlayerInfo(AfterParationInfo& tempAfterParationInfo);//对enemyplayerinfo内信息进行改动
 };
 
 

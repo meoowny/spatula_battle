@@ -2,9 +2,9 @@
 
 cocos2d::Scene* OnlineModeScene::createScene()
 {
-	auto scene = Scene::create();//´´½¨Ò»¸ö³¡¾°
-	auto firstLayer = OnlineModeScene::create();//´´½¨Ò»¸öÍ¼²ã
-	scene->addChild(firstLayer);//°ÑfirstLayerÍ¼²ã¼ÓÈëµ½scene³¡¾°ÖÐ
+	auto scene = Scene::create();//åˆ›å»ºä¸€ä¸ªåœºæ™¯
+	auto firstLayer = OnlineModeScene::create();//åˆ›å»ºä¸€ä¸ªå›¾å±‚
+	scene->addChild(firstLayer);//æŠŠfirstLayerå›¾å±‚åŠ å…¥åˆ°sceneåœºæ™¯ä¸­
 	return scene;
 }
 
@@ -18,19 +18,21 @@ bool OnlineModeScene::init()
 	myPlayerInfo = NULL;
 	enemyPlayerInfo = NULL;
 	roundNum = 0;
-	initNetwork();//ÍøÂç³õÊ¼»¯
+	initNetwork();//ç½‘ç»œåˆå§‹åŒ–
 
+	Size visibleSize = Director::getInstance()->getVisibleSize();//èŽ·å¾—å±å¹•å¤§å°
 
+	auto background = Sprite::create("OnlineModeSceneBackground.jpg");
+	background->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	background->setScale(2.0);
+	this->addChild(background);
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();//»ñµÃÆÁÄ»´óÐ¡
-	//
-	auto labelGivePlayerInfo = Label::createWithSystemFont("´«", "STHUPO.TTF", 120);
+	auto labelGivePlayerInfo = Label::createWithSystemFont("ç­‰å¾…æˆ¿é—´", "STHUPO.TTF", 120);
+	labelGivePlayerInfo->setColor(Color3B::YELLOW);
 	auto itemGivePlayerInfo = MenuItemLabel::create(labelGivePlayerInfo, CC_CALLBACK_1(OnlineModeScene::givePlayerInfoCallBack, this));
 	auto menu = Menu::create( itemGivePlayerInfo, NULL);
-	menu->setPosition(visibleSize.width / 4, visibleSize.height / 4);
+	menu->setPosition(visibleSize.width / 2, visibleSize.height * 4 / 5);
 	this->addChild(menu);
-
-	//
 
 	return true;
 }
@@ -46,18 +48,18 @@ void OnlineModeScene::onEnter()
 {
 	if (roundNum == 1)
 	{
-		roundNum++;
-		////±¸Õ½»ØºÏ½áÊø£¬½«¼º·½ÐÅÏ¢´«¸ø·þÎñÆ÷
-		////·þÎñÆ÷½ÓÊÕµ½ÐÅÏ¢ºó»á°ÑµÐ·½ÐÅÏ¢´«¸ø¼º·½
-		////¼º·½¶ÔEnemyInfo½øÐÐ¸Ä¶¯
-		AfterParationInfo nowParationInfo = { 0 };
+		//roundNum++;
+		////å¤‡æˆ˜å›žåˆç»“æŸï¼Œå°†å·±æ–¹ä¿¡æ¯ä¼ ç»™æœåŠ¡å™¨
+		////æœåŠ¡å™¨æŽ¥æ”¶åˆ°ä¿¡æ¯åŽä¼šæŠŠæ•Œæ–¹ä¿¡æ¯ä¼ ç»™å·±æ–¹
+		////å·±æ–¹å¯¹EnemyInfoè¿›è¡Œæ”¹åŠ¨
+		/*AfterParationInfo nowParationInfo = { 0 };
 		strcpy(nowParationInfo.fileName, myPlayerInfo->_image_path.c_str());
 		nowParationInfo.isAI = myPlayerInfo->_isAI;
 		nowParationInfo.coins = myPlayerInfo->_coins;
 		nowParationInfo.experience = myPlayerInfo->_experience;
 		nowParationInfo.health = myPlayerInfo->_health;
-		client->sendMessage((char*)(&nowParationInfo), sizeof(AfterParationInfo));
-		//Director::getInstance()->pushScene(BattleScene::createScene(myPlayerInfo, myPlayerInfo));
+		client->sendMessage((char*)(&nowParationInfo), sizeof(AfterParationInfo));*/
+		//Director::getInstance()->pushScene(BattleScene::createScene(myPlayerInfo, enemyPlayerInfo));
 	}
 	Layer::onEnter();
 }
@@ -70,62 +72,76 @@ void OnlineModeScene::onExit()
 	Layer::onExit();
 }
 
-//»Øµ÷º¯Êý£¬½ÓÊÜ·þÎñÆ÷´«ÊäµÄÐÅÏ¢
+//å›žè°ƒå‡½æ•°ï¼ŒæŽ¥å—æœåŠ¡å™¨ä¼ è¾“çš„ä¿¡æ¯
 void OnlineModeScene::onRecv(const char* data, int count)
 {
-	Size visibleSize = Director::getInstance()->getVisibleSize();//»ñµÃÆÁÄ»´óÐ¡
+	Size visibleSize = Director::getInstance()->getVisibleSize();//èŽ·å¾—å±å¹•å¤§å°
 
-
-	switch (count)//¶Ô·þÎñÆ÷ÐÅÏ¢ÀàÐÍ½øÐÐ·ÖÀà
+	if (count == 2)//è‹¥ä¼ é€’çš„ä¿¡æ¯ä¸ºå½“å‰çŽ©å®¶IDæˆ–æ€»çŽ©å®¶æ•°é‡
 	{
-		case 2://Èô´«µÝµÄÐÅÏ¢Îªµ±Ç°Íæ¼ÒID»ò×ÜÍæ¼ÒÊýÁ¿
-			if (data[0] == 'i')//´«µÝÐÅÏ¢Îªµ±Ç°Íæ¼ÒID
-			{
-				//´òÓ¡µ±Ç°Íæ¼ÒIDÐÅÏ¢
-				ID = data[1];
-				std::string outputID = "Your ID: ";
-				outputID += data[1];
-				auto labelOutputID = Label::createWithSystemFont(outputID, "Arial.TTF", 120);
-				labelOutputID->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-				this->addChild(labelOutputID);
-				//´òÓ¡Íæ¼Ò½øÈë·¿¼äÊ±µÄÍæ¼Ò×ÜÈËÊý£¬Íæ¼ÒµÚ¼¸¸ö½øÈë·¿¼ä£¬Íæ¼ÒµÄID¾ÍÎª¼¸
-				std::string outputPlayerNum = "Now Player Num: ";
-				outputPlayerNum += data[1];
-				auto labelOutputPlayerNum = Label::createWithSystemFont(outputPlayerNum, "Arial.TTF", 120);
-				labelOutputPlayerNum->setPosition(visibleSize.width / 2, visibleSize.height * 2 / 3);
-				labelOutputPlayerNum->setTag(100);//100×÷Îª¸Ã±êÇ©µÄ±ê¼Ç
-				this->addChild(labelOutputPlayerNum);
-			}
-			else if (data[0] == 'a')//´«µÝÐÅÏ¢Îª×ÜÍæ¼ÒÊýÁ¿
-			{
-				this->removeChildByTag(100);//ÏÈÒÆ³ýÖ®Ç°´òÓ¡µÄÍæ¼Ò×ÜÈËÊý
-				//´òÓ¡µ±Ç°Íæ¼Ò×ÜÈËÊý
-				std::string outputPlayerNum = "Now Player Num: ";
-				outputPlayerNum += data[1];
-				auto labelOutputPlayerNum = Label::createWithSystemFont(outputPlayerNum, "Arial.TTF", 120);
-				labelOutputPlayerNum->setPosition(visibleSize.width / 2, visibleSize.height * 2 / 3);
-				labelOutputPlayerNum->setTag(100);//100×÷Îª¸Ã±êÇ©µÄ±ê¼Ç
-				this->addChild(labelOutputPlayerNum);
-			}
-			break;
-		case sizeof(StartPlayerInfo) ://´«ÈëÎª¿ªÊ¼Íæ¼ÒÐÅÏ¢
-
-			//³õÊ¼»¯¼º·½Íæ¼ÒÐÅÏ¢
-			StartPlayerInfo tempPlayerInfo;
-			memcpy(&tempPlayerInfo, data, sizeof(StartPlayerInfo));
-			myPlayerInfo = new PlayerInfo(tempPlayerInfo.fileName, tempPlayerInfo.isAI);
-
-			//³õÊ¼»¯µÐ·½Ó¢ÐÛÐÅÏ¢
-			//ÐèÒª¸Ä¶¯£¬µ±±¸Õ½½×¶Î½áÊøºóÊÕµ½¶Ô·½µÄÐÅÏ¢£¬½«enemyPlayerInfoÖÐµÄÐÅÏ¢½øÐÐ¸Ä¶¯
-			enemyPlayerInfo = new PlayerInfo(tempPlayerInfo.fileName, tempPlayerInfo.isAI);
-
-			break;
-		case 6://¿ªÊ¼ÓÎÏ·
-			roundNum++;
-			Director::getInstance()->pushScene(PreparationScene::createScene(myPlayerInfo));
-
-			break;
+		if (data[0] == 'i')//ä¼ é€’ä¿¡æ¯ä¸ºå½“å‰çŽ©å®¶ID
+		{
+			//æ‰“å°å½“å‰çŽ©å®¶IDä¿¡æ¯
+			ID = data[1];
+			std::string outputID = "ä½ çš„ID: ";
+			outputID += data[1];
+			auto labelOutputID = Label::createWithSystemFont(outputID, "STHUPO.TTF", 120);
+			labelOutputID->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+			this->addChild(labelOutputID);
+			//æ‰“å°çŽ©å®¶è¿›å…¥æˆ¿é—´æ—¶çš„çŽ©å®¶æ€»äººæ•°ï¼ŒçŽ©å®¶ç¬¬å‡ ä¸ªè¿›å…¥æˆ¿é—´ï¼ŒçŽ©å®¶çš„IDå°±ä¸ºå‡ 
+			std::string outputPlayerNum = "å½“å‰æˆ¿é—´äººæ•° : ";
+			outputPlayerNum += data[1];
+			auto labelOutputPlayerNum = Label::createWithSystemFont(outputPlayerNum, "STHUPO.TTF", 120);
+			labelOutputPlayerNum->setPosition(visibleSize.width / 2, visibleSize.height * 2 / 3);
+			labelOutputPlayerNum->setTag(100);//100ä½œä¸ºè¯¥æ ‡ç­¾çš„æ ‡è®°
+			this->addChild(labelOutputPlayerNum);
+		}
+		else if (data[0] == 'a')//ä¼ é€’ä¿¡æ¯ä¸ºæ€»çŽ©å®¶æ•°é‡
+		{
+			this->removeChildByTag(100);//å…ˆç§»é™¤ä¹‹å‰æ‰“å°çš„çŽ©å®¶æ€»äººæ•°
+			//æ‰“å°å½“å‰çŽ©å®¶æ€»äººæ•°
+			std::string outputPlayerNum = "å½“å‰æˆ¿é—´äººæ•° : ";
+			outputPlayerNum += data[1];
+			auto labelOutputPlayerNum = Label::createWithSystemFont(outputPlayerNum, "STHUPO.TTF", 120);
+			labelOutputPlayerNum->setPosition(visibleSize.width / 2, visibleSize.height * 2 / 3);
+			labelOutputPlayerNum->setTag(100);//100ä½œä¸ºè¯¥æ ‡ç­¾çš„æ ‡è®°
+			this->addChild(labelOutputPlayerNum);
+		}
 	}
+	else if (count == sizeof(StartPlayerInfo))
+	{
+		//åˆå§‹åŒ–å·±æ–¹çŽ©å®¶ä¿¡æ¯
+		StartPlayerInfo tempPlayerInfo;
+		memcpy(&tempPlayerInfo, data, sizeof(StartPlayerInfo));
+		myPlayerInfo = new PlayerInfo(tempPlayerInfo.fileName, tempPlayerInfo.isAI);
+
+		//åˆå§‹åŒ–æ•Œæ–¹è‹±é›„ä¿¡æ¯
+		//éœ€è¦æ”¹åŠ¨ï¼Œå½“å¤‡æˆ˜é˜¶æ®µç»“æŸåŽæ”¶åˆ°å¯¹æ–¹çš„ä¿¡æ¯ï¼Œå°†enemyPlayerInfoä¸­çš„ä¿¡æ¯è¿›è¡Œæ”¹åŠ¨
+		enemyPlayerInfo = new PlayerInfo(tempPlayerInfo.fileName, tempPlayerInfo.isAI);
+	}
+	else if (count == 6)
+	{
+		roundNum++;
+		Director::getInstance()->pushScene(PreparationScene::createScene(myPlayerInfo));
+	}
+	else if (count == sizeof(AfterParationInfo))
+	{
+		AfterParationInfo tempAfterParationInfo;
+		memcpy(&tempAfterParationInfo, data, sizeof(AfterParationInfo));
+		changePlayerInfo(tempAfterParationInfo);
+		Director::getInstance()->pushScene(BattleScene::createScene(myPlayerInfo, enemyPlayerInfo));
+	}
+}
+
+//å¯¹enemyplayerinfoå†…ä¿¡æ¯è¿›è¡Œæ”¹åŠ¨
+int OnlineModeScene::changePlayerInfo(AfterParationInfo& tempAfterParationInfo)
+{
+	enemyPlayerInfo->_image_path = tempAfterParationInfo.fileName;
+	enemyPlayerInfo->_isAI = tempAfterParationInfo.isAI;
+	enemyPlayerInfo->_coins = tempAfterParationInfo.coins;
+	enemyPlayerInfo->_experience = tempAfterParationInfo.experience;
+	enemyPlayerInfo->_health = tempAfterParationInfo.health;
+	return 0;
 }
 
 void OnlineModeScene::onDisconnect()
@@ -133,7 +149,7 @@ void OnlineModeScene::onDisconnect()
 }
 
 
-//ÍøÂç³õÊ¼»¯
+//ç½‘ç»œåˆå§‹åŒ–
 void OnlineModeScene::initNetwork()
 {
 	client =  SocketClient::construct();
@@ -141,9 +157,9 @@ void OnlineModeScene::initNetwork()
 	client->onDisconnect = CC_CALLBACK_0(OnlineModeScene::onDisconnect, this);
 	if (!client->connectServer("127.0.0.1", 8000))
 	{
-		Size visible_size = Director::getInstance()->getVisibleSize();//»ñµÃÆÁÄ»´óÐ¡
+		Size visible_size = Director::getInstance()->getVisibleSize();//èŽ·å¾—å±å¹•å¤§å°
 		auto game_name_label = Label::createWithSystemFont("fail connect", "fonts.ttf", 100);
-		game_name_label->setPosition(visible_size.width / 2, visible_size.height * 2);//½«Î´ÄÜ³É¹¦Á¬½Ó±êÇ©·ÅÖÃÆÁÄ»ÖÐ¼äÆ«ÉÏ
+		game_name_label->setPosition(visible_size.width / 2, visible_size.height * 2);//å°†æœªèƒ½æˆåŠŸè¿žæŽ¥æ ‡ç­¾æ”¾ç½®å±å¹•ä¸­é—´åä¸Š
 		this->addChild(game_name_label);
 	}
 }

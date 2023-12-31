@@ -16,8 +16,6 @@ struct RecvData
 
 
 
-
-
 class SocketServer : public SocketBase
 {
 	friend class ServerModeScene;//将ServerModeScene设置为友元，便于获取客户端信息
@@ -59,7 +57,6 @@ private:
 	std::mutex   _UIMessageQueueMutex;
 	std::map<char, HSocket> idToSocket;//用来将用户端与其ID一一对应，根据ID找到用户端
 	std::map<HSocket, char> socketToId;//用来将用户端与其ID一一对应，根据用户端找ID
-	int num;
 	//std::map<HSocket, AfterParationInfo> socketToInfo;//将用户端与其备战后的信息相对应
 };
 
