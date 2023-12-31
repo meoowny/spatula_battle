@@ -112,23 +112,23 @@ void ServerModeScene::givePlayerInfoCallBack(Ref* pSender)
 		//每个AI玩家分配不一样的小小英雄
 		if (serverNum == 1)
 		{
-			AfterParationInfo tempAfterParation = { "WallNut_cracked1_0.png",true,50,10,50,{0},{0} };
+			AfterParationInfo tempAfterParation = { 0,"WallNut_cracked1_0.png",true,50,10,50,{0},{0} };
 			server->sendMessage(*iterClient, (char*)(&tempAfterParation), sizeof(AfterParationInfo));
 		}
 		else if (serverNum == 2)
 		{
 
-			AfterParationInfo tempAfterParation = { "SunFlower_0.png",true,50,10,50,{0},{0} };
+			AfterParationInfo tempAfterParation = { 0,"SunFlower_0.png",true,50,10,50,{0},{0} };
 			server->sendMessage(*iterClient, (char*)(&tempAfterParation), sizeof(AfterParationInfo));
 		}
 		else if (serverNum == 3)
 		{
-			AfterParationInfo tempAfterParation = { "PotatoMine_1.png",true,50,10,50,{0},{0} };
+			AfterParationInfo tempAfterParation = { 0,"PotatoMine_1.png",true,50,10,50,{0},{0} };
 			server->sendMessage(*iterClient, (char*)(&tempAfterParation), sizeof(AfterParationInfo));
 		}
 		else
 		{
-			AfterParationInfo tempAfterParation = { "Jalapeno_0.png",true,50,10,50,{0},{0} };
+			AfterParationInfo tempAfterParation = { 0,"Jalapeno_0.png",true,50,10,50,{0},{0} };
 			server->sendMessage(*iterClient, (char*)(&tempAfterParation), sizeof(AfterParationInfo));
 		}
 	}

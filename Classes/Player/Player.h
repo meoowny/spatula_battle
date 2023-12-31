@@ -22,6 +22,7 @@ struct StartPlayerInfo
 //传递的敌方玩家信息
 struct AfterParationInfo
 {
+	char theId;
 	char fileName[30];
 	bool isAI;
 	int coins;

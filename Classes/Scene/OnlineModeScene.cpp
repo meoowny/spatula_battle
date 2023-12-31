@@ -39,26 +39,27 @@ bool OnlineModeScene::init()
 
 void OnlineModeScene::givePlayerInfoCallBack(Ref* pSender)
 {
-	client->sendMessage("abcd", 5);
+	//client->sendMessage("111", 4);
 }
 
 
 
 void OnlineModeScene::onEnter()
 {
-	if (roundNum == 1)
+	if (roundNum != 0)
 	{
-		//roundNum++;
-		////备战回合结束，将己方信息传给服务器
-		////服务器接收到信息后会把敌方信息传给己方
-		////己方对EnemyInfo进行改动
-		/*AfterParationInfo nowParationInfo = { 0 };
+		roundNum++;
+		//备战回合结束，将己方信息传给服务器
+		//服务器接收到信息后会把敌方信息传给己方
+		//己方对EnemyInfo进行改动
+		AfterParationInfo nowParationInfo = { 0 };
+		nowParationInfo.theId = ID;
 		strcpy(nowParationInfo.fileName, myPlayerInfo->_image_path.c_str());
 		nowParationInfo.isAI = myPlayerInfo->_isAI;
 		nowParationInfo.coins = myPlayerInfo->_coins;
 		nowParationInfo.experience = myPlayerInfo->_experience;
 		nowParationInfo.health = myPlayerInfo->_health;
-		client->sendMessage((char*)(&nowParationInfo), sizeof(AfterParationInfo));*/
+		client->sendMessage((char*)(&nowParationInfo), sizeof(AfterParationInfo));
 		//Director::getInstance()->pushScene(BattleScene::createScene(myPlayerInfo, enemyPlayerInfo));
 	}
 	Layer::onEnter();
@@ -128,8 +129,11 @@ void OnlineModeScene::onRecv(const char* data, int count)
 	{
 		AfterParationInfo tempAfterParationInfo;
 		memcpy(&tempAfterParationInfo, data, sizeof(AfterParationInfo));
-		changePlayerInfo(tempAfterParationInfo);
-		Director::getInstance()->pushScene(BattleScene::createScene(myPlayerInfo, enemyPlayerInfo));
+		if (tempAfterParationInfo.theId != ID)
+		{
+			changePlayerInfo(tempAfterParationInfo);
+			Director::getInstance()->pushScene(BattleScene::createScene(myPlayerInfo, enemyPlayerInfo));
+		}
 	}
 }
 
