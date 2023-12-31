@@ -36,7 +36,7 @@ void BaseRoundScene::displayStore()
     else
     {
         store->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 12));
-        store->setScale(2.2);
+        store->setScale(1.65);
         addChild(store, 1);
     }
 }
@@ -448,7 +448,8 @@ void BaseRoundScene::countdown()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     //开始倒计时，设置为1分钟
-    int totalTimeInSeconds = 60;
+    //int totalTimeInSeconds = 60;
+    int totalTimeInSeconds = 5;
     remainingTimeInSeconds = totalTimeInSeconds;
 
     // 在屏幕上创建一个标签用于显示剩余时间

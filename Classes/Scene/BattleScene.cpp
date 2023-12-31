@@ -24,10 +24,11 @@ BattleScene::BattleScene(PlayerInfo* playerInfo1, PlayerInfo* playerInfo2)
     //Size visibleSize = Director::getInstance()->getVisibleSize();
 
 
-    auto myPlayer = dynamic_cast<Player*>(this->getChildByName("player1"));
+    /*auto myPlayer = dynamic_cast<Player*>(this->getChildByName("player1"));
     auto oppoPlayer = dynamic_cast<Player*>(this->getChildByName("player2"));
     int i = 0, j = 0;
     for (auto& legend_i : myPlayer->getBattlingLegends()) {
+        j = 0;
         for (auto& legend_j : legend_i) {
             if (legend_j == nullptr) {
                 chessBoard[i][j] = emptyFlag;
@@ -41,16 +42,18 @@ BattleScene::BattleScene(PlayerInfo* playerInfo1, PlayerInfo* playerInfo2)
     }
     i = 0, j = 0;
     for (auto& legend_i : oppoPlayer->getBattlingLegends()) {
+        j = 0;
         for (auto& legend_j : legend_i) {
+
             if (legend_j == nullptr) {
-                chessBoard[i][j] = emptyFlag;
+                chessBoard[i][j + battleBoardHeight] = emptyFlag;
                 continue;
             }
-            chessBoard[i+battleBoardHeight][j] = enemyFlag;
+            chessBoard[i][j + battleBoardHeight] = enemyFlag;
             j++;
         }
         i++;
-    }
+    }*/
 }
 
 bool BattleScene::init()
@@ -97,7 +100,7 @@ bool BattleScene::init()
     // schedule(CC_SCHEDULE_SELECTOR(BattleScene::performBattlingLogic), 1.0f);
 
 
-
+    countdown();
     return true;
 }
 

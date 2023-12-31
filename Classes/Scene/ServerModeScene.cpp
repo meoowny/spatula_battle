@@ -63,15 +63,7 @@ void ServerModeScene::onExit()
 //通知玩家游戏开始
 void ServerModeScene::startGameCallBack(Ref* pSender)
 {
-	server->_mutex.lock();
-	//为当前所有客户端分发游戏开始信息
-	server->sendMessage("start", 6);
-	server->_mutex.unlock();
-}
 
-//分配玩家信息
-void ServerModeScene::givePlayerInfoCallBack(Ref* pSender)
-{
 	std::list<HSocket>::iterator iterClient;//迭代器，辅助遍历当前所有客户端
 	int serverNum = 0;
 	server->_mutex.lock();
@@ -91,7 +83,22 @@ void ServerModeScene::givePlayerInfoCallBack(Ref* pSender)
 			server->sendMessage(*iterClient, (char*)(&tempStartPlayerInfo), sizeof(StartPlayerInfo));
 		}
 	}
+	//为当前所有客户端分发游戏开始信息
+	server->sendMessage("start", 6);
 	server->_mutex.unlock();
+}
+
+//分配对面玩家信息
+void ServerModeScene::givePlayerInfoCallBack(Ref* pSender)
+{
+	if (server->num == 100)
+	{
+		server->sendMessage("start", 6);
+	}
+	/*if (server->socketToInfo.size() == 0)
+	{
+		server->sendMessage("start", 6);
+	}*/
 }
 
 //网络初始化
@@ -100,3 +107,4 @@ void ServerModeScene::initNetwork()
 	server = SocketServer::getInstance();
 	server->startServer(8000);
 }
+
