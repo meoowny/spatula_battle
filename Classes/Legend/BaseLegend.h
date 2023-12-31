@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BASE_LEGEND_H
+#define BASE_LEGEND_H
+
 #include <iostream>
 #include "AppDelegate.h"
 #include "cocos2d.h"
@@ -13,12 +15,13 @@ using namespace cocos2d;
 class LegendInfo:public Node
 {
 	friend class Legend;
-
+	friend class Store;
 public:
 	LegendInfo(const std::string& name, int most_health, int cost, int attackDamage, int armor, int criticalStrikeChance, int range)
 		:_name(name), _most_health(most_health), _cost(cost),
 		_attack_damage(attackDamage), _armor(armor), _critical_strike_chance(criticalStrikeChance), _range(range), _level(1)
 	{ }
+	virtual const char* getCardPath() { return "Cards/card_cherrybomb.png"; }
 
 private:
 	const std::string _name;
@@ -35,6 +38,7 @@ private:
 class Legend: public Sprite
 {
 	friend class Player;
+	friend class Store;
 public:
 	//getº¯Êý
 	virtual std::string getLegendName() const { return _info->_name; }
@@ -55,7 +59,9 @@ public:
 
     virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 
+
 	static Legend* create(LegendInfo* const info);
+	static Legend* createCards(LegendInfo* const info);
 
 protected:
 	Legend(LegendInfo* const info) : _info(info), _health(_info->_most_health), _mana(0)
@@ -84,3 +90,5 @@ protected:
 	//int _range;
 
 };
+
+#endif

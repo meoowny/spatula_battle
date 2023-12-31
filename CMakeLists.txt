@@ -74,6 +74,7 @@ list(APPEND GAME_HEADER
      Classes/Player/Player.h
      Classes/Legend/BaseLegend.h
      Classes/Legend/Legends.h
+     Classes/Legend/LegendInfos.h
      Classes/Scene/BaseRoundScene.h
      Classes/Scene/PreparationScene.h
      Classes/Scene/BattleScene.h

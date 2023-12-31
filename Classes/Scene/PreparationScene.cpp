@@ -40,7 +40,7 @@ bool PreparationScene::init()
     displayBackground();
 
     //显示商店
-    displayStore();
+    //displayStore();
 
     //显示购买经验值按钮
     displayBuyButton();

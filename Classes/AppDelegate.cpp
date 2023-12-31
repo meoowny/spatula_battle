@@ -24,7 +24,7 @@
 
 #include "AppDelegate.h"
 #include "Scene/StartupScene.h"
-
+#include<random>
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
 
@@ -116,6 +116,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     register_all_packages();
+
+    //生成随机数种子
+    srand(unsigned int(time(NULL)));
 
     // create a scene. it's an autorelease object
     auto scene = StartupScene::createScene();

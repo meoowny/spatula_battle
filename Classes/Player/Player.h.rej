@@ -1,0 +1,10 @@
+diff a/Classes/Player/Player.h b/Classes/Player/Player.h	(rejected hunks)
+@@ -97,7 +97,7 @@
+ 	bool buyExperience(void); // ���飬ͬʱ�۽��
+ 	bool checkout(bool isWinner, int attack = 0); // �ؿ����㣬���顢��ң�ͬʱ����ССӢ�۵Ŀ�Ѫ
+ 
+-	bool buyLegend(Legend* legend);// ��Ӣ�ۣ�ͬʱ�۽��
++	bool buyLegend(class Legend* legend);// ��Ӣ�ۣ�ͬʱ�۽��
+ 	//bool sellLegend(Legend* legend);  // ��Ӣ�ۣ���ȡһ�����
+ 	// ��Ӣ�ۣ���ȡһ����ң�����Ӣ���ڳ��ϵ�λ�ã�λ��Լ��ͬ moveLegend
+ 	bool sellLegend(const Position& postion);

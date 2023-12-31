@@ -1,4 +1,5 @@
 #include "BaseRoundScene.h"
+#include "Store/Store.h"
 
 static void problemLoading(const char* filename)
 {
@@ -127,39 +128,33 @@ void BaseRoundScene::displayRefreshButton()
 void BaseRoundScene::displayStoreLegend()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-
-    //测试用 实际应该获取信息
-
-
-    /*Vector<Sprite*> StoreLegends;
-    Sprite* Legend1 = Sprite::create("Legend1.png");
-    StoreLegends.pushBack(Legend1);
-    Sprite* Legend2 = Sprite::create("Legend2.png");
-    StoreLegends.pushBack(Legend2);
-    Sprite* Legend3 = Sprite::create("Legend3.png");
-    StoreLegends.pushBack(Legend3);*/
-
-    Vector<Button*>storeLegends;
-    Button* Legend1 = Button::create("Legend1.png", "emptyStore.jpg", "emptyStore.jpg");
-     storeLegends.pushBack(Legend1);
-     Button* Legend2 = Button::create("Legend1.png", "emptyStore.jpg", "emptyStore.jpg");
-     storeLegends.pushBack(Legend2);
-     Button* Legend3 = Button::create("Legend3.png", "emptyStore.jpg", "emptyStore.jpg");
-     storeLegends.pushBack(Legend3);
+    
+    auto st = new Store;
+    Vector<LegendInfo*> legendPointer = st->refresh();
+    Vector<Button*> storeLegends;
+    for (auto info : legendPointer) {
+        auto legend = Button::create(info->getCardPath(), "emptyStore.jpg", "emptyStore.jpg");
+        legend->addClickEventListener([=](Ref* pSender) {
+            //这里添加购买英雄的逻辑
+            //点击按钮后，对应商店位置英雄被买走，按钮变成不可选择状态，对应玩家类调用购买英雄函数，购买英雄
+            auto button = dynamic_cast<ui::Button*>(pSender);
+            button->setBright(!button->isBright());
+            auto player = dynamic_cast<Player*>(this->getChildByName("player1"));
+            player->buyLegend(Legend::create(info));
+            displayMyPrepareLegend();
+            });
+        storeLegends.pushBack(legend);
+    }
 
     int gap = 0;
     for (auto storeLegend : storeLegends) {
         //storeLegend->create(StringUtils::format("image%d.png", gap), StringUtils::format("image%d.png", gap), "emptyStore.jpg");
         storeLegend->setPosition(Vec2(visibleSize.width / 3.6 + gap * 230, visibleSize.height / 12));
-        storeLegend->addClickEventListener(CC_CALLBACK_1(BaseRoundScene::buyLegendCallback, this));
+        storeLegend->setScale(2.0);
+        //storeLegend->addClickEventListener(CC_CALLBACK_1(BaseRoundScene::buyLegendCallback, this));
         gap++;
         addChild(storeLegend, 2);
     }
-   /* auto StoreLegend = Button::create("Peashooter_0.png", "Peashooter_0.png", "Peashooter_1.png");
-    StoreLegend->setScale(2.2);
-    StoreLegend->setPosition(Vec2(visibleSize.width / 2 - visibleSize.width / 4, visibleSize.height / 12));
-    StoreLegend->addClickEventListener(CC_CALLBACK_1(BaseRoundScene::buyLegendCallback, this));
-    addChild(StoreLegend, 2);*/
 
 }
 
@@ -384,6 +379,10 @@ void BaseRoundScene::refreshButtonClickCallback(Ref* pSender)
     labelCoins->setName("labelCoins");
     labelCoins->setString(StringUtils::format("My Coins : %d", myCoins));
     this->removeChild(dirs->getChildByName("labelCoins"));
+
+    //刷新商店，随机生成英雄卡牌
+    displayStoreLegend();
+
     //displayRefreshButton();
 }
 
@@ -460,8 +459,8 @@ void BaseRoundScene::countdown()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     //开始倒计时，设置为1分钟
-    //int totalTimeInSeconds = 60;
-    int totalTimeInSeconds = 5;
+    int totalTimeInSeconds = 60;
+    //int totalTimeInSeconds = 5;
     remainingTimeInSeconds = totalTimeInSeconds;
 
     // 在屏幕上创建一个标签用于显示剩余时间

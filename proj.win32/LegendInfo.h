@@ -1,8 +1,9 @@
+#pragma once
 #ifndef LEGEND_H
 #define LEGEND_H
 
 #include "Legend/BaseLegend.h"
-#include "Legend/LegendInfos.h"
+
 //adc
 class Aphelios : public Legend
 {
@@ -21,7 +22,7 @@ public:
 	// 由于英雄的信息指针只由玩家信息保管，因此不做特殊处理，生成的指针统一由 PlayerInfo 销毁
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new ApheliosInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -31,6 +32,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_cherrybomb.png"; }
 };
 
 // TODO: createInfo 暂未改，仅为复制补贴的 Aphelios 的 createInfo
@@ -51,7 +53,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new CaitlynInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -61,6 +63,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_chomper.png"; }
 };
 
 
@@ -81,7 +84,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new EzrealInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -91,6 +94,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_hypnoshroom.png"; }
 };
 
 class Lucian :public Legend
@@ -109,7 +113,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new LucianInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -119,7 +123,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
-
+	virtual const char* getCardPath() { return "Cards/card_iceshroom.png"; }
 };
 
 
@@ -140,7 +144,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new Miss_FortuneInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -150,6 +154,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_jalapeno.png"; }
 };
 
 
@@ -170,7 +175,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new GravesInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -180,6 +185,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_peashooter.png"; }
 };
 
 
@@ -200,7 +206,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new VarusInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -210,6 +216,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_potatomine.png"; }
 };
 
 
@@ -232,7 +239,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new KatarinaInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -242,7 +249,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
-
+	virtual const char* getCardPath() { return "Cards/card_puffshroom.png"; }
 };
 
 
@@ -263,7 +270,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new AkaliInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -273,6 +280,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_repeaterpea.png"; }
 };
 
 
@@ -293,7 +301,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new AnnieInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -303,6 +311,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_scaredyshroom.png"; }
 };
 
 
@@ -322,7 +331,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new ViktorInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -332,6 +341,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_snowpea.png"; }
 };
 
 
@@ -351,7 +361,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new SonaInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -361,6 +371,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_spikeweed.png"; }
 };
 
 
@@ -380,7 +391,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new JhinInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -390,6 +401,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_squash.png"; }
 };
 
 
@@ -411,7 +423,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new ViegoInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -421,6 +433,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_sunflower.png"; }
 };
 
 
@@ -440,7 +453,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new QiyanaInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -450,6 +463,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_sunshroom.png"; }
 };
 
 
@@ -469,7 +483,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new KaynInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -479,6 +493,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_threepeashooter.png"; }
 };
 
 
@@ -498,7 +513,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new Bel_VethInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -508,6 +523,7 @@ public:
 	}
 
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
+	virtual const char* getCardPath() { return "Cards/card_wallnut.png"; }
 };
 
 
@@ -527,7 +543,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new EkkoInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -558,7 +574,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new RivenInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -587,7 +603,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new FioraInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -616,7 +632,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new CamilleInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -645,7 +661,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new IreliaInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -673,7 +689,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new SettInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -702,7 +718,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new GanplankInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -733,7 +749,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new ThreshInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -762,7 +778,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new Renata_GlascInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -791,7 +807,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new RakanInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -820,7 +836,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new BardInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -849,7 +865,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new NautilusInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -878,7 +894,7 @@ public:
 
 	static LegendInfo* createInfo()
 	{
-		LegendInfo* info = new PykeInfo();
+		LegendInfo* info = new LegendInfo("Aphelios", 580, 2, 70, 26, 10, 4);
 		if (info == NULL) {
 			throw "Error";
 		}
@@ -890,3 +906,4 @@ public:
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 #endif
+

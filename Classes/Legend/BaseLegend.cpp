@@ -13,6 +13,19 @@ Legend* Legend::create(LegendInfo* const info)
 	}
 }
 
+Legend* Legend::createCards(LegendInfo* const info)
+{
+	Legend* legend = new (std::nothrow) Legend(info);
+	if (legend && legend->initWithFile(info->getCardPath())) {
+		legend->autorelease();
+		return legend;
+	}
+	else {
+		CC_SAFE_DELETE(legend);
+		return nullptr;
+	}
+}
+
 bool Legend::levelUp()
 {
 	if (_info->_level >= 3) {
