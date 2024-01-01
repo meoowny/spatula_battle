@@ -41,7 +41,7 @@ private:
     Sprite* preparationChessboard[preparationSize];              //备战区棋盘
     Sprite* preparationSelectedChessboard[preparationSize];              //备战区回显棋盘
 
-    LegendWithLocation selectedSpriteWithLocation = { nullptr,{-1,-1} }; //记录被选中拖动的英雄
+    //LegendWithLocation selectedSpriteWithLocation = { nullptr,{-1,-1} }; //记录被选中拖动的英雄
 };
 
 #endif // __PREPARATION_SCENE_H__

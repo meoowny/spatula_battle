@@ -1,21 +1,3 @@
-/*待完成：
-   一、onMouseUp函数中  moveLegend  如何把src的信息传过去
-
-
-
-
-
-
-
-*/
-
-
-
-
-
-
-
-
 #include "PreparationScene.h"
 
 Scene* PreparationScene::createScene(PlayerInfo* playerInfo)
@@ -55,7 +37,7 @@ bool PreparationScene::init()
     displayCoinNumber();
 
     //显示我方备战区英雄
-    displayMyPrepareLegend();
+    //displayMyPrepareLegend();
 
     //显示我方战斗区英雄
     displayMyBattleLegend();

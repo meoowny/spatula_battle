@@ -172,21 +172,48 @@ void BaseRoundScene::displayMyPrepareLegend()
     int count = 0;
     for (auto i : player->getPreparedLegends()) {
         // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
-        if (i == nullptr)
+        if (i == nullptr) {
             continue;
-        auto legend = Legend::create(i);
-        if (legend == nullptr) {
-            problemLoading(legend->getImagePath());
         }
-		else {
-			legend->setName(id);
-			legend->setPosition(Vec2(visibleSize.width / 4.8 + count * 100, visibleSize.height / 4));
+        auto myPrepareLegend = dynamic_cast<Legend*>(this->getChildByName(id));
+        if (myPrepareLegend == nullptr) {
+            auto legend = Legend::create(i);
+            legend->setName(id);
+            legend->setPosition(Vec2(visibleSize.width / 4.8 + count * 100, visibleSize.height / 4));
             addChild(legend);
-			id = '0' + count;
-			count++;
         }
+        else {
+            myPrepareLegend->setPosition(Vec2(visibleSize.width / 4.8 + count * 100, visibleSize.height / 4));        
+        }
+        count++;
+        id = '0' + count;
     }
 }
+
+////显示我方备战区英雄
+//void BaseRoundScene::displayMyPrepareLegend()
+//{
+//    auto dirs = Director::getInstance()->getRunningScene();
+//    Size visibleSize = Director::getInstance()->getVisibleSize();
+//    auto player = dynamic_cast<Player*>(this->getChildByName("player1"));
+//    if (player == nullptr) {
+//        exit(0);
+//    }
+//
+//    std::string id = "0";
+//    int count = 0;
+//    while (true)
+//    {
+//        auto myPrepareLegend = dynamic_cast<Legend*>(this->getChildByName(id));
+//        if (myPrepareLegend != nullptr)
+//        {
+//            myPrepareLegend->setPosition(Vec2(visibleSize.width / 4.8 + count * 100, visibleSize.height / 4));
+//            id = '0' + count;
+//            count++;
+//        }
+//        else break;
+//    }
+//}
 
 //显示我方战斗区英雄
 void BaseRoundScene::displayMyBattleLegend()
@@ -270,38 +297,99 @@ void BaseRoundScene::displayCoinNumber()
 LegendWithLocation BaseRoundScene::selectLegend(EventMouse* event)
 {
     auto myPlayer=dynamic_cast<Player*>(this->getChildByName("player1"));
-    LegendWithLocation selectedSpriteWithLocation;
-    selectedSpriteWithLocation.legend = nullptr;
-    selectedSpriteWithLocation.position = { -1,-1 };
-    int i = 0, j = 0;
-    for (auto selectedSprite : myPlayer->getPreparedLegends()) {
+    std::string id = "0";
+    int count = 0;
+    while (true) {
+        auto selectedSprite = dynamic_cast<Legend*>(this->getChildByName(id));
         if (selectedSprite != nullptr) {
             if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
             {
                 selectedSpriteWithLocation.legend = selectedSprite;
-                selectedSpriteWithLocation.position = { i,-1 };
+                selectedSpriteWithLocation.position = { count,-1 };
                 // 记录当前被点击的精灵
                 return selectedSpriteWithLocation;
             }
+            count++;
+            id = "0" + count;
         }
-        i++;
+        else break;
     }
-    i = 0; j = 0;
-    for (auto& array : myPlayer->getBattlingLegends()) {
-        for (auto& selectedSprite : array) {
-            if (selectedSprite != nullptr) {
-                if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
-                {
-                    selectedSpriteWithLocation.legend = selectedSprite;
-                    selectedSpriteWithLocation.position = { i,j };
-                    // 记录当前被点击的精灵
-                    return selectedSpriteWithLocation;
-                }
+    id = "0";
+    count = 0;
+    while (true) {
+        auto selectedSprite = dynamic_cast<Legend*>(this->getChildByName(id));
+        if (selectedSprite != nullptr) {
+            if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
+            {
+                selectedSpriteWithLocation.legend = selectedSprite;
+                selectedSpriteWithLocation.position = { count,-1 };
+                // 记录当前被点击的精灵
+                return selectedSpriteWithLocation;
             }
-            j++;
+            count++;
+            id += "0" + count;
         }
-        i++;
+        else break;
     }
+    //for (auto selectedSprite : dynamic_cast<Legend*>(this->getChildByName(id))) {
+    //    if (selectedSprite != nullptr) {
+    //        if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
+    //        {
+    //            selectedSpriteWithLocation.legend = selectedSprite;
+    //            selectedSpriteWithLocation.position = { i,-1 };
+    //            // 记录当前被点击的精灵
+    //            return selectedSpriteWithLocation;
+    //        }
+    //    }
+    //    i++;
+    //}
+    //i = 0; j = 0;
+    //for (auto& array : myPlayer->getBattlingLegends()) {
+    //    for (auto& selectedSprite : array) {
+    //        if (selectedSprite != nullptr) {
+    //            if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
+    //            {
+    //                selectedSpriteWithLocation.legend = selectedSprite;
+    //                selectedSpriteWithLocation.position = { i,j };
+    //                // 记录当前被点击的精灵
+    //                return selectedSpriteWithLocation;
+    //            }
+    //        }
+    //        j++;
+    //    }
+    //    i++;
+    //}
+
+    //auto myPlayer=dynamic_cast<Player*>(this->getChildByName("player1"));
+    //int i = 0, j = 0;
+    //for (auto selectedSprite : myPlayer->getPreparedLegends()) {
+    //    if (selectedSprite != nullptr) {
+    //        if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
+    //        {
+    //            selectedSpriteWithLocation.legend = selectedSprite;
+    //            selectedSpriteWithLocation.position = { i,-1 };
+    //            // 记录当前被点击的精灵
+    //            return selectedSpriteWithLocation;
+    //        }
+    //    }
+    //    i++;
+    //}
+    //i = 0; j = 0;
+    //for (auto& array : myPlayer->getBattlingLegends()) {
+    //    for (auto& selectedSprite : array) {
+    //        if (selectedSprite != nullptr) {
+    //            if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
+    //            {
+    //                selectedSpriteWithLocation.legend = selectedSprite;
+    //                selectedSpriteWithLocation.position = { i,j };
+    //                // 记录当前被点击的精灵
+    //                return selectedSpriteWithLocation;
+    //            }
+    //        }
+    //        j++;
+    //    }
+    //    i++;
+    //}
 
     return selectedSpriteWithLocation;
 }
@@ -463,7 +551,7 @@ void BaseRoundScene::countdown()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     //开始倒计时，设置为1分钟
     //int totalTimeInSeconds = 60;
-    int totalTimeInSeconds = 5;
+    int totalTimeInSeconds = 100;
     remainingTimeInSeconds = totalTimeInSeconds;
 
     // 在屏幕上创建一个标签用于显示剩余时间

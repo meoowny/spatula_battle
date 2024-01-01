@@ -18,7 +18,7 @@ const int chessboardCellHeight = 100;
 
 struct LegendWithLocation 
 {
-    LegendInfo* legend;
+    Legend* legend;
     Position position;
 };
 
@@ -33,6 +33,7 @@ public:
     void displayBuyButton();     //显示购买经验值按钮
     void displayRefreshButton(); //显示刷新按钮
     void displayStoreLegend();   //显示商店英雄卡牌
+    //void displayMyPrepareLegendFirst(); //显示备战区英雄
     void displayMyPrepareLegend(); //显示备战区英雄
     void displayMyBattleLegend();  //显示战斗区英雄
     void displayMyPlayer();      //显示我方小小英雄
@@ -63,7 +64,7 @@ protected:
     PlayerInfo* _playerInfo1;
     PlayerInfo* _playerInfo2;
     //SocketClient* _client;
-
+    LegendWithLocation selectedSpriteWithLocation = { nullptr,{-1,-1} }; //记录被选中拖动的英雄
 
 private:
     Label* labelRemainTime;     //显示剩余时间的标签
