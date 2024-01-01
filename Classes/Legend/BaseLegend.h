@@ -22,9 +22,10 @@ public:
 		_attack_damage(attackDamage), _armor(armor), _critical_strike_chance(criticalStrikeChance), _range(range), _level(1)
 	{ }
 	virtual const char* getCardPath() { return "Cards/card_cherrybomb.png"; }
+	const std::string _name;
 
 private:
-	const std::string _name;
+	
 	int _most_health;
 	const int _cost;
 	//派生类中的初始化列表

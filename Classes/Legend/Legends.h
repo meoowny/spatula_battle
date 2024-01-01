@@ -3,6 +3,15 @@
 
 #include "Legend/BaseLegend.h"
 #include "Legend/LegendInfos.h"
+
+
+//在每个英雄里面多加一个参数type，以表示此英雄的类别
+//并在Legend里面加一个返回此英雄类别的函数
+enum legendType
+{
+	aphelios=1, caitlyn=2, ezreal=3, lucian=4, miss_fortune=5, graves=6,
+};
+
 //adc
 class Aphelios : public Legend
 {
@@ -170,7 +179,7 @@ public:
 	virtual const char* getImagePath() { return "Peashooter/Peashooter_0.png"; }
 };
 
-
+//Varus, Katarina, Akali, Annie,
 
 //ap
 

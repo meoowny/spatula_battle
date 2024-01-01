@@ -9,7 +9,6 @@
 #include"Scene/BattleScene.h"
 
 
-#include "ExerciseScene.h"
 
 class OnlineModeScene : public Layer
 {
