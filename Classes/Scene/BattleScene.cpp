@@ -20,14 +20,44 @@ BattleScene::BattleScene(PlayerInfo* playerInfo1, PlayerInfo* playerInfo2)
         exit(0);
     }*/
 
-    //auto dirs = Director::getInstance()->getRunningScene();
-    //Size visibleSize = Director::getInstance()->getVisibleSize();
+    auto dirs = Director::getInstance()->getRunningScene();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
 
 
     /*auto myPlayer = dynamic_cast<Player*>(this->getChildByName("player1"));
-    auto oppoPlayer = dynamic_cast<Player*>(this->getChildByName("player2"));
+    auto oppoPlayer = dynamic_cast<Player*>(this->getChildByName("player2"));*/
     int i = 0, j = 0;
-    for (auto& legend_i : myPlayer->getBattlingLegends()) {
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 7; j++)
+        {
+            if (playerInfo1->_battlingLegends[i][j] == NULL)
+            {
+                chessBoard[j][i] = emptyFlag;
+            }
+            else
+            {
+                chessBoard[j][i] = myFlag;
+            }
+        }
+    }
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 7; j++)
+        {
+            if (playerInfo2->_battlingLegends[i][j] == NULL)
+            {
+                chessBoard[6 - j][5 - i] = emptyFlag;
+            }
+            else
+            {
+                chessBoard[6 - j][5 - i] = enemyFlag;
+            }
+        }
+    }
+
+    /*
+    /*for (auto& legend_i : myPlayer->getBattlingLegends()) {
         j = 0;
         for (auto& legend_j : legend_i) {
             if (legend_j == nullptr) {
@@ -39,20 +69,21 @@ BattleScene::BattleScene(PlayerInfo* playerInfo1, PlayerInfo* playerInfo2)
             j++;
         }
         i++;
-    }
-    i = 0, j = 0;
+    }*/
+    /*i = 0, j = 0;
     for (auto& legend_i : oppoPlayer->getBattlingLegends()) {
-        j = 0;
-        for (auto& legend_j : legend_i) {
+        j = 0;*/
+       /* for (auto& legend_j : legend_i) {
 
             if (legend_j == nullptr) {
                 chessBoard[i][j + battleBoardHeight] = emptyFlag;
+                j++;
                 continue;
             }
             chessBoard[i][j + battleBoardHeight] = enemyFlag;
             j++;
-        }
-        i++;
+        }*/
+   /*     i++;
     }*/
 }
 
@@ -87,17 +118,14 @@ bool BattleScene::init()
     //显示我方战斗区英雄
     displayMyBattleLegend();
 
-    //显示商店英雄卡牌
-    /*displayStoreLegend();*/
-
     //显示对方备战区英雄
     displayOppoPrepareLegend();
 
     //显示对方战斗区英雄
-    //displayOppoBattleLegend();
+    displayOppoBattleLegend();
 
     //开始战斗
-    // schedule(CC_SCHEDULE_SELECTOR(BattleScene::performBattlingLogic), 1.0f);
+     schedule(CC_SCHEDULE_SELECTOR(BattleScene::performBattlingLogic), 1.0f);
 
 
     countdown();
@@ -135,7 +163,7 @@ void BattleScene::displayOppoPrepareLegend()
         exit(0);
     }
 
-    std::string id = "0";
+    std::string id = "a";
     int count = 0;
     for (auto i : player->getPreparedLegends()) {
         // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
@@ -149,7 +177,8 @@ void BattleScene::displayOppoPrepareLegend()
             legend->setName(id);
             legend->setPosition(Vec2(visibleSize.width / 1.5 - count * 70, visibleSize.height / 1.15));//坐标不改  苦苦算出来的。。。
             addChild(legend);
-            id += '0' + count;
+            //displayHP(legend);
+            id[0] = 'a' + count;
             count++;
 
 
@@ -166,6 +195,50 @@ void BattleScene::displayOppoPrepareLegend()
     }
 }
 
+void BattleScene::displayOppoBattleLegend()
+{
+    //待修改
+    auto dirs = Director::getInstance()->getRunningScene();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    auto player = dynamic_cast<Player*>(this->getChildByName("player2"));
+    if (player == nullptr) {
+        exit(0);
+    }
+
+    std::string id = "A";
+    int count = 0;
+    for (auto i : player->getBattlingLegends()) {
+        // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
+        for (auto& j : i) {
+            if (j == nullptr)
+                continue;
+            auto legend = Legend::create(j);
+            if (legend == nullptr) {
+                problemLoading(legend->getImagePath());
+            }
+            else {
+                legend->setName(id);
+                legend->setPosition(Vec2(visibleSize.width-(visibleSize.width / 3.6 + count / battleBoardHeight * chessboardCellWidth)-50, visibleSize.height / 2.9 + count % battleBoardHeight * chessboardCellHeight + chessboardCellHeight * 3));
+                addChild(legend);
+                //displayHP(legend);
+                id[0] = 'A' + count;
+                count++;
+
+
+                //血条
+                //healthBar = ProgressTimer::create(Sprite::create("health_bar.png"));
+                //healthBar->setType(ProgressTimer::Type::BAR);
+                //healthBar->setMidpoint(Vec2(0, 0.5));
+                //healthBar->setBarChangeRate(Vec2(1, 0));
+                //healthBar->setPosition(Vec2(0, sprite->getContentSize().height / 2 + 10));           
+                //int currentHP=getHealth();) {         
+                 //   healthBar->setPercentage(currentHP / totalHP * 100);
+                //}
+            }
+        }
+    }
+}
+
 void BattleScene::performBattlingLogic(float delta)
 {
     // 检查游戏结束条件
@@ -175,40 +248,121 @@ void BattleScene::performBattlingLogic(float delta)
     //    }
 
 
+
+    /*Size visibleSize = Director::getInstance()->getVisibleSize();
     auto dirs = Director::getInstance()->getRunningScene();
     auto myPlayer = dynamic_cast<Player*>(this->getChildByName("player1"));
     if (myPlayer == nullptr) {
         exit(0);
+    }*/
+
+    //将己方英雄移动到指定位置
+    /*auto legend1= dynamic_cast<Legend*>(this->getChildByName("n"));
+    if (legend1 != NULL)
+    {
+        cocos2d::MoveTo* moveTo = cocos2d::MoveTo::create(2.0, { 700.0,700.0 });
+        legend1->runAction(moveTo);
     }
+    auto legend2 = dynamic_cast<Legend*>(this->getChildByName("p"));
+    if (legend2 != NULL)
+    {
+        cocos2d::MoveTo* moveTo = cocos2d::MoveTo::create(2.0, { 800.0,700.0 });
+        legend2->runAction(moveTo);
+    }
+    auto legend3 = dynamic_cast<Legend*>(this->getChildByName("q"));
+    if (legend3 != NULL)
+    {
+        cocos2d::MoveTo* moveTo = cocos2d::MoveTo::create(2.0, { 900.0,700.0 });
+        legend3->runAction(moveTo);
+    }*/
 
-    int count = 0;
-    for (auto& i : myPlayer->getBattlingLegends()) {
-        for (auto& j : i) {
-            // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
-            if (j == nullptr)
-                continue;
-            auto legend = Legend::create(j);
-            if (legend == nullptr) {
-                problemLoading(legend->getImagePath());
+
+    //将对方英雄移动到指定位置
+    /*auto legend4 = dynamic_cast<Legend*>(this->getChildByName("A"));
+    if (legend4 != NULL)
+    {
+        cocos2d::MoveTo* moveTo = cocos2d::MoveTo::create(2.0, { 700.0,750.0 });
+        legend4->runAction(moveTo);
+    }
+    auto legend5 = dynamic_cast<Legend*>(this->getChildByName("B"));
+    if (legend5 != NULL)
+    {
+        cocos2d::MoveTo* moveTo = cocos2d::MoveTo::create(2.0, { 800.0,750.0 });
+        legend5->runAction(moveTo);
+    }
+    auto legend6 = dynamic_cast<Legend*>(this->getChildByName("C"));
+    if (legend6 != NULL)
+    {
+        cocos2d::MoveTo* moveTo = cocos2d::MoveTo::create(2.0, { 900.0,750.0 });
+        legend6->runAction(moveTo);
+    }*/
+   
+
+
+
+    //int count = 0;
+    //for (auto& i : myPlayer->getBattlingLegends()) {
+    //    for (auto& j : i) {
+    //        // TODO: 英雄 setName 待规范，LegendInfo 的任务，暂时使用序号作为测试
+    //        if (j == nullptr)
+    //            continue;
+    //        auto legend = Legend::create(j);
+    //        if (legend == nullptr) {
+    //            problemLoading(legend->getImagePath());
+    //        }
+    //        else {
+    //            // 若在攻击范围内，则进行攻击
+    //            //if(opponentLegendInRange(i-(myPlayer->getPreparedLegends().begin(),legend->y))
+    //            //{
+
+    //                //  int attackDamage=getAttack();
+    //                // beingAttack(attackDamage);
+    //       
+    //            //}
+
+    //            //否则进行移动
+    //       
+    //        /*Vec2 destination = findMovePath(legend->x, legend->y);
+    //        piece->moveTo(destination);*/
+    //        
+
+    //            legend->setName("0");
+    //            addChild(legend);
+    //            count++;
+    //        }
+    //    }
+    //}
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    //判断一个位置是否有棋子，如果有，就发动攻击
+    auto attacker = Sprite::create("Plants/Sun/Sun_0.png");
+    for (int i = 0; i < 7; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (chessBoard[i][j] != emptyFlag)
+            {
+                attacker->setPosition(Vec2(visibleSize.width / 3.6 + i * chessboardCellWidth, visibleSize.height / 2.9 + j * chessboardCellHeight));
+                addChild(attacker,2);
+                MoveTo* moveToMiddle = MoveTo::create(2, { visibleSize.width / 2,visibleSize.height / 2 });
+                attacker->runAction(moveToMiddle);
+
+
             }
-            else {
-                // 若在攻击范围内，则进行攻击
-                //if(opponentLegendInRange(i-(myPlayer->getPreparedLegends().begin(),legend->y))
-                //{
+        }
+    }
+    for (int i = 0; i < 7; i++)
+    {
+        for (int j = 3; j < 6; j++)
+        {
+            if (chessBoard[i][j] != emptyFlag)
+            {
+                auto attacker = Sprite::create("sliderNode_Press.png");
+                attacker->setPosition(Vec2(visibleSize.width / 3.6 + i * chessboardCellWidth, visibleSize.height / 2.9 + j * chessboardCellHeight));
+                addChild(attacker, 2);
+                MoveTo* moveToMiddle = MoveTo::create(2, { visibleSize.width / 2,visibleSize.height / 2 });
+                attacker->runAction(moveToMiddle);
 
-                    //  int attackDamage=getAttack();
-                    // beingAttack(attackDamage);
-                //}
 
-                //否则进行移动
-            //else{
-            //Vec2 destination = findMovePath(legend->x,legend->y);
-            //piece->moveTo(destination);
-            //}
-
-                legend->setName("0");
-                addChild(legend);
-                count++;
             }
         }
     }

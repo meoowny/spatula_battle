@@ -29,7 +29,7 @@ struct AfterParationInfo
 	int experience;
 	int health;
 	int preparadLegends[9];
-	int battleLegend[9];
+	int battleLegend[3][7];
 };
 
 
@@ -68,7 +68,7 @@ public:
 
 	//对playerinfo内信息进行改动
 	//int changePlayerInfo(char fileName[30], bool isAI, int coins, int experience, int health, int* preparadLegends, int* battleLegend);
-
+	LegendInfoMatrix<battleBoardHeight, battleBoardWidth> _battlingLegends;
 private:
 	bool _isAI;
 	int _coins;
@@ -78,7 +78,7 @@ private:
 	//char _image_path[30];
 	//array<LegendWithPlace> _battlingLegends;
 	//array<Legend*> _preparedLegends;
-	LegendInfoMatrix<battleBoardHeight, battleBoardWidth> _battlingLegends;
+	//LegendInfoMatrix<battleBoardHeight, battleBoardWidth> _battlingLegends;
 	LegendInfoArray<preparationSize> _preparedLegends;
 };
 
@@ -112,8 +112,10 @@ public:
 	const LegendInfoMatrix<battleBoardHeight, battleBoardWidth>& getBattlingLegends() const { return _info->_battlingLegends; }
 
 	static Player* create(PlayerInfo* const info);
-private:
+
 	PlayerInfo* const _info;
+private:
+	//PlayerInfo* const _info;
 };
 
 void testCallBack(PlayerInfo* playerInfo, Ref* sender);

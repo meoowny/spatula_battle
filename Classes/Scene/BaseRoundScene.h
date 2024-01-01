@@ -38,6 +38,7 @@ public:
     void displayMyBattleLegend();  //显示战斗区英雄
     void displayMyPlayer();      //显示我方小小英雄
     void displayCoinNumber();   //显示我方金币数量
+    void displayHP(Legend* legend); //显示血条
     //void displayDeleteButton();  //显示删除按钮
 
 

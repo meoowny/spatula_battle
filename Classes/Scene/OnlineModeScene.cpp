@@ -48,158 +48,296 @@ void OnlineModeScene::onEnter()
 {
 	if (roundNum != 0)
 	{
-		roundNum++;
-
-		//备战回合结束，将己方信息传给服务器
-		//服务器接收到信息后会把敌方信息传给己方
-		//己方对EnemyInfo进行改动
-		AfterParationInfo nowParationInfo = { 0 };
-		nowParationInfo.theId = ID;
-		strcpy(nowParationInfo.fileName, myPlayerInfo->_image_path.c_str());
-		nowParationInfo.isAI = myPlayerInfo->_isAI;
-		nowParationInfo.coins = myPlayerInfo->_coins;
-		nowParationInfo.experience = myPlayerInfo->_experience;
-		nowParationInfo.health = myPlayerInfo->_health;
-
-		enum legendType
+		if (roundNum % 2 == 1)//进入战斗场景
 		{
-			aphelios = 1, caitlyn = 2, ezreal = 3, lucian = 4, miss_fortune = 5,
-			graves = 6, varus = 7, katarina = 8, akali = 9, annie = 10,
-			viktor = 11, sona = 12, jhin = 13, viego = 14, qiyana = 15,
-			kayn = 16, bel_veth = 17, ekko = 18, riven = 19, fiora = 20,
-			camille = 21, irelia = 22, sett = 23, ganplank = 24, thresh = 25,
-			renata_glasc = 26, rakan = 27, bard = 28, nautilus = 29, pyke = 30
-		};
-		
-		//对preparadLegends的信息进行转换
-		for (int i = 0; i < 9; i++)
-		{
-			if (myPlayerInfo->_preparedLegends[i] != NULL)
+			roundNum++;
+			//备战回合结束，将己方信息传给服务器
+			//服务器接收到信息后会把敌方信息传给己方
+			//己方对EnemyInfo进行改动
+			AfterParationInfo nowParationInfo = { 0 };
+			nowParationInfo.theId = ID;
+			strcpy(nowParationInfo.fileName, myPlayerInfo->_image_path.c_str());
+			nowParationInfo.isAI = myPlayerInfo->_isAI;
+			nowParationInfo.coins = myPlayerInfo->_coins;
+			nowParationInfo.experience = myPlayerInfo->_experience;
+			nowParationInfo.health = myPlayerInfo->_health;
+
+			enum legendType
 			{
-				if (myPlayerInfo->_preparedLegends[i]->_name == "Aphelios")
+				aphelios = 1, caitlyn = 2, ezreal = 3, lucian = 4, miss_fortune = 5,
+				graves = 6, varus = 7, katarina = 8, akali = 9, annie = 10,
+				viktor = 11, sona = 12, jhin = 13, viego = 14, qiyana = 15,
+				kayn = 16, bel_veth = 17, ekko = 18, riven = 19, fiora = 20,
+				camille = 21, irelia = 22, sett = 23, ganplank = 24, thresh = 25,
+				renata_glasc = 26, rakan = 27, bard = 28, nautilus = 29, pyke = 30
+			};
+
+			//对preparadLegends的信息进行转换
+			for (int i = 0; i < 9; i++)
+			{
+				if (myPlayerInfo->_preparedLegends[i] != NULL)
 				{
-					nowParationInfo.preparadLegends[i] = aphelios;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Caitlyn")
-				{
-					nowParationInfo.preparadLegends[i] = caitlyn;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Ezreal")
-				{
-					nowParationInfo.preparadLegends[i] = ezreal;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Lucian")
-				{
-					nowParationInfo.preparadLegends[i] = lucian;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Miss_Fortune")
-				{
-					nowParationInfo.preparadLegends[i] = miss_fortune;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Graves")
-				{
-					nowParationInfo.preparadLegends[i] = graves;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Varus")
-				{
-					nowParationInfo.preparadLegends[i] = varus;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Katarina")
-				{
-					nowParationInfo.preparadLegends[i] = katarina;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Akali")
-				{
-					nowParationInfo.preparadLegends[i] = akali;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Annie")
-				{
-					nowParationInfo.preparadLegends[i] = annie;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Viktor")
-				{
-					nowParationInfo.preparadLegends[i] = viktor;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Sona")
-				{
-					nowParationInfo.preparadLegends[i] = sona;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Jhin")
-				{
-					nowParationInfo.preparadLegends[i] = jhin;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Viego")
-				{
-					nowParationInfo.preparadLegends[i] = viego;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Qiyana")
-				{
-					nowParationInfo.preparadLegends[i] = qiyana;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Kayn")
-				{
-					nowParationInfo.preparadLegends[i] = kayn;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Bel_Veth")
-				{
-					nowParationInfo.preparadLegends[i] = bel_veth;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Ekko")
-				{
-					nowParationInfo.preparadLegends[i] = ekko;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Riven")
-				{
-					nowParationInfo.preparadLegends[i] = riven;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Fiora")
-				{
-					nowParationInfo.preparadLegends[i] = fiora;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Camille")
-				{
-					nowParationInfo.preparadLegends[i] = camille;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Irelia")
-				{
-					nowParationInfo.preparadLegends[i] = irelia;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Sett")
-				{
-					nowParationInfo.preparadLegends[i] = sett;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Ganplank")
-				{
-					nowParationInfo.preparadLegends[i] = ganplank;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Thresh")
-				{
-					nowParationInfo.preparadLegends[i] = thresh;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Renata_Glasc")
-				{
-					nowParationInfo.preparadLegends[i] = renata_glasc;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Rakan")
-				{
-					nowParationInfo.preparadLegends[i] = rakan;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Bard")
-				{
-					nowParationInfo.preparadLegends[i] = bard;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Nautilus")
-				{
-					nowParationInfo.preparadLegends[i] = nautilus;
-				}
-				else if (myPlayerInfo->_preparedLegends[i]->_name == "Pyke")
-				{
-					nowParationInfo.preparadLegends[i] = pyke;
+					if (myPlayerInfo->_preparedLegends[i]->_name == "Aphelios")
+					{
+						nowParationInfo.preparadLegends[i] = aphelios;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Caitlyn")
+					{
+						nowParationInfo.preparadLegends[i] = caitlyn;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Ezreal")
+					{
+						nowParationInfo.preparadLegends[i] = ezreal;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Lucian")
+					{
+						nowParationInfo.preparadLegends[i] = lucian;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Miss_Fortune")
+					{
+						nowParationInfo.preparadLegends[i] = miss_fortune;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Graves")
+					{
+						nowParationInfo.preparadLegends[i] = graves;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Varus")
+					{
+						nowParationInfo.preparadLegends[i] = varus;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Katarina")
+					{
+						nowParationInfo.preparadLegends[i] = katarina;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Akali")
+					{
+						nowParationInfo.preparadLegends[i] = akali;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Annie")
+					{
+						nowParationInfo.preparadLegends[i] = annie;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Viktor")
+					{
+						nowParationInfo.preparadLegends[i] = viktor;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Sona")
+					{
+						nowParationInfo.preparadLegends[i] = sona;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Jhin")
+					{
+						nowParationInfo.preparadLegends[i] = jhin;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Viego")
+					{
+						nowParationInfo.preparadLegends[i] = viego;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Qiyana")
+					{
+						nowParationInfo.preparadLegends[i] = qiyana;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Kayn")
+					{
+						nowParationInfo.preparadLegends[i] = kayn;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Bel_Veth")
+					{
+						nowParationInfo.preparadLegends[i] = bel_veth;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Ekko")
+					{
+						nowParationInfo.preparadLegends[i] = ekko;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Riven")
+					{
+						nowParationInfo.preparadLegends[i] = riven;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Fiora")
+					{
+						nowParationInfo.preparadLegends[i] = fiora;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Camille")
+					{
+						nowParationInfo.preparadLegends[i] = camille;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Irelia")
+					{
+						nowParationInfo.preparadLegends[i] = irelia;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Sett")
+					{
+						nowParationInfo.preparadLegends[i] = sett;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Ganplank")
+					{
+						nowParationInfo.preparadLegends[i] = ganplank;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Thresh")
+					{
+						nowParationInfo.preparadLegends[i] = thresh;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Renata_Glasc")
+					{
+						nowParationInfo.preparadLegends[i] = renata_glasc;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Rakan")
+					{
+						nowParationInfo.preparadLegends[i] = rakan;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Bard")
+					{
+						nowParationInfo.preparadLegends[i] = bard;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Nautilus")
+					{
+						nowParationInfo.preparadLegends[i] = nautilus;
+					}
+					else if (myPlayerInfo->_preparedLegends[i]->_name == "Pyke")
+					{
+						nowParationInfo.preparadLegends[i] = pyke;
+					}
 				}
 			}
+
+			//对battlingLegends的信息进行转换
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 7; j++)
+				{
+					if (myPlayerInfo->_battlingLegends[i][j] != NULL)
+					{
+						if (myPlayerInfo->_battlingLegends[i][j]->_name == "Aphelios")
+						{
+							nowParationInfo.battleLegend[i][j] = aphelios;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Caitlyn")
+						{
+							nowParationInfo.battleLegend[i][j] = caitlyn;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Ezreal")
+						{
+							nowParationInfo.battleLegend[i][j] = ezreal;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Lucian")
+						{
+							nowParationInfo.battleLegend[i][j] = lucian;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Miss_Fortune")
+						{
+							nowParationInfo.battleLegend[i][j] = miss_fortune;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Graves")
+						{
+							nowParationInfo.battleLegend[i][j] = graves;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Varus")
+						{
+							nowParationInfo.battleLegend[i][j] = varus;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Katarina")
+						{
+							nowParationInfo.battleLegend[i][j] = katarina;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Akali")
+						{
+							nowParationInfo.battleLegend[i][j] = akali;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Annie")
+						{
+							nowParationInfo.battleLegend[i][j] = annie;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Viktor")
+						{
+							nowParationInfo.battleLegend[i][j] = viktor;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Sona")
+						{
+							nowParationInfo.battleLegend[i][j] = sona;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Jhin")
+						{
+							nowParationInfo.battleLegend[i][j] = jhin;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Viego")
+						{
+							nowParationInfo.battleLegend[i][j] = viego;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Qiyana")
+						{
+							nowParationInfo.battleLegend[i][j] = qiyana;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Kayn")
+						{
+							nowParationInfo.battleLegend[i][j] = kayn;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Bel_Veth")
+						{
+							nowParationInfo.battleLegend[i][j] = bel_veth;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Ekko")
+						{
+							nowParationInfo.battleLegend[i][j] = ekko;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Riven")
+						{
+							nowParationInfo.battleLegend[i][j] = riven;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Fiora")
+						{
+							nowParationInfo.battleLegend[i][j] = fiora;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Camille")
+						{
+							nowParationInfo.battleLegend[i][j] = camille;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Irelia")
+						{
+							nowParationInfo.battleLegend[i][j] = irelia;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Sett")
+						{
+							nowParationInfo.battleLegend[i][j] = sett;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Ganplank")
+						{
+							nowParationInfo.battleLegend[i][j] = ganplank;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Thresh")
+						{
+							nowParationInfo.battleLegend[i][j] = thresh;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Renata_Glasc")
+						{
+							nowParationInfo.battleLegend[i][j] = renata_glasc;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Rakan")
+						{
+							nowParationInfo.battleLegend[i][j] = rakan;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Bard")
+						{
+							nowParationInfo.battleLegend[i][j] = bard;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Nautilus")
+						{
+							nowParationInfo.battleLegend[i][j] = nautilus;
+						}
+						else if (myPlayerInfo->_battlingLegends[i][j]->_name == "Pyke")
+						{
+							nowParationInfo.battleLegend[i][j] = pyke;
+						}
+					}
+				}
+			}
+
+			client->sendMessage((char*)(&nowParationInfo), sizeof(AfterParationInfo));
 		}
-		
-		client->sendMessage((char*)(&nowParationInfo), sizeof(AfterParationInfo));
+		else//进入准备场景
+		{
+			roundNum++;
+			Director::getInstance()->pushScene(PreparationScene::createScene(myPlayerInfo));
+		}
 	}
 	Layer::onEnter();
 }
@@ -447,6 +585,164 @@ int OnlineModeScene::changePlayerInfo(AfterParationInfo& tempAfterParationInfo)
 		{
 			LegendInfo* info = Pyke::createInfo();
 			enemyPlayerInfo->_preparedLegends[i] = info;
+		}
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			if (tempAfterParationInfo.battleLegend[i][j] == aphelios)
+			{
+				//生成aphelios放到_battlingLegends数组里
+				LegendInfo* info = Aphelios::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == caitlyn)
+			{
+				LegendInfo* info = Caitlyn::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == ezreal)
+			{
+				LegendInfo* info = Ezreal::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == lucian)
+			{
+				LegendInfo* info = Lucian::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == miss_fortune)
+			{
+				LegendInfo* info = Miss_Fortune::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == graves)
+			{
+				LegendInfo* info = Graves::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == varus)
+			{
+				LegendInfo* info = Varus::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == katarina)
+			{
+				LegendInfo* info = Katarina::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == akali)
+			{
+				LegendInfo* info = Akali::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == annie)
+			{
+				LegendInfo* info = Annie::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == viktor)
+			{
+				LegendInfo* info = Viktor::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == sona)
+			{
+				LegendInfo* info = Sona::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == jhin)
+			{
+				LegendInfo* info = Jhin::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == viego)
+			{
+				LegendInfo* info = Viego::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == qiyana)
+			{
+				LegendInfo* info = Qiyana::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == kayn)
+			{
+				LegendInfo* info = Kayn::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == bel_veth)
+			{
+				LegendInfo* info = Bel_Veth::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == ekko)
+			{
+				LegendInfo* info = Ekko::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == riven)
+			{
+				LegendInfo* info = Riven::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == fiora)
+			{
+				LegendInfo* info = Fiora::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == camille)
+			{
+				LegendInfo* info = Camille::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == irelia)
+			{
+				LegendInfo* info = Irelia::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == sett)
+			{
+				LegendInfo* info = Sett::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == ganplank)
+			{
+				LegendInfo* info = Ganplank::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == thresh)
+			{
+				LegendInfo* info = Thresh::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == renata_glasc)
+			{
+				LegendInfo* info = Renata_Glasc::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == rakan)
+			{
+				LegendInfo* info = Rakan::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == bard)
+			{
+				LegendInfo* info = Bard::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == nautilus)
+			{
+				LegendInfo* info = Nautilus::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
+			else if (tempAfterParationInfo.battleLegend[i][j] == pyke)
+			{
+				LegendInfo* info = Pyke::createInfo();
+				enemyPlayerInfo->_battlingLegends[i][j] = info;
+			}
 		}
 	}
 	return 0;

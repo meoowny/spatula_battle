@@ -182,11 +182,11 @@ void BaseRoundScene::displayMyPrepareLegend()
             legend->setPosition(Vec2(visibleSize.width / 4.8 + count * 100, visibleSize.height / 4));
             addChild(legend);
         }
-        else {
+        /*else {
             myPrepareLegend->setPosition(Vec2(visibleSize.width / 4.8 + count * 100, visibleSize.height / 4));        
-        }
+        }*/
         count++;
-        id = '0' + count;
+        id[0] = '0' + count;
     }
 }
 
@@ -226,7 +226,7 @@ void BaseRoundScene::displayMyBattleLegend()
         exit(0);
     }
 
-    std::string id = "0";
+    std::string id = "n";
     int count = 0;
     for (auto& i : player->getBattlingLegends()) {
         for (auto& j : i) {
@@ -241,8 +241,9 @@ void BaseRoundScene::displayMyBattleLegend()
                 legend->setName(id);
                 legend->setPosition(Vec2(visibleSize.width / 3.6 + count / battleBoardHeight * chessboardCellWidth, visibleSize.height / 2.9 + count % battleBoardHeight * chessboardCellHeight));
                 addChild(legend);
-                id += '0' + count;
+                //displayHP(legend);
                 count++;
+                id[0] = 'n' + count;
             }
         }
     }
@@ -294,43 +295,66 @@ void BaseRoundScene::displayCoinNumber()
     this->removeChild(dirs->getChildByName("labelCoins"));
 }
 
+//显示血条
+void BaseRoundScene::displayHP(Legend* legend)
+{
+    auto HP = LoadingBar::create("HP_bar.png");
+    legend->setName("HP");
+    HP->setDirection(LoadingBar::Direction::RIGHT);
+    HP->setScale(0.4);
+    HP->setAnchorPoint(Vec2(0.5, -10));
+    HP->setPercent(100);
+    legend->addChild(HP);
+}
+
 LegendWithLocation BaseRoundScene::selectLegend(EventMouse* event)
 {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
     auto myPlayer=dynamic_cast<Player*>(this->getChildByName("player1"));
+    selectedSpriteWithLocation.legend = nullptr;
+    selectedSpriteWithLocation.position = { -1,-1 };
     std::string id = "0";
     int count = 0;
     while (true) {
         auto selectedSprite = dynamic_cast<Legend*>(this->getChildByName(id));
-        if (selectedSprite != nullptr) {
+        if (selectedSprite) {
             if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
             {
                 selectedSpriteWithLocation.legend = selectedSprite;
-                selectedSpriteWithLocation.position = { count,-1 };
+                auto location_x = selectedSprite->getPositionX();
+                selectedSpriteWithLocation.position = { (location_x- visibleSize.width / 4.8)/100,-1 };
                 // 记录当前被点击的精灵
                 return selectedSpriteWithLocation;
             }
             count++;
-            id = "0" + count;
+            id[0] = '0' + count;
         }
         else break;
     }
-    id = "0";
+    id = "n";
     count = 0;
     while (true) {
         auto selectedSprite = dynamic_cast<Legend*>(this->getChildByName(id));
-        if (selectedSprite != nullptr) {
+        if (selectedSprite) {
             if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
             {
                 selectedSpriteWithLocation.legend = selectedSprite;
-                selectedSpriteWithLocation.position = { count,-1 };
+                auto location_x = selectedSprite->getPositionX();
+                auto location_y = selectedSprite->getPositionY();
+                selectedSpriteWithLocation.position = { (location_x- visibleSize.width / 3.6)/ chessboardCellWidth, (location_y- visibleSize.height / 2.9 )/ chessboardCellHeight };
                 // 记录当前被点击的精灵
                 return selectedSpriteWithLocation;
             }
             count++;
-            id += "0" + count;
+            id[0] = 'n' + count;
         }
         else break;
     }
+    
+
+
+
+
     //for (auto selectedSprite : dynamic_cast<Legend*>(this->getChildByName(id))) {
     //    if (selectedSprite != nullptr) {
     //        if (selectedSprite->getBoundingBox().containsPoint(Vec2(event->getCursorX(), event->getCursorY())))
@@ -551,7 +575,7 @@ void BaseRoundScene::countdown()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     //开始倒计时，设置为1分钟
     //int totalTimeInSeconds = 60;
-    int totalTimeInSeconds = 100;
+    int totalTimeInSeconds = 10;
     remainingTimeInSeconds = totalTimeInSeconds;
 
     // 在屏幕上创建一个标签用于显示剩余时间
